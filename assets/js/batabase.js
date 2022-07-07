@@ -7,7 +7,7 @@ const currnetTime = new Date();
 let data;
 
 fireBaseHitHandler = async() => {
-    const response = await fetch("https://portfolio-6e332-default-rtdb.asia-southeast1.firebasedatabase.app/portfolio.json",
+    const response = await fetch("https://portfolio-6e332-default-rtdb.asia-southeast1.firebasedatabase.app/portfolio_main.json",
         {
             method: "POST",
             body: JSON.stringify(data),
