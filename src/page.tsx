@@ -1,61 +1,40 @@
-import { Canvas } from "@react-three/fiber";
-import { KeyboardControls, Loader } from "@react-three/drei";
-import { Suspense } from "react";
-import Scene from "./components/3d/Scene";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import About from "./components/About";
+import Skills from "./components/Skills";
+import Projects from "./components/Projects";
+import Contact from "./components/Contact";
 
 export default function Portfolio() {
   return (
-    <>
-      <KeyboardControls
-        map={[
-          { name: "forward", keys: ["ArrowUp", "KeyW"] },
-          { name: "backward", keys: ["ArrowDown", "KeyS"] },
-          { name: "left", keys: ["ArrowLeft", "KeyA"] },
-          { name: "right", keys: ["ArrowRight", "KeyD"] },
-          { name: "jump", keys: ["Space"] },
-        ]}
-      >
-        <Canvas shadows camera={{ position: [0, 5, 10], fov: 50 }}>
-          <Suspense fallback={null}>
-            <Scene />
-          </Suspense>
-        </Canvas>
-      </KeyboardControls>
+    <main className="relative noise-overlay">
+      <Navbar />
+      <Hero />
 
-      <Loader />
-
-      <div className="ui-overlay">
-        <div className="flex justify-between w-full">
-          <div>
-            <h1 className="text-3xl font-bold text-white drop-shadow-md">Hetul Mistry</h1>
-            <p className="text-white drop-shadow-md">Interactive Portfolio</p>
-          </div>
-          <div className="flex gap-4">
-            <a 
-              href="https://github.com/HetulMistry" 
-              target="_blank" 
-              rel="noreferrer"
-              className="bg-white/20 hover:bg-white/40 backdrop-blur px-4 py-2 rounded text-white font-bold transition pointer-events-auto"
-            >
-              GitHub
-            </a>
-            <a 
-              href="https://www.linkedin.com/in/hetulmistry/" 
-              target="_blank" 
-              rel="noreferrer"
-              className="bg-white/20 hover:bg-white/40 backdrop-blur px-4 py-2 rounded text-white font-bold transition pointer-events-auto"
-            >
-              LinkedIn
-            </a>
-          </div>
-        </div>
-
-        <div className="controls-hint">
-          <h3 className="font-bold mb-2">Controls</h3>
-          <p className="text-sm">Use <strong>W A S D</strong> or <strong>Arrow Keys</strong> to roll the ball around.</p>
-          <p className="text-sm mt-1">Roll into the signs or click the buttons!</p>
-        </div>
+      {/* Section divider */}
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       </div>
-    </>
+
+      <About />
+
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      </div>
+
+      <Skills />
+
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      </div>
+
+      <Projects />
+
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      </div>
+
+      <Contact />
+    </main>
   );
 }
