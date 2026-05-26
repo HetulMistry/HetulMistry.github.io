@@ -3,7 +3,11 @@ import { ArrowRight, Mail, MapPin } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import Scene from "./3d/Scene";
 
-const focusAreas = ["Full-stack apps", "AI-assisted tools", "Data-driven systems"];
+const focusAreas = [
+  "Full-stack apps",
+  "AI-assisted tools",
+  "Data-driven systems",
+];
 
 export default function Hero() {
   return (
@@ -34,9 +38,9 @@ export default function Hero() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-7 text-slate-300 sm:text-xl sm:leading-8">
-            Full-stack developer and B.Tech CSE student building practical web products,
-            backend systems, and AI-enabled workflows with React, TypeScript, Node.js,
-            Python, and Firebase.
+            Full-stack developer and B.Tech CSE student building practical web
+            products, backend systems, and AI-enabled workflows with React,
+            TypeScript, Node.js, Python, and Firebase.
           </p>
 
           <div className="mt-5 flex items-center gap-2 text-sm text-slate-400">
@@ -45,16 +49,17 @@ export default function Hero() {
           </div>
 
           <div className="mt-9 flex flex-wrap gap-3">
-            <a
+            {/* <a
               href="#projects"
               className="inline-flex shrink-0 items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
-            >
+              >
               View Projects
               <ArrowRight size={16} />
-            </a>
+              </a> */}
             <a
               href="#contact"
-              className="inline-flex shrink-0 items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
+              // className="inline-flex shrink-0 items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
+              className="inline-flex shrink-0 items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
             >
               Contact
               <Mail size={16} />
@@ -63,7 +68,8 @@ export default function Hero() {
               href="https://github.com/HetulMistry"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex shrink-0 items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
+              // className="inline-flex shrink-0 items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
+              className="inline-flex shrink-0 items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
             >
               <FaGithub size={17} />
               GitHub
@@ -72,7 +78,8 @@ export default function Hero() {
               href="https://www.linkedin.com/in/hetulmistry/"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex shrink-0 items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
+              // className="inline-flex shrink-0 items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
+              className="inline-flex shrink-0 items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
             >
               <FaLinkedin size={17} />
               LinkedIn
@@ -81,7 +88,10 @@ export default function Hero() {
 
           <div className="mt-12 grid max-w-2xl gap-3 sm:grid-cols-3">
             {focusAreas.map((item) => (
-              <div key={item} className="surface-card rounded-lg px-4 py-3 text-sm text-slate-300">
+              <div
+                key={item}
+                className="surface-card rounded-lg px-4 py-3 text-sm text-slate-300"
+              >
                 {item}
               </div>
             ))}
