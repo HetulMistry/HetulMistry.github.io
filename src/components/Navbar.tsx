@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const navLinks = [
   { label: "About", href: "#about" },
   { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
+  // { label: "Projects", href: "#projects" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -28,7 +28,10 @@ export default function Navbar() {
       }`}
     >
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
-        <a href="#" className="font-[Space_Grotesk] text-lg font-semibold text-white">
+        <a
+          href="#"
+          className="font-[Space_Grotesk] text-lg font-semibold text-white"
+        >
           Hetul Mistry
         </a>
 
@@ -49,6 +52,14 @@ export default function Navbar() {
             className="ml-3 rounded-md border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
           >
             GitHub
+          </a>
+          <a
+            href="https://linkedin.com/in/HetulMistry"
+            target="_blank"
+            rel="noreferrer"
+            className="ml-3 rounded-md border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
+          >
+            LinkedIn
           </a>
         </div>
 
@@ -87,6 +98,14 @@ export default function Navbar() {
                 className="mt-2 rounded-md border border-white/10 bg-white/[0.04] px-3 py-3 text-center font-semibold text-white"
               >
                 GitHub
+              </a>
+              <a
+                href="https://linkedin.com/in/HetulMistry"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-2 rounded-md border border-white/10 bg-white/[0.04] px-3 py-3 text-center font-semibold text-white"
+              >
+                LinkedIn
               </a>
             </div>
           </motion.div>
