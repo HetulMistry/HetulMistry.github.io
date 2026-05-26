@@ -7,32 +7,31 @@ import Contact from "./components/Contact";
 
 export default function Portfolio() {
   return (
-    <main className="relative noise-overlay">
+    <main className="relative min-h-screen overflow-hidden noise-overlay">
       <Navbar />
       <Hero />
 
-      {/* Section divider */}
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="h-px bg-white/10" />
       </div>
 
       <About />
 
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="h-px bg-white/10" />
       </div>
 
       <Skills />
 
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-      </div>
+      {/* <div className="mx-auto max-w-7xl px-6">
+        <div className="h-px bg-white/10" />
+      </div> */}
 
-      <Projects />
+      {/* <Projects /> */}
 
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-      </div>
+      {/* <div className="mx-auto max-w-7xl px-6">
+        <div className="h-px bg-white/10" />
+      </div> */}
 
       <Contact />
     </main>

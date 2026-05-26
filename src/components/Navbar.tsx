@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -14,39 +14,30 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => setScrolled(window.scrollY > 32);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <motion.nav
-      initial={{ y: -80 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+    <nav
+      className={`fixed inset-x-0 top-0 z-50 transition ${
         scrolled
-          ? "bg-[#030712]/80 backdrop-blur-2xl border-b border-white/5 shadow-lg shadow-black/20"
+          ? "border-b border-white/10 bg-[#08090c]/88 shadow-lg shadow-black/20 backdrop-blur-xl"
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        {/* Logo */}
-        <a href="#" className="relative group">
-          <span className="text-2xl font-bold font-[Space_Grotesk] tracking-tight text-white">
-            H
-            <span className="gradient-text">M</span>
-          </span>
-          <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-violet-500 group-hover:w-full transition-all duration-300" />
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
+        <a href="#" className="font-[Space_Grotesk] text-lg font-semibold text-white">
+          Hetul Mistry
         </a>
 
-        {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden items-center gap-1 lg:flex">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="px-4 py-2 text-sm text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-all duration-300 font-medium"
+              className="rounded-md px-3 py-2 text-sm font-medium text-slate-400 transition hover:bg-white/[0.05] hover:text-white"
             >
               {link.label}
             </a>
@@ -55,38 +46,36 @@ export default function Navbar() {
             href="https://github.com/HetulMistry"
             target="_blank"
             rel="noreferrer"
-            className="ml-4 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-xl hover:shadow-lg hover:shadow-blue-500/25 hover:scale-105 transition-all duration-300"
+            className="ml-3 rounded-md border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
           >
-            GitHub ↗
+            GitHub
           </a>
         </div>
 
-        {/* Mobile toggle */}
         <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden text-white p-2"
+          onClick={() => setMobileOpen((open) => !open)}
+          className="rounded-md border border-white/10 bg-white/[0.04] p-2 text-white lg:hidden"
           aria-label="Toggle menu"
         >
-          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#030712]/95 backdrop-blur-2xl border-b border-white/5 overflow-hidden"
+            className="border-b border-white/10 bg-[#08090c]/96 backdrop-blur-xl lg:hidden"
           >
-            <div className="px-6 py-6 flex flex-col gap-2">
+            <div className="flex flex-col gap-1 px-6 pb-6">
               {navLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-all text-lg"
+                  className="rounded-md px-3 py-3 text-slate-300 transition hover:bg-white/[0.05] hover:text-white"
                 >
                   {link.label}
                 </a>
@@ -95,14 +84,14 @@ export default function Navbar() {
                 href="https://github.com/HetulMistry"
                 target="_blank"
                 rel="noreferrer"
-                className="mt-2 px-5 py-3 text-center font-semibold text-white bg-gradient-to-r from-blue-600 to-violet-600 rounded-xl"
+                className="mt-2 rounded-md border border-white/10 bg-white/[0.04] px-3 py-3 text-center font-semibold text-white"
               >
-                GitHub ↗
+                GitHub
               </a>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </nav>
   );
 }

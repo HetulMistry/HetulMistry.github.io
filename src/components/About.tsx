@@ -1,127 +1,108 @@
 import { motion } from "framer-motion";
-import { GraduationCap, Rocket, Brain, Code2 } from "lucide-react";
+import { Brain, Code2, GraduationCap, Rocket } from "lucide-react";
 
 const stats = [
   { value: "8+", label: "Repositories" },
-  { value: "5+", label: "Technologies" },
-  { value: "4+", label: "Years Coding" },
+  { value: "4+", label: "Years coding" },
   { value: "15+", label: "Gists" },
+  { value: "5+", label: "Core technologies" },
 ];
 
 const highlights = [
-  { icon: <Rocket size={20} />, text: "Building full-stack applications & backend systems" },
-  { icon: <Brain size={20} />, text: "Exploring Data Science, ML & automation" },
-  { icon: <Code2 size={20} />, text: "Scalable architecture & real-world problem solving" },
-  { icon: <GraduationCap size={20} />, text: "B.Tech CSE at Silver Oak University" },
+  {
+    icon: <Rocket size={18} />,
+    title: "Product-minded engineering",
+    text: "I like shipping usable applications, not just isolated demos.",
+  },
+  {
+    icon: <Brain size={18} />,
+    title: "AI and data curiosity",
+    text: "Currently exploring ML deployment, automation, and data-backed workflows.",
+  },
+  {
+    icon: <Code2 size={18} />,
+    title: "Systems foundation",
+    text: "Comfortable moving between frontend detail, API design, and database structure.",
+  },
+  {
+    icon: <GraduationCap size={18} />,
+    title: "Education",
+    text: "B.Tech Computer Science at Silver Oak University.",
+  },
 ];
 
 export default function About() {
   return (
-    <section id="about" className="relative py-32 overflow-hidden">
-      {/* Subtle background accent */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[120px]" />
-
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Section header */}
+    <section id="about" className="section-shell">
+      <div className="mx-auto max-w-7xl px-6">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="mb-20"
+          transition={{ duration: 0.5 }}
+          className="section-heading"
         >
-          <span className="text-sm font-semibold tracking-widest uppercase text-blue-400 mb-3 block">
-            About
-          </span>
-          <h2 className="text-4xl sm:text-5xl font-bold font-[Space_Grotesk] text-white">
-            Turning ideas into
-            <br />
-            <span className="gradient-text">functional products.</span>
-          </h2>
+          <span className="section-kicker">About</span>
+          <h2>Focused on practical, maintainable products.</h2>
+          <p>
+            I started with C++ and digital logic, then moved into modern web
+            development, backend systems, and AI-powered tools.
+          </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* Left — Bio */}
+        <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
+            className="space-y-6"
           >
-            <div className="glass-card rounded-3xl p-8 sm:p-10">
-              {/* Code-editor style header */}
-              <div className="flex items-center gap-2 mb-6">
-                <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                <span className="ml-3 text-xs text-slate-600 font-mono">about.tsx</span>
-              </div>
-
-              <p className="text-lg text-slate-300 leading-relaxed mb-6">
-                I'm a <span className="text-white font-medium">B.Tech Computer Science</span> student
-                at Silver Oak University with a passion for building things that matter. I started with
-                C++ and digital logic, then evolved into modern web development and AI-powered tools.
+            <div className="surface-card rounded-lg p-6 sm:p-8">
+              <p className="text-lg leading-8 text-slate-300">
+                I am a B.Tech Computer Science student at Silver Oak University with a
+                strong interest in building clean, useful software. My current work sits
+                around React, TypeScript, Node.js, Firebase, Python, and the basics of
+                ML-driven product ideas.
               </p>
-              <p className="text-lg text-slate-400 leading-relaxed">
-                I enjoy turning ideas into functional products through clean, efficient, and
-                maintainable code. Currently exploring ML deployment, system design, and
-                performance optimization.
+              <p className="mt-5 text-base leading-7 text-slate-400">
+                I care about clarity: readable interfaces, predictable APIs, and code that
+                can grow without getting noisy.
               </p>
             </div>
 
-            {/* Stats grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
-              {stats.map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="glass-card rounded-2xl p-4 text-center"
-                >
-                  <div className="text-2xl font-bold text-white font-[Space_Grotesk]">{stat.value}</div>
-                  <div className="text-xs text-slate-500 mt-1">{stat.label}</div>
-                </motion.div>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {stats.map((stat) => (
+                <div key={stat.label} className="surface-card rounded-lg p-4">
+                  <div className="font-[Space_Grotesk] text-2xl font-semibold text-white">
+                    {stat.value}
+                  </div>
+                  <div className="mt-1 text-xs leading-5 text-slate-500">{stat.label}</div>
+                </div>
               ))}
             </div>
           </motion.div>
 
-          {/* Right — Highlights */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="space-y-5"
-          >
-            {highlights.map((item, i) => (
+          <div className="grid gap-3 sm:grid-cols-2">
+            {highlights.map((item, index) => (
               <motion.div
-                key={i}
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                key={item.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.1 + i * 0.1 }}
-                whileHover={{ x: 8 }}
-                className="group glass-card rounded-2xl p-6 flex items-start gap-5 cursor-default"
+                transition={{ duration: 0.45, delay: index * 0.06 }}
+                className="surface-card rounded-lg p-5"
               >
-                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-violet-500/20 border border-white/5 flex items-center justify-center text-blue-400 group-hover:text-white group-hover:from-blue-500/30 group-hover:to-violet-500/30 transition-all duration-300">
+                <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-md border border-white/10 bg-white/[0.04] text-sky-300">
                   {item.icon}
                 </div>
-                <p className="text-slate-300 text-lg leading-relaxed group-hover:text-white transition-colors duration-300">
-                  {item.text}
-                </p>
+                <h3 className="font-[Space_Grotesk] text-lg font-semibold text-white">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-slate-400">{item.text}</p>
               </motion.div>
             ))}
-
-            {/* Morphing gradient blob decoration */}
-            <div className="relative mt-8 h-40 rounded-3xl overflow-hidden glass-card flex items-center justify-center">
-              <div className="absolute w-32 h-32 bg-gradient-to-br from-blue-500 to-violet-600 opacity-20 morph-blob" />
-              <p className="relative text-slate-500 text-sm font-mono">
-                💡 Always learning, always building.
-              </p>
-            </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
