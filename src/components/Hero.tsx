@@ -1,8 +1,14 @@
-import { Canvas } from "@react-three/fiber";
-// import { ArrowRight, Mail, MapPin } from "lucide-react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { Mail, MapPin } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import Scene from "./3d/Scene";
+// import { ArrowRight, Mail, MapPin } from "lucide-react";
+
+type NetworkInformation = {
+  saveData?: boolean;
+  effectiveType?: string;
+  addEventListener?: (type: "change", listener: () => void) => void;
+  removeEventListener?: (type: "change", listener: () => void) => void;
+};
 
 const focusAreas = [
   "Full-stack apps",
@@ -10,19 +16,62 @@ const focusAreas = [
   "Data-driven systems",
 ];
 
+const HeroScene = lazy(() => import("./3d/HeroScene"));
+
 export default function Hero() {
+  const [canRenderScene, setCanRenderScene] = useState(false);
+  const [shouldLoadScene, setShouldLoadScene] = useState(false);
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia("(max-width: 767px)");
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const connection =
+      "connection" in navigator
+        ? (navigator as Navigator & { connection?: NetworkInformation })
+            .connection
+        : undefined;
+
+    const updatePreference = () => {
+      const effectiveType = connection?.effectiveType ?? "";
+      const isLowData =
+        connection?.saveData === true || /2g/.test(effectiveType);
+
+      setCanRenderScene(
+        !mobileQuery.matches && !motionQuery.matches && !isLowData,
+      );
+    };
+
+    updatePreference();
+
+    mobileQuery.addEventListener("change", updatePreference);
+    motionQuery.addEventListener("change", updatePreference);
+    connection?.addEventListener?.("change", updatePreference);
+
+    return () => {
+      mobileQuery.removeEventListener("change", updatePreference);
+      motionQuery.removeEventListener("change", updatePreference);
+      connection?.removeEventListener?.("change", updatePreference);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!canRenderScene) {
+      setShouldLoadScene(false);
+      return;
+    }
+
+    const timeout = window.setTimeout(() => setShouldLoadScene(true), 700);
+
+    return () => window.clearTimeout(timeout);
+  }, [canRenderScene]);
+
   return (
     <section id="hero" className="relative min-h-screen overflow-hidden pt-24">
-      <div className="absolute inset-0 z-0 opacity-25 sm:opacity-[0.45] lg:opacity-100">
-        <Canvas
-          shadows
-          dpr={[1, 1.6]}
-          camera={{ position: [0, 0.15, 6.6], fov: 38 }}
-          gl={{ antialias: true, alpha: true }}
-        >
-          <Scene />
-        </Canvas>
-      </div>
+      {shouldLoadScene && (
+        <Suspense fallback={null}>
+          <HeroScene />
+        </Suspense>
+      )}
 
       <div className="absolute inset-0 z-[1] bg-[linear-gradient(90deg,#08090c_0%,rgba(8,9,12,0.96)_34%,rgba(8,9,12,0.6)_62%,rgba(8,9,12,0.18)_100%)]" />
       <div className="absolute inset-x-0 bottom-0 z-[1] h-32 bg-[linear-gradient(180deg,rgba(8,9,12,0),#08090c)]" />

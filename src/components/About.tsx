@@ -60,14 +60,14 @@ export default function About() {
           >
             <div className="surface-card rounded-lg p-6 sm:p-8">
               <p className="text-lg leading-8 text-slate-300">
-                I am a B.Tech Computer Science student at Silver Oak University with a
-                strong interest in building clean, useful software. My current work sits
-                around React, TypeScript, Node.js, Firebase, Python, and the basics of
-                ML-driven product ideas.
+                I am a B.Tech Computer Science student at Silver Oak University
+                with a strong interest in building clean, useful software. My
+                current work sits around React, TypeScript, Node.js, Firebase,
+                Python, and the basics of ML-driven product ideas.
               </p>
               <p className="mt-5 text-base leading-7 text-slate-400">
-                I care about clarity: readable interfaces, predictable APIs, and code that
-                can grow without getting noisy.
+                I care about clarity: readable interfaces, predictable APIs, and
+                code that can grow without getting noisy.
               </p>
             </div>
 
@@ -77,7 +77,9 @@ export default function About() {
                   <div className="font-[Space_Grotesk] text-2xl font-semibold text-white">
                     {stat.value}
                   </div>
-                  <div className="mt-1 text-xs leading-5 text-slate-500">{stat.label}</div>
+                  <div className="mt-1 text-xs leading-5 text-slate-500">
+                    {stat.label}
+                  </div>
                 </div>
               ))}
             </div>
@@ -99,7 +101,9 @@ export default function About() {
                 <h3 className="font-[Space_Grotesk] text-lg font-semibold text-white">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-sm leading-6 text-slate-400">{item.text}</p>
+                <p className="mt-2 text-sm leading-6 text-slate-400">
+                  {item.text}
+                </p>
               </motion.div>
             ))}
           </div>

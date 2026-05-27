@@ -1,4 +1,5 @@
-import { ContactShadows, Float, Line } from "@react-three/drei";
+// import { ContactShadows, Float, Line } from "@react-three/drei";
+import { Float, Line } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
@@ -35,9 +36,14 @@ function CodePanel() {
 
   return (
     <group position={[-1.1, -0.25, 0.18]} rotation={[0.04, -0.22, 0.02]}>
-      <mesh castShadow receiveShadow>
+      {/* <mesh castShadow receiveShadow> */}
+      <mesh>
         <boxGeometry args={[2.7, 1.75, 0.08]} />
-        <meshStandardMaterial color="#111827" roughness={0.55} metalness={0.05} />
+        <meshStandardMaterial
+          color="#111827"
+          roughness={0.55}
+          metalness={0.05}
+        />
       </mesh>
       <mesh position={[-1.09, 0.7, 0.06]}>
         <boxGeometry args={[0.18, 0.08, 0.02]} />
@@ -70,7 +76,13 @@ function DataStack() {
   return (
     <group position={[1.45, -0.34, 0.02]} rotation={[0.04, 0.34, -0.02]}>
       {[0, 1, 2].map((level) => (
-        <mesh key={level} position={[0, level * 0.24, 0]} castShadow receiveShadow>
+        // <mesh
+        //   key={level}
+        //   position={[0, level * 0.24, 0]}
+        //   castShadow
+        //   receiveShadow
+        // >
+        <mesh key={level} position={[0, level * 0.24, 0]}>
           <cylinderGeometry args={[0.48, 0.48, 0.15, 48]} />
           <meshStandardMaterial
             color={level === 1 ? "#164e63" : "#0f172a"}
@@ -81,9 +93,14 @@ function DataStack() {
           />
         </mesh>
       ))}
-      <mesh position={[0, 0.86, 0]} castShadow>
+      {/* <mesh position={[0, 0.86, 0]} castShadow> */}
+      <mesh position={[0, 0.86, 0]}>
         <boxGeometry args={[0.96, 0.08, 0.96]} />
-        <meshStandardMaterial color="#38bdf8" emissive="#38bdf8" emissiveIntensity={0.18} />
+        <meshStandardMaterial
+          color="#38bdf8"
+          emissive="#38bdf8"
+          emissiveIntensity={0.18}
+        />
       </mesh>
     </group>
   );
@@ -99,7 +116,8 @@ function ProjectTiles() {
   return (
     <group rotation={[-0.18, 0.08, 0]}>
       {tiles.map((tile, index) => (
-        <mesh key={index} position={tile.position} castShadow receiveShadow>
+        // <mesh key={index} position={tile.position} castShadow receiveShadow>
+        <mesh key={index} position={tile.position}>
           <boxGeometry args={[0.58, 0.12, 0.7]} />
           <meshStandardMaterial
             color="#111827"
@@ -128,7 +146,8 @@ function Network() {
         />
       ))}
       {networkNodes.map((node) => (
-        <mesh key={node.position.join("-")} position={node.position} castShadow>
+        // <mesh key={node.position.join("-")} position={node.position} castShadow>
+        <mesh key={node.position.join("-")} position={node.position}>
           <sphereGeometry args={[0.075, 24, 24]} />
           <meshStandardMaterial
             color={node.color}
@@ -152,23 +171,41 @@ export default function Scene() {
     const targetY = state.pointer.x * 0.18 + Math.sin(elapsed * 0.28) * 0.1;
     const targetX = -0.1 + state.pointer.y * 0.08;
 
-    root.current.rotation.y = THREE.MathUtils.lerp(root.current.rotation.y, targetY, delta * 1.8);
-    root.current.rotation.x = THREE.MathUtils.lerp(root.current.rotation.x, targetX, delta * 1.8);
+    root.current.rotation.y = THREE.MathUtils.lerp(
+      root.current.rotation.y,
+      targetY,
+      delta * 1.8,
+    );
+    root.current.rotation.x = THREE.MathUtils.lerp(
+      root.current.rotation.x,
+      targetX,
+      delta * 1.8,
+    );
     root.current.position.y = Math.sin(elapsed * 0.7) * 0.05;
   });
 
   return (
     <>
       <ambientLight intensity={1.1} />
-      <directionalLight position={[4, 5, 5]} intensity={1.7} castShadow />
+      {/* <directionalLight position={[4, 5, 5]} intensity={1.7} castShadow /> */}
+      <directionalLight position={[4, 5, 5]} intensity={1.7} />
       <pointLight position={[-3, 2, 3]} color="#38bdf8" intensity={1.9} />
       <pointLight position={[3, -1, 2]} color="#f59e0b" intensity={0.95} />
-
       <Float speed={1.4} rotationIntensity={0.08} floatIntensity={0.18}>
         <group ref={root} position={[0.18, -0.18, 0]} scale={1.18}>
-          <mesh position={[0, -1.52, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+          {/* <mesh
+            position={[0, -1.52, 0]}
+            rotation={[-Math.PI / 2, 0, 0]}
+            receiveShadow
+          >
+          */}
+          <mesh position={[0, -1.52, 0]} rotation={[-Math.PI / 2, 0, 0]}>
             <circleGeometry args={[2.45, 72]} />
-            <meshStandardMaterial color="#0b1120" roughness={0.7} metalness={0.05} />
+            <meshStandardMaterial
+              color="#0b1120"
+              roughness={0.7}
+              metalness={0.05}
+            />
           </mesh>
           <CodePanel />
           <DataStack />
@@ -176,8 +213,7 @@ export default function Scene() {
           <Network />
         </group>
       </Float>
-
-      <ContactShadows position={[0, -1.55, 0]} scale={5.4} blur={2.6} opacity={0.32} />
+      {/* <ContactShadows position={[0, -1.55, 0]} scale={5.4} blur={2.6} opacity={0.32} /> */}
     </>
   );
 }
