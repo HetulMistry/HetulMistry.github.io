@@ -7,7 +7,7 @@ import Contact from "./components/Contact";
 
 export default function Portfolio() {
   return (
-    <main className="relative min-h-screen overflow-hidden noise-overlay">
+    <main className="relative min-h-screen noise-overlay">
       <Navbar />
       <Hero />
 

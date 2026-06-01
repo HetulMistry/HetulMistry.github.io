@@ -13,6 +13,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const [pendingScroll, setPendingScroll] = useState<string | null>(null);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 32);
     window.addEventListener("scroll", onScroll);
@@ -40,6 +42,12 @@ export default function Navbar() {
             <a
               key={link.label}
               href={link.href}
+              onClick={() => {
+                // onClick={(e) => {
+                // e.preventDefault(); // 1. Prevent native jumping right away
+                // setPendingScroll(link.href); // 2. Queue up the target section
+                setMobileOpen(false); // 3. Trigger Framer Motion exit animation
+              }}
               className="rounded-md px-3 py-2 text-sm font-medium text-slate-400 transition hover:bg-white/[0.05] hover:text-white"
             >
               {link.label}
@@ -72,12 +80,27 @@ export default function Navbar() {
         </button>
       </div>
 
-      <AnimatePresence>
+      <AnimatePresence
+        onExitComplete={() => {
+          if (pendingScroll) {
+            const target = document.querySelector(pendingScroll);
+            if (target) {
+              target.scrollIntoView({ behavior: "smooth" });
+              window.history.pushState(null, "", pendingScroll);
+            }
+            setPendingScroll(null); // Reset after scrolling
+          }
+        }}
+      >
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
+            // initial={{ opacity: 0, height: 0 }}
+            // animate={{ opacity: 1, height: "auto" }}
+            // exit={{ opacity: 0, height: 0 }}
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -20, opacity: 0 }}
+            transition={{ duration: 0.2 }}
             className="border-b border-white/10 bg-[#08090c]/96 backdrop-blur-xl lg:hidden"
           >
             <div className="flex flex-col gap-1 px-6 pb-6">
