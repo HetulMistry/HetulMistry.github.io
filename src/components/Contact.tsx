@@ -6,7 +6,7 @@ const socials = [
   {
     label: "Email",
     icon: <Mail size={20} />,
-    href: "mailto:hetulmistry@gmail.com",
+    href: "mailto:hetulmistry15@gmail.com",
   },
   {
     label: "GitHub",
