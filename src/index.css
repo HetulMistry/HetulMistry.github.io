@@ -26,10 +26,6 @@ canvas {
   will-change: transform;
 }
 
-section {
-  scroll-margin-top: 96px;
-}
-
 body {
   min-width: 320px;
   min-height: 100svh;
