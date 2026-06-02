@@ -44,6 +44,11 @@ function CodePanel() {
           roughness={0.55}
           metalness={0.05}
         />
+        <meshStandardMaterial
+          color="#111827"
+          roughness={0.55}
+          metalness={0.05}
+        />
       </mesh>
       <mesh position={[-1.09, 0.7, 0.06]}>
         <boxGeometry args={[0.18, 0.08, 0.02]} />
@@ -96,6 +101,11 @@ function DataStack() {
       {/* <mesh position={[0, 0.86, 0]} castShadow> */}
       <mesh position={[0, 0.86, 0]}>
         <boxGeometry args={[0.96, 0.08, 0.96]} />
+        <meshStandardMaterial
+          color="#38bdf8"
+          emissive="#38bdf8"
+          emissiveIntensity={0.18}
+        />
         <meshStandardMaterial
           color="#38bdf8"
           emissive="#38bdf8"
@@ -181,6 +191,16 @@ export default function Scene() {
       targetX,
       delta * 1.8,
     );
+    root.current.rotation.y = THREE.MathUtils.lerp(
+      root.current.rotation.y,
+      targetY,
+      delta * 1.8,
+    );
+    root.current.rotation.x = THREE.MathUtils.lerp(
+      root.current.rotation.x,
+      targetX,
+      delta * 1.8,
+    );
     root.current.position.y = Math.sin(elapsed * 0.7) * 0.05;
   });
 
@@ -201,6 +221,11 @@ export default function Scene() {
           */}
           <mesh position={[0, -1.52, 0]} rotation={[-Math.PI / 2, 0, 0]}>
             <circleGeometry args={[2.45, 72]} />
+            <meshStandardMaterial
+              color="#0b1120"
+              roughness={0.7}
+              metalness={0.05}
+            />
             <meshStandardMaterial
               color="#0b1120"
               roughness={0.7}

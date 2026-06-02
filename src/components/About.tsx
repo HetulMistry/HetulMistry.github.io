@@ -95,7 +95,7 @@ export default function About() {
                 transition={{ duration: 0.45, delay: index * 0.06 }}
                 className="surface-card rounded-lg p-5"
               >
-                <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-md border border-white/10 bg-white/[0.04] text-sky-300">
+                <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-md border border-white/10 bg-white/4 text-sky-300">
                   {item.icon}
                 </div>
                 <h3 className="font-[Space_Grotesk] text-lg font-semibold text-white">

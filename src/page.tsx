@@ -1,9 +1,17 @@
+import { lazy, Suspense } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import About from "./components/About";
-import Skills from "./components/Skills";
 // import Projects from "./components/Projects";
-import Contact from "./components/Contact";
+
+const About = lazy(() => import("./components/About"));
+const Skills = lazy(() => import("./components/Skills"));
+const Contact = lazy(() => import("./components/Contact"));
+
+const SectionDivider = () => (
+  <div className="mx-auto max-w-7xl px-6">
+    <div className="h-px bg-white/10" />
+  </div>
+);
 
 export default function Portfolio() {
   return (
@@ -11,29 +19,27 @@ export default function Portfolio() {
       <Navbar />
       <Hero />
 
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="h-px bg-white/10" />
-      </div>
+      <SectionDivider />
 
-      <About />
+      <Suspense fallback={null}>
+        <About />
+      </Suspense>
 
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="h-px bg-white/10" />
-      </div>
+      <SectionDivider />
 
-      <Skills />
+      <Suspense fallback={null}>
+        <Skills />
+      </Suspense>
 
-      {/* <div className="mx-auto max-w-7xl px-6">
-        <div className="h-px bg-white/10" />
-      </div> */}
+      {/* <SectionDivider />
 
-      {/* <Projects /> */}
+      <Suspense fallback={null}>
+        <Projects />
+      </Suspense> */}
 
-      {/* <div className="mx-auto max-w-7xl px-6">
-        <div className="h-px bg-white/10" />
-      </div> */}
-
-      <Contact />
+      <Suspense fallback={null}>
+        <Contact />
+      </Suspense>
     </main>
   );
 }
