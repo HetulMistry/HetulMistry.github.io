@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
-import { FaGithub } from "react-icons/fa";
+import { ExternalLink, GitBranch } from "lucide-react";
 
 interface Project {
   title: string;
@@ -125,7 +124,7 @@ export default function Projects() {
             rel="noreferrer"
             className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
           >
-            <FaGithub size={17} />
+            <GitBranch size={17} />
             View all repositories
             <ExternalLink size={15} />
           </a>

@@ -13,19 +13,22 @@ const categories: SkillCategory[] = [
   {
     title: "Frontend",
     icon: <LayoutTemplate size={18} />,
-    description: "Interfaces with clean component structure and responsive behavior.",
+    description:
+      "Interfaces with clean component structure and responsive behavior.",
     skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "HTML", "CSS"],
   },
   {
     title: "Backend",
     icon: <Database size={18} />,
-    description: "APIs, authentication flows, data modeling, and backend logic.",
+    description:
+      "APIs, authentication flows, data modeling, and backend logic.",
     skills: ["Node.js", "Express", "Firebase", "REST APIs", "SQL", "MongoDB"],
   },
   {
     title: "Programming",
     icon: <Braces size={18} />,
-    description: "Core programming, problem solving, and data structure fundamentals.",
+    description:
+      "Core programming, problem solving, and data structure fundamentals.",
     skills: ["JavaScript", "Python", "C++", "Data Structures", "OOP"],
   },
   {
@@ -50,8 +53,8 @@ export default function Skills() {
           <span className="section-kicker">Skills</span>
           <h2>Tools I use to build across the stack.</h2>
           <p>
-            A focused snapshot of the technologies I use most often, grouped by how I
-            apply them in projects.
+            A focused snapshot of the technologies I use most often, grouped by
+            how I apply them in projects.
           </p>
         </motion.div>
 
@@ -66,7 +69,7 @@ export default function Skills() {
               className="surface-card rounded-lg p-6"
             >
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-white/10 bg-white/[0.04] text-sky-300">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-white/10 bg-white/4 text-sky-300">
                   {category.icon}
                 </div>
                 <div>

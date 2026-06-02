@@ -21,6 +21,11 @@ html {
   scroll-behavior: smooth;
 }
 
+canvas {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
 body {
   min-width: 320px;
   min-height: 100svh;
@@ -85,6 +90,8 @@ body {
 .section-shell {
   position: relative;
   padding: 112px 0;
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 900px;
 }
 
 .section-heading {
@@ -138,5 +145,10 @@ body {
 
   .section-heading {
     margin-bottom: 36px;
+  }
+
+  .surface-card {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 }

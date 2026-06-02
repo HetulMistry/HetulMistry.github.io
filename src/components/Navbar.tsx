@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import type { MouseEvent } from "react";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -15,6 +16,27 @@ export default function Navbar() {
 
   const [pendingScroll, setPendingScroll] = useState<string | null>(null);
 
+  const handleMobileNavClick = (
+    event: MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    const targetId = href.replace("#", "");
+    const element = document.getElementById(targetId);
+
+    if (!element) {
+      setMobileOpen(false);
+      return;
+    }
+
+    event.preventDefault();
+    setMobileOpen(false);
+
+    window.setTimeout(() => {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+      window.history.replaceState(null, "", href);
+    }, 80);
+  };
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 32);
     window.addEventListener("scroll", onScroll);
@@ -25,7 +47,7 @@ export default function Navbar() {
     <nav
       className={`fixed inset-x-0 top-0 z-50 transition ${
         scrolled
-          ? "border-b border-white/10 bg-[#08090c]/88 shadow-lg shadow-black/20 backdrop-blur-xl"
+          ? "border-b border-white/10 bg-dark-950/88 shadow-lg shadow-black/20 backdrop-blur-xl"
           : "bg-transparent"
       }`}
     >
@@ -48,7 +70,7 @@ export default function Navbar() {
                 // setPendingScroll(link.href); // 2. Queue up the target section
                 setMobileOpen(false); // 3. Trigger Framer Motion exit animation
               }}
-              className="rounded-md px-3 py-2 text-sm font-medium text-slate-400 transition hover:bg-white/[0.05] hover:text-white"
+              className="rounded-md px-3 py-2 text-sm font-medium text-slate-400 transition hover:bg-white/5 hover:text-white"
             >
               {link.label}
             </a>
@@ -57,7 +79,7 @@ export default function Navbar() {
             href="https://github.com/HetulMistry"
             target="_blank"
             rel="noreferrer"
-            className="ml-3 rounded-md border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
+            className="ml-3 rounded-md border border-white/10 bg-white/4 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/8"
           >
             GitHub
           </a>
@@ -65,7 +87,7 @@ export default function Navbar() {
             href="https://linkedin.com/in/HetulMistry"
             target="_blank"
             rel="noreferrer"
-            className="ml-3 rounded-md border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
+            className="ml-3 rounded-md border border-white/10 bg-white/4 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/8"
           >
             LinkedIn
           </a>
@@ -75,6 +97,8 @@ export default function Navbar() {
           onClick={() => setMobileOpen((open) => !open)}
           className="rounded-md border border-white/10 bg-white/[0.04] p-2 text-white lg:hidden"
           aria-label="Toggle menu"
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-menu"
         >
           {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
@@ -101,15 +125,16 @@ export default function Navbar() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -20, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="border-b border-white/10 bg-[#08090c]/96 backdrop-blur-xl lg:hidden"
+            className="border-b border-white/10 bg-dark-950/96 backdrop-blur-xl lg:hidden"
+            id="mobile-menu"
           >
             <div className="flex flex-col gap-1 px-6 pb-6">
               {navLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="rounded-md px-3 py-3 text-slate-300 transition hover:bg-white/[0.05] hover:text-white"
+                  onClick={(event) => handleMobileNavClick(event, link.href)}
+                  className="rounded-md px-3 py-3 text-left text-slate-300 transition hover:bg-white/5 hover:text-white"
                 >
                   {link.label}
                 </a>
@@ -118,7 +143,7 @@ export default function Navbar() {
                 href="https://github.com/HetulMistry"
                 target="_blank"
                 rel="noreferrer"
-                className="mt-2 rounded-md border border-white/10 bg-white/[0.04] px-3 py-3 text-center font-semibold text-white"
+                className="mt-2 rounded-md border border-white/10 bg-white/4 px-3 py-3 text-center font-semibold text-white"
               >
                 GitHub
               </a>
@@ -126,7 +151,7 @@ export default function Navbar() {
                 href="https://linkedin.com/in/HetulMistry"
                 target="_blank"
                 rel="noreferrer"
-                className="mt-2 rounded-md border border-white/10 bg-white/[0.04] px-3 py-3 text-center font-semibold text-white"
+                className="mt-2 rounded-md border border-white/10 bg-white/4 px-3 py-3 text-center font-semibold text-white"
               >
                 LinkedIn
               </a>
