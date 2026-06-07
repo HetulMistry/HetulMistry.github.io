@@ -6,7 +6,7 @@ import type { MouseEvent } from "react";
 const navLinks = [
   { label: "About", href: "#about" },
   { label: "Skills", href: "#skills" },
-  // { label: "Projects", href: "#projects" },
+  { label: "Projects", href: "#projects" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -65,10 +65,7 @@ export default function Navbar() {
               key={link.label}
               href={link.href}
               onClick={() => {
-                // onClick={(e) => {
-                // e.preventDefault(); // 1. Prevent native jumping right away
-                // setPendingScroll(link.href); // 2. Queue up the target section
-                setMobileOpen(false); // 3. Trigger Framer Motion exit animation
+                setMobileOpen(false);
               }}
               className="rounded-md px-3 py-2 text-sm font-medium text-slate-400 transition hover:bg-white/5 hover:text-white"
             >
@@ -112,15 +109,12 @@ export default function Navbar() {
               target.scrollIntoView({ behavior: "smooth" });
               window.history.pushState(null, "", pendingScroll);
             }
-            setPendingScroll(null); // Reset after scrolling
+            setPendingScroll(null);
           }
         }}
       >
         {mobileOpen && (
           <motion.div
-            // initial={{ opacity: 0, height: 0 }}
-            // animate={{ opacity: 1, height: "auto" }}
-            // exit={{ opacity: 0, height: 0 }}
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -20, opacity: 0 }}
