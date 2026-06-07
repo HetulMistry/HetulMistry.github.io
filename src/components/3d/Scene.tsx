@@ -42,11 +42,6 @@ function CodePanel() {
           roughness={0.55}
           metalness={0.05}
         />
-        <meshStandardMaterial
-          color="#111827"
-          roughness={0.55}
-          metalness={0.05}
-        />
       </mesh>
       <mesh position={[-1.09, 0.7, 0.06]}>
         <boxGeometry args={[0.18, 0.08, 0.02]} />
@@ -76,11 +71,19 @@ function CodePanel() {
 }
 
 function DataStack() {
+  const cylinderGeometry = useMemo(
+    () => new THREE.CylinderGeometry(0.48, 0.48, 0.15, 48),
+    [],
+  );
+
   return (
     <group position={[1.45, -0.34, 0.02]} rotation={[0.04, 0.34, -0.02]}>
       {[0, 1, 2].map((level) => (
-        <mesh key={level} position={[0, level * 0.24, 0]}>
-          <cylinderGeometry args={[0.48, 0.48, 0.15, 48]} />
+        <mesh
+          key={level}
+          position={[0, level * 0.24, 0]}
+          geometry={cylinderGeometry}
+        >
           <meshStandardMaterial
             color={level === 1 ? "#164e63" : "#0f172a"}
             emissive={level === 2 ? "#38bdf8" : "#000000"}
@@ -90,13 +93,9 @@ function DataStack() {
           />
         </mesh>
       ))}
+
       <mesh position={[0, 0.86, 0]}>
         <boxGeometry args={[0.96, 0.08, 0.96]} />
-        <meshStandardMaterial
-          color="#38bdf8"
-          emissive="#38bdf8"
-          emissiveIntensity={0.18}
-        />
         <meshStandardMaterial
           color="#38bdf8"
           emissive="#38bdf8"
@@ -108,6 +107,11 @@ function DataStack() {
 }
 
 function ProjectTiles() {
+  const tileGeometry = useMemo(
+    () => new THREE.BoxGeometry(0.58, 0.12, 0.7),
+    [],
+  );
+
   const tiles = [
     { position: [-0.75, -1.28, 0.42] as Point3, color: "#38bdf8" },
     { position: [0.03, -1.22, 0.5] as Point3, color: "#34d399" },
@@ -117,8 +121,7 @@ function ProjectTiles() {
   return (
     <group rotation={[-0.18, 0.08, 0]}>
       {tiles.map((tile, index) => (
-        <mesh key={index} position={tile.position}>
-          <boxGeometry args={[0.58, 0.12, 0.7]} />
+        <mesh key={index} position={tile.position} geometry={tileGeometry}>
           <meshStandardMaterial
             color="#111827"
             emissive={tile.color}
@@ -133,6 +136,11 @@ function ProjectTiles() {
 }
 
 function Network() {
+  const sphereGeometry = useMemo(
+    () => new THREE.SphereGeometry(0.075, 12, 12),
+    [],
+  );
+
   return (
     <group position={[0.08, 0.02, 0.48]}>
       {connections.map(([start, end], index) => (
@@ -145,9 +153,13 @@ function Network() {
           opacity={0.55}
         />
       ))}
+
       {networkNodes.map((node) => (
-        <mesh key={node.position.join("-")} position={node.position}>
-          <sphereGeometry args={[0.075, 24, 24]} />
+        <mesh
+          key={node.position.join("-")}
+          position={node.position}
+          geometry={sphereGeometry}
+        >
           <meshStandardMaterial
             color={node.color}
             emissive={node.color}
@@ -188,14 +200,13 @@ export default function Scene() {
   return (
     <>
       <ambientLight intensity={1.1} />
-      {/* <directionalLight position={[4, 5, 5]} intensity={1.7} castShadow /> */}
       <directionalLight position={[4, 5, 5]} intensity={1.7} />
       <pointLight position={[-3, 2, 3]} color="#38bdf8" intensity={1.9} />
       <pointLight position={[3, -1, 2]} color="#f59e0b" intensity={0.95} />
       <Float speed={1.4} rotationIntensity={0.08} floatIntensity={0.18}>
         <group ref={root} position={[0.18, -0.18, 0]} scale={1.18}>
           <mesh position={[0, -1.52, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-            <circleGeometry args={[2.45, 72]} />
+            <circleGeometry args={[2.45, 32]} />
             <meshStandardMaterial
               color="#0b1120"
               roughness={0.7}
