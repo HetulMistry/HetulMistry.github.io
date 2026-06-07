@@ -1,11 +1,11 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import Projects from "@/components/Projects";
 
 const About = lazy(() => import("@/components/About"));
 const Skills = lazy(() => import("@/components/Skills"));
 const Contact = lazy(() => import("@/components/Contact"));
+const Projects = lazy(() => import("@/components/Projects"));
 
 const SectionDivider = () => (
   <div className="mx-auto max-w-7xl px-6">
@@ -14,6 +14,10 @@ const SectionDivider = () => (
 );
 
 export default function Portfolio() {
+  useEffect(() => {
+    import("@/components/About");
+  }, []);
+
   return (
     <main className="relative min-h-screen overflow-x-hidden noise-overlay">
       <Navbar />

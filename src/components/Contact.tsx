@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ArrowUpRight, Mail } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
@@ -25,7 +25,7 @@ export default function Contact() {
     <>
       <section id="contact" className="section-shell">
         <div className="mx-auto max-w-7xl px-6">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -46,7 +46,7 @@ export default function Contact() {
 
             <div className="grid gap-3 sm:grid-cols-3">
               {socials.map((social, index) => (
-                <motion.a
+                <m.a
                   key={social.label}
                   href={social.href}
                   target={social.label === "Email" ? undefined : "_blank"}
@@ -67,10 +67,10 @@ export default function Contact() {
                   <span className="mt-5 block font-semibold">
                     {social.label}
                   </span>
-                </motion.a>
+                </m.a>
               ))}
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -80,15 +80,15 @@ export default function Contact() {
             (c) 2026 Hetul Mistry. Built with React, TypeScript, Tailwind CSS,
             and Three.js.
           </p>
-          {/* <a
-            href="https://bento.me/hetul-mistry"
+          <a
+            href="https://hetulmistry.tech"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 transition hover:text-slate-300"
           >
-            bento.me/hetul-mistry
+            HetulMistry.tech
             <ArrowUpRight size={14} />
-          </a> */}
+          </a>
         </div>
       </footer>
     </>

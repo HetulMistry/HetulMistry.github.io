@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Braces, Database, GitBranch, LayoutTemplate } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -74,7 +74,7 @@ export default function Skills() {
   return (
     <section id="skills" className="section-shell">
       <div className="mx-auto max-w-7xl px-6">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -87,11 +87,11 @@ export default function Skills() {
             A focused snapshot of the technologies I use most often, grouped by
             how I apply them in projects.
           </p>
-        </motion.div>
+        </m.div>
 
         <div className="grid gap-4 md:grid-cols-2">
           {categories.map((category, index) => (
-            <motion.div
+            <m.div
               key={category.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -120,7 +120,7 @@ export default function Skills() {
                   </span>
                 ))}
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </div>

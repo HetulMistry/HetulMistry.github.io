@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Brain, Code2, GraduationCap, Rocket } from "lucide-react";
 
 const stats = [
@@ -35,7 +35,7 @@ export default function About() {
   return (
     <section id="about" className="section-shell">
       <div className="mx-auto max-w-7xl px-6">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -48,10 +48,10 @@ export default function About() {
             I started with C++ and digital logic, then moved into modern web
             development, backend systems, and AI-powered tools.
           </p>
-        </motion.div>
+        </m.div>
 
         <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -83,11 +83,11 @@ export default function About() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </m.div>
 
           <div className="grid gap-3 sm:grid-cols-2">
             {highlights.map((item, index) => (
-              <motion.div
+              <m.div
                 key={item.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -104,7 +104,7 @@ export default function About() {
                 <p className="mt-2 text-sm leading-6 text-slate-400">
                   {item.text}
                 </p>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
