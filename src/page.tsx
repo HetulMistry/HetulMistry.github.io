@@ -1,11 +1,11 @@
 import { lazy, Suspense } from "react";
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-// import Projects from "./components/Projects";
+import Navbar from "@/components/Navbar";
+import Hero from "@/components/Hero";
+import Projects from "@/components/Projects";
 
-const About = lazy(() => import("./components/About"));
-const Skills = lazy(() => import("./components/Skills"));
-const Contact = lazy(() => import("./components/Contact"));
+const About = lazy(() => import("@/components/About"));
+const Skills = lazy(() => import("@/components/Skills"));
+const Contact = lazy(() => import("@/components/Contact"));
 
 const SectionDivider = () => (
   <div className="mx-auto max-w-7xl px-6">
@@ -31,11 +31,11 @@ export default function Portfolio() {
         <Skills />
       </Suspense>
 
-      {/* <SectionDivider />
+      <SectionDivider />
 
       <Suspense fallback={null}>
         <Projects />
-      </Suspense> */}
+      </Suspense>
 
       <Suspense fallback={null}>
         <Contact />
