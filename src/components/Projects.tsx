@@ -27,7 +27,7 @@ const projects: Project[] = [
       "React Three Fiber",
     ],
     repo: "https://github.com/HetulMistry/HetulMistry.github.io",
-    demo: "https://hetulmistry.github.io/",
+    demo: "https://HetulMistry.tech/",
     status: "live",
     featured: true,
   },
