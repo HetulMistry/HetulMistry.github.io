@@ -1,7 +1,9 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
-import { Mail, MapPin } from "lucide-react";
+import { ArrowRight, Mail, MapPin } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-// import { ArrowRight, Mail, MapPin } from "lucide-react";
+import { AuroraText } from "@/components/ui/aurora-text";
+import { DiaTextReveal } from "@/components/ui/dia-text-reveal";
+import { ShineBorder } from "@/components/ui/shine-border";
 
 type NetworkInformation = {
   saveData?: boolean;
@@ -96,11 +98,22 @@ export default function Hero() {
         <div className="w-full min-w-0 max-w-3xl">
           <div className="mb-8 inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/4 px-3 py-2 text-sm text-slate-300 backdrop-blur">
             <span className="h-2 w-2 rounded-full bg-emerald-400" />
-            Open to full-stack and AI-focused opportunities
+            <AuroraText
+              colors={["#38BDF8", "#F59E0B", "#E5E7EB", "#34D399", "#A78BFA"]}
+              className="font-medium"
+            >
+              Open to full-stack and AI-focused opportunities
+            </AuroraText>
           </div>
 
           <h1 className="font-[Space_Grotesk] text-5xl font-semibold leading-[1.02] tracking-normal text-white sm:text-6xl lg:text-7xl">
-            Hetul Mistry
+            <DiaTextReveal
+              text="Hetul Mistry"
+              textColor="white"
+              duration={1.5}
+              delay={0.5}
+              colors={["#38BDF8", "#F59E0B", "#E5E7EB", "#34D399", "#A78BFA"]}
+            />
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-7 text-slate-300 sm:text-xl sm:leading-8">
@@ -115,16 +128,28 @@ export default function Hero() {
           </div>
 
           <div className="mt-9 flex flex-wrap gap-3">
-            {/* <a
-              href="#projects"
-              className="inline-flex shrink-0 items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
+            <div className="relative inline-block">
+              <a
+                href="#projects"
+                className="inline-flex shrink-0 items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200 relative z-10"
               >
-              View Projects
-              <ArrowRight size={16} />
-              </a> */}
+                View Projects
+                <ArrowRight size={16} />
+              </a>
+              <ShineBorder
+                shineColor={[
+                  "#38BDF8",
+                  "#F59E0B",
+                  "#E5E7EB",
+                  "#34D399",
+                  "#A78BFA",
+                ]}
+                className="pointer-events-none rounded-md z-20"
+                borderWidth={2}
+              />
+            </div>
             <a
               href="#contact"
-              // className="inline-flex shrink-0 items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
               className="inline-flex shrink-0 items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
             >
               Contact
@@ -134,7 +159,6 @@ export default function Hero() {
               href="https://github.com/HetulMistry"
               target="_blank"
               rel="noreferrer"
-              // className="inline-flex shrink-0 items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
               className="inline-flex shrink-0 items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
             >
               <FaGithub size={17} />
@@ -144,7 +168,6 @@ export default function Hero() {
               href="https://www.linkedin.com/in/hetulmistry/"
               target="_blank"
               rel="noreferrer"
-              // className="inline-flex shrink-0 items-center gap-2 rounded-md border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
               className="inline-flex shrink-0 items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
             >
               <FaLinkedin size={17} />

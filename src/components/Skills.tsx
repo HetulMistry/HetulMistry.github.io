@@ -15,27 +15,58 @@ const categories: SkillCategory[] = [
     icon: <LayoutTemplate size={18} />,
     description:
       "Interfaces with clean component structure and responsive behavior.",
-    skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "HTML", "CSS"],
+    skills: [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "Three.js",
+      "HTML",
+      "CSS",
+    ],
   },
   {
     title: "Backend",
     icon: <Database size={18} />,
     description:
       "APIs, authentication flows, data modeling, and backend logic.",
-    skills: ["Node.js", "Express", "Firebase", "REST APIs", "SQL", "MongoDB"],
+    skills: [
+      "Node.js",
+      "Express",
+      "Firebase",
+      "REST APIs",
+      "SQL",
+      "MongoDB",
+      "Auth",
+    ],
   },
   {
     title: "Programming",
     icon: <Braces size={18} />,
     description:
       "Core programming, problem solving, and data structure fundamentals.",
-    skills: ["JavaScript", "Python", "C++", "Data Structures", "OOP"],
+    skills: [
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "C++",
+      "Data Structures",
+      "OOP",
+    ],
   },
   {
     title: "Workflow",
     icon: <GitBranch size={18} />,
     description: "Developer tooling and concepts that keep projects reliable.",
-    skills: ["Git", "GitHub", "Vite", "System Design", "AI / ML Basics"],
+    skills: [
+      "Git",
+      "GitHub",
+      "Vite",
+      "System Design",
+      "AI / ML Basics",
+      "CI/CD",
+      "Docker",
+    ],
   },
 ];
 
