@@ -35,9 +35,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && npm run generate:commits && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate:commits": "node src/scripts/generate-project-data.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.9",
@@ -47,6 +48,7 @@
     "@types/three": "^0.184.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^17.4.2",
     "framer-motion": "^12.38.0",
     "lucide-react": "^1.17.0",
     "motion": "^12.40.0",

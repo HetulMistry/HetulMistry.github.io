@@ -105,7 +105,7 @@ export default function Navbar() {
 
         <button
           onClick={() => setMobileOpen((open) => !open)}
-          className="rounded-md border border-white/10 bg-white/[0.04] p-2 text-white lg:hidden"
+          className="rounded-md border border-white/10 bg-white/4 p-2 text-white lg:hidden"
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
           aria-controls="mobile-menu"
