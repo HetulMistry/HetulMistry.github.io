@@ -21,7 +21,7 @@ const HeroScene = lazy(() => import("./3d/HeroScene"));
 
 export default function Hero() {
   const [canRenderScene, setCanRenderScene] = useState(false);
-  const [shouldLoadScene, setShouldLoadScene] = useState(false);
+  const [sceneReady, setSceneReady] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
     undefined,
   );
@@ -60,7 +60,6 @@ export default function Hero() {
 
   useEffect(() => {
     if (!canRenderScene) {
-      setShouldLoadScene(false);
       if (timeoutRef.current) {
         window.clearTimeout(timeoutRef.current);
         timeoutRef.current = undefined;
@@ -69,13 +68,15 @@ export default function Hero() {
     }
 
     timeoutRef.current = window.setTimeout(() => {
-      setShouldLoadScene(true);
+      setSceneReady(true);
     }, 400);
 
     return () => {
       if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
     };
   }, [canRenderScene]);
+
+  const shouldLoadScene = canRenderScene && sceneReady;
 
   return (
     <section id="hero" className="relative min-h-screen overflow-hidden pt-24">
@@ -103,12 +104,7 @@ export default function Hero() {
               className="pointer-events-none rounded-md z-20"
               borderWidth={1}
             />
-            {/* <AuroraText
-              colors={["#38BDF8", "#F59E0B", "#E5E7EB", "#34D399", "#A78BFA"]}
-              className="font-medium"
-            > */}
             Open to full-stack and AI-focused opportunities
-            {/* </AuroraText> */}
           </div>
 
           <h1 className="font-[Space_Grotesk] text-5xl font-semibold leading-[1.02] tracking-normal text-white sm:text-6xl lg:text-7xl">
