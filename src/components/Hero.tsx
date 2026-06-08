@@ -1,7 +1,6 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { ArrowRight, Mail, MapPin } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { AuroraText } from "@/components/ui/aurora-text";
 import { DiaTextReveal } from "@/components/ui/dia-text-reveal";
 import { ShineBorder } from "@/components/ui/shine-border";
 
