@@ -167,7 +167,7 @@
 
   &::before,
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: -4.5px;
     border: 5px solid transparent;
@@ -180,5 +180,18 @@
   &::after {
     right: 0;
     border-right-color: var(--border);
+  }
+}
+
+.scene-fade-in {
+  animation: scenefadeIn 1.4s ease-out forwards;
+}
+
+@keyframes scenefadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

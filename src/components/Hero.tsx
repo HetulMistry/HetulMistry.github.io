@@ -74,7 +74,7 @@ export default function Hero() {
 
     timeoutRef.current = window.setTimeout(() => {
       setShouldLoadScene(true);
-    }, 700);
+    }, 400);
 
     return () => {
       if (timeoutRef.current) {
