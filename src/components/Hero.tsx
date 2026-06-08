@@ -60,10 +60,7 @@ export default function Hero() {
   }, []);
 
   useEffect(() => {
-    // Setting state directly in effect when dependency changes is safe here
-    // because it's in a guard clause and doesn't cause infinite loops
     if (!canRenderScene) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setShouldLoadScene(false);
       if (timeoutRef.current) {
         window.clearTimeout(timeoutRef.current);
@@ -77,9 +74,7 @@ export default function Hero() {
     }, 400);
 
     return () => {
-      if (timeoutRef.current) {
-        window.clearTimeout(timeoutRef.current);
-      }
+      if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
     };
   }, [canRenderScene]);
 
@@ -98,12 +93,23 @@ export default function Hero() {
         <div className="w-full min-w-0 max-w-3xl">
           <div className="mb-8 inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/4 px-3 py-2 text-sm text-slate-300 backdrop-blur">
             <span className="h-2 w-2 rounded-full bg-emerald-400" />
-            <AuroraText
+            <ShineBorder
+              shineColor={[
+                "#38BDF8",
+                "#F59E0B",
+                "#E5E7EB",
+                "#34D399",
+                "#A78BFA",
+              ]}
+              className="pointer-events-none rounded-md z-20"
+              borderWidth={1}
+            />
+            {/* <AuroraText
               colors={["#38BDF8", "#F59E0B", "#E5E7EB", "#34D399", "#A78BFA"]}
               className="font-medium"
-            >
-              Open to full-stack and AI-focused opportunities
-            </AuroraText>
+            > */}
+            Open to full-stack and AI-focused opportunities
+            {/* </AuroraText> */}
           </div>
 
           <h1 className="font-[Space_Grotesk] text-5xl font-semibold leading-[1.02] tracking-normal text-white sm:text-6xl lg:text-7xl">
@@ -136,17 +142,6 @@ export default function Hero() {
                 View Projects
                 <ArrowRight size={16} />
               </a>
-              <ShineBorder
-                shineColor={[
-                  "#38BDF8",
-                  "#F59E0B",
-                  "#E5E7EB",
-                  "#34D399",
-                  "#A78BFA",
-                ]}
-                className="pointer-events-none rounded-md z-20"
-                borderWidth={2}
-              />
             </div>
             <a
               href="#contact"
