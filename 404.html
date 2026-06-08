@@ -519,6 +519,11 @@
         background: rgba(255, 255, 255, 0.06);
       }
 
+      #timestamp {
+        color: #cbd5e1;
+        font-variant-numeric: tabular-nums;
+      }
+
       .cursor {
         display: inline-block;
         width: 8px;
@@ -591,7 +596,7 @@
                 <span class="cursor"></span>
               </div>
               <div class="terminal-line">
-                Timestamp:
+                <span class="terminal-muted">Timestamp:</span>
                 <span id="timestamp"></span>
               </div>
               <div class="terminal-line error">404 Not Found</div>
@@ -608,25 +613,9 @@
             </div>
           </div>
           <div class="actions">
-            <a href="javascript:history.back()" class="btn-primary">
-              <svg
-                class="icon"
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M19 12H5M5 12l7-7M5 12l7 7" />
-              </svg>
-              Go Back
-            </a>
-            <a href="/" class="btn-ghost">Go to Home</a>
-            <a href="/#projects" class="btn-ghost">Explore Projects</a>
+            <button onclick="goBackOrHome()" class="btn-ghost">Go Back</button>
+            <a href="/" class="btn-primary"> Go Home </a>
+            <a href="/#projects" class="btn-ghost"> View My Work </a>
           </div>
         </div>
       </main>
@@ -659,5 +648,29 @@
         </div>
       </footer>
     </div>
+    <script>
+      document.getElementById("route-path").textContent =
+        window.location.pathname;
+
+      function updateTimestamp() {
+        document.getElementById("timestamp").textContent =
+          new Date().toLocaleString(undefined, {
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          });
+      }
+
+      updateTimestamp();
+      setInterval(updateTimestamp, 1000);
+
+      function goBackOrHome() {
+        if (window.history.length > 1) window.history.back();
+        else window.location.href = "/";
+      }
+    </script>
   </body>
 </html>
