@@ -9,6 +9,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: update-project-commits
+  cancel-in-progress: false
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -16,8 +20,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        env:
-          GH_PAT: ${{ secrets.GH_PAT }}
+        with:
+          token: ${{ secrets.GH_PAT }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -44,5 +48,6 @@ jobs:
             echo "No changes detected"
           else
             git commit -m "chore: update project commit data"
-            git push
+            git pull --rebase origin main
+            git push origin main
           fi
