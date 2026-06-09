@@ -1,0 +1,16 @@
+{
+  "name": "Hetul Mistry",
+  "short_name": "Hetul",
+  "description": "Full-Stack Developer, AI Engineer & System Architect",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#08090c",
+  "background_color": "#08090c",
+  "icons": [
+    {
+      "src": "/favicon-192.png",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
