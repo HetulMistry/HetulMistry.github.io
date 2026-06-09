@@ -89,7 +89,7 @@ function ProjectDetails({ project }: { project: Project }) {
 
   return (
     <div className="flex h-full flex-col">
-      <WindowHeader path={`~/projects/${project.id}/${project.filename}`} />
+      <WindowHeader path={`~/${project.id}/${project.filename}`} />
 
       <AnimatePresence mode="wait">
         <m.div

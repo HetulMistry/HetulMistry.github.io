@@ -35,7 +35,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && npm run generate:commits && vite build",
+    "build": "npm run generate:commits && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "generate:commits": "node src/scripts/generate-project-data.mjs"

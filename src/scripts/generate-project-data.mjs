@@ -41,10 +41,15 @@ for (const [projectId, repo] of Object.entries(repos)) {
 }
 
 const fileContent = `
+export interface GeneratedCommit {
+  hash: string;
+  message: string;
+}
+
 // AUTO-GENERATED FILE
 // DO NOT EDIT
 
-export const generatedCommits = ${JSON.stringify(output, null, 2)} as const;
+export const generatedCommits: Record<string, GeneratedCommit[]> = ${JSON.stringify(output, null, 2)};
 `;
 
 await fs.writeFile("src/data/generated-project-commits.ts", fileContent);

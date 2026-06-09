@@ -339,12 +339,7 @@ export interface CollapseButtonProps extends React.ButtonHTMLAttributes<HTMLButt
   expandAll?: boolean;
 }
 
-export function CollapseButton({
-  elements,
-  expandAll = false,
-  children,
-  ...props
-}: CollapseButtonProps) {
+export function CollapseButton({ children, ...props }: CollapseButtonProps) {
   return (
     <button type="button" {...props}>
       {children}
