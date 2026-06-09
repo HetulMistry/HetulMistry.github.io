@@ -10,16 +10,16 @@ export interface GeneratedCommit {
 export const generatedCommits: Record<string, GeneratedCommit[]> = {
   "portfolio-website": [
     {
+      "hash": "c163566",
+      "message": "feat: implement write on text effect in hero section"
+    },
+    {
+      "hash": "63bcf1a",
+      "message": "chore: update project commit data"
+    },
+    {
       "hash": "eb5d2ef",
       "message": "fix: remove external PAT dependency from commit workflow"
-    },
-    {
-      "hash": "6b9894e",
-      "message": "fix: resolve commit generation, typing, and workflow sync issues"
-    },
-    {
-      "hash": "69b95ab",
-      "message": "fix: resolve commit generation, typing, and workflow sync issues"
     }
   ],
   "subscription-tracker": [
