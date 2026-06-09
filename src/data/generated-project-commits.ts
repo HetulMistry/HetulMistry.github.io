@@ -10,16 +10,16 @@ export interface GeneratedCommit {
 export const generatedCommits: Record<string, GeneratedCommit[]> = {
   "portfolio-website": [
     {
-      "hash": "383464e",
-      "message": "fix: fix workflow update-commit file to pull changes first"
+      "hash": "eb5d2ef",
+      "message": "fix: remove external PAT dependency from commit workflow"
     },
     {
-      "hash": "9a0e302",
-      "message": "chore: update project commit data"
+      "hash": "6b9894e",
+      "message": "fix: resolve commit generation, typing, and workflow sync issues"
     },
     {
-      "hash": "a154781",
-      "message": "feat: implement code editor file explorer style for projects section"
+      "hash": "69b95ab",
+      "message": "fix: resolve commit generation, typing, and workflow sync issues"
     }
   ],
   "subscription-tracker": [
