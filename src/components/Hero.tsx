@@ -3,6 +3,7 @@ import { ArrowRight, Mail, MapPin } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { DiaTextReveal } from "@/components/ui/dia-text-reveal";
 import { ShineBorder } from "@/components/ui/shine-border";
+import { TypingAnimation } from "@/components/ui/typing-animation";
 
 type NetworkInformation = {
   saveData?: boolean;
@@ -117,11 +118,16 @@ export default function Hero() {
             />
           </h1>
 
-          <p className="mt-6 max-w-2xl text-base leading-7 text-slate-300 sm:text-xl sm:leading-8">
+          <TypingAnimation
+            className="mt-6 max-w-2xl text-base leading-7 text-slate-300 sm:text-xl sm:leading-8"
+            typeSpeed={10}
+            startOnView={false}
+            delay={100}
+          >
             Full-stack developer and B.Tech CSE student building practical web
             products, backend systems, and AI-enabled workflows with React,
             TypeScript, Node.js, Python, and Firebase.
-          </p>
+          </TypingAnimation>
 
           <div className="mt-5 flex items-center gap-2 text-sm text-slate-400">
             <MapPin size={16} />
