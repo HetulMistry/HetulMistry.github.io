@@ -1,5 +1,4 @@
 import fs from "node:fs/promises";
-import "dotenv/config";
 
 const repos = {
   "portfolio-website": "HetulMistry/HetulMistry.github.io",
@@ -17,7 +16,6 @@ for (const [projectId, repo] of Object.entries(repos)) {
       {
         headers: {
           Accept: "application/vnd.github+json",
-          Authorization: `Bearer ${process.env.GH_PAT}`,
         },
       },
     );
