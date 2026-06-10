@@ -1,7 +1,7 @@
 {
   "name": "hetulmistry-portfolio",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.8.0",
   "description": "URL Shortener Backend Project",
   "author": "Hetul Mistry",
   "keywords": [
