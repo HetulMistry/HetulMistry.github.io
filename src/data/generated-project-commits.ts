@@ -10,16 +10,16 @@ export interface GeneratedCommit {
 export const generatedCommits: Record<string, GeneratedCommit[]> = {
   "portfolio-website": [
     {
+      "hash": "64f2446",
+      "message": "chore: update project commit data"
+    },
+    {
       "hash": "f6363bc",
       "message": "feat: enhance SEO and social sharing with meta tags and structured data"
     },
     {
       "hash": "d7a4b1b",
       "message": "feat: add robots.txt and sitemap.xml for SEO optimization"
-    },
-    {
-      "hash": "3058c56",
-      "message": "chore: update project commit data"
     }
   ],
   "subscription-tracker": [
