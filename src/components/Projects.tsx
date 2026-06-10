@@ -9,7 +9,8 @@ import { useCallback, useState } from "react";
 
 import { Tree } from "@/components/ui/file-tree";
 import type { TreeViewElement } from "@/components/ui/file-tree";
-import { generatedCommits } from "@/data/generated-project-commits";
+import { useActivityData } from "@/hooks/useActivityData";
+import type { ActivityCommit } from "@/data/fallback-commits";
 import { type Project, categories } from "@/data/projects";
 
 const projectMap = new Map<string, Project>(
@@ -82,7 +83,13 @@ function WindowHeader({
   );
 }
 
-function ProjectDetails({ project }: { project: Project }) {
+function ProjectDetails({
+  project,
+  commits,
+}: {
+  project: Project;
+  commits: ActivityCommit[];
+}) {
   const repoLabel = project.repo
     ? project.repo.replace("https://github.com/", "")
     : "GitHub";
@@ -100,7 +107,6 @@ function ProjectDetails({ project }: { project: Project }) {
           transition={{ duration: 0.15 }}
           className="flex-1 overflow-y-auto p-6"
         >
-          {" "}
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
               {project.featured && (
@@ -129,10 +135,7 @@ function ProjectDetails({ project }: { project: Project }) {
               $ git log --oneline
             </p>
             <div className="space-y-2">
-              {(
-                generatedCommits[project.id as keyof typeof generatedCommits] ??
-                []
-              ).map((c) => (
+              {(commits ?? []).map((c) => (
                 <div key={c.hash} className="flex items-center gap-2.5">
                   <GitCommitHorizontal
                     size={13}
@@ -180,6 +183,7 @@ function ProjectDetails({ project }: { project: Project }) {
 
 function DesktopExplorer() {
   const [selectedId, setSelectedId] = useState<string>(DEFAULT_PROJECT_ID);
+  const { data: activityData } = useActivityData();
   const selectedProject =
     projectMap.get(selectedId) ?? projectMap.get(DEFAULT_PROJECT_ID)!;
 
@@ -211,7 +215,13 @@ function DesktopExplorer() {
         </div>
         <div className="relative flex flex-1 flex-col overflow-hidden">
           <AnimatePresence mode="wait">
-            <ProjectDetails project={selectedProject} />
+            <ProjectDetails
+              project={selectedProject}
+              commits={
+                activityData[selectedProject.id as keyof typeof activityData] ??
+                []
+              }
+            />
           </AnimatePresence>
         </div>
       </div>
@@ -221,7 +231,7 @@ function DesktopExplorer() {
 
 function MobileAccordion() {
   const [openId, setOpenId] = useState<string | null>(DEFAULT_PROJECT_ID);
-
+  const { data: activityData, isFallback } = useActivityData();
   const toggle = useCallback(
     (id: string) => setOpenId((prev) => (prev === id ? null : id)),
     [],
@@ -234,6 +244,8 @@ function MobileAccordion() {
           const isOpen = openId === project.id;
           const panelId = `mobile-panel-${project.id}`;
           const headingId = `mobile-heading-${project.id}`;
+          const commits =
+            activityData[project.id as keyof typeof activityData] ?? [];
 
           return (
             <div
@@ -295,12 +307,13 @@ function MobileAccordion() {
                         <p className="mb-2.5 font-mono text-xs text-slate-600">
                           $ git log --oneline
                         </p>
+                        {isFallback && (
+                          <p className="mb-2 text-xs text-amber-400">
+                            Showing cached activity data.
+                          </p>
+                        )}
                         <div className="space-y-1.5">
-                          {(
-                            generatedCommits[
-                              project.id as keyof typeof generatedCommits
-                            ] ?? []
-                          ).map((c) => (
+                          {(commits ?? []).map((c) => (
                             <div
                               key={c.hash}
                               className="flex items-center gap-2"
