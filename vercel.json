@@ -2,10 +2,5 @@
   "buildCommand": "npm run build",
   "devCommand": "vite",
   "installCommand": "npm ci",
-  "framework": "vite",
-  "functions": {
-    "api/**/*.ts": {
-      "runtime": "nodejs20.x"
-    }
-  }
+  "framework": "vite"
 }
