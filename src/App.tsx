@@ -1,5 +1,5 @@
-import Portfolio from "@/page";
 import { MotionProvider } from "@/lib/motion";
+import Portfolio from "@/page";
 
 function App() {
   return (

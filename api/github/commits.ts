@@ -54,35 +54,48 @@ function isBotCommit(commit: GitHubCommit): boolean {
   )
     return true;
 
-  if (IGNORED_MESSAGE_PATTERNS.some((pattern) => pattern.test(message)))
-    return true;
-
-  return false;
+  return IGNORED_MESSAGE_PATTERNS.some((pattern) => pattern.test(message));
 }
 
 async function fetchRepoCommits(
   repo: string,
-  token: string,
+  token: string | undefined,
 ): Promise<ActivityCommit[]> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10000);
+
+  const baseHeaders: Record<string, string> = {
+    Accept: "application/vnd.github+json",
+    "User-Agent": "HetulMistry-Portfolio/1.0",
+  };
   const url = `https://api.github.com/repos/${repo}/commits?per_page=10`;
 
-  const controller = new AbortController();
-
-  const timeout = setTimeout(() => {
-    controller.abort();
-  }, 10000);
-
   try {
-    const response = await fetch(url, {
+    let response = await fetch(url, {
       signal: controller.signal,
-      headers: {
-        Authorization: `token ${token}`,
-        Accept: "application/vnd.github+json",
-        "User-Agent": "HetulMistry-Portfolio/1.0",
-      },
+      headers: token
+        ? { ...baseHeaders, Authorization: `Bearer ${token}` }
+        : baseHeaders,
     });
 
-    clearTimeout(timeout);
+    // A configured GH_PAT that is missing, expired, revoked, or has the
+    // wrong scopes will get a 401/403 here. Don't let a bad token take the
+    // whole feature down - fall back to an unauthenticated request, which
+    // is sufficient for public repos (and the response is cached at the
+    // edge for 30 min, so this stays well within rate limits).
+    if (
+      !response.ok &&
+      token &&
+      (response.status === 401 || response.status === 403)
+    ) {
+      console.error(
+        `[commits] GH_PAT rejected for ${repo} (${response.status}); retrying unauthenticated`,
+      );
+      response = await fetch(url, {
+        signal: controller.signal,
+        headers: baseHeaders,
+      });
+    }
 
     if (!response.ok)
       throw new Error(`Failed to fetch ${repo}: ${response.status}`);
@@ -99,25 +112,6 @@ async function fetchRepoCommits(
   } finally {
     clearTimeout(timeout);
   }
-
-  //   if (!response.ok) {
-  //     console.error(
-  //       `GitHub API error for ${repo}: ${response.status} ${response.statusText}`,
-  //     );
-  //     throw new Error(`Failed to fetch ${repo}: ${response.status}`);
-  //   }
-
-  //   const commits = (await response.json()) as GitHubCommit[];
-
-  //   const filtered = commits
-  //     .filter((commit) => !isBotCommit(commit))
-  //     .slice(0, 3)
-  //     .map((commit) => ({
-  //       hash: commit.sha.slice(0, 7),
-  //       message: commit.commit.message.split("\n")[0],
-  //     }));
-
-  //   return filtered;
 }
 
 export default async function handler(
@@ -131,27 +125,19 @@ export default async function handler(
 
   const gitHubToken = process.env.GH_PAT;
 
-  if (!gitHubToken) {
-    console.error("GITHUB_TOKEN environment variable not set");
-    res.status(500).json({ error: "GitHub token not configured" });
-    return;
-  }
-
   try {
+    const results = await Promise.all(
+      Object.entries(PROJECTS).map(async ([projectId, repo]) => {
+        try {
+          const commits = await fetchRepoCommits(repo, gitHubToken);
+          return { projectId, commits };
+        } catch {
+          return { projectId, commits: [] };
+        }
+      }),
+    );
+
     const activityData: ActivityData = {};
-
-    const promises = Object.entries(PROJECTS).map(async ([projectId, repo]) => {
-      try {
-        const commits = await fetchRepoCommits(repo, gitHubToken);
-        return { projectId, commits };
-      } catch (error) {
-        console.error(`Error fetching ${projectId}:`, error);
-        return { projectId, commits: [] };
-      }
-    });
-
-    const results = await Promise.all(promises);
-
     for (const { projectId, commits } of results)
       activityData[projectId] = commits;
 
@@ -160,11 +146,8 @@ export default async function handler(
       "public, max-age=1800, s-maxage=1800, stale-while-revalidate=3600",
     );
     res.setHeader("Content-Type", "application/json");
-
     res.status(200).json(activityData);
   } catch (error) {
-    console.error("Error in commits handler:", error);
-
     res.setHeader("Cache-Control", "public, max-age=300");
     res.status(500).json({
       error: "Failed to fetch commits",

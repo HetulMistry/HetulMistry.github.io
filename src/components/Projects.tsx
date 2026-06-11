@@ -9,9 +9,9 @@ import { useCallback, useState } from "react";
 
 import { Tree } from "@/components/ui/file-tree";
 import type { TreeViewElement } from "@/components/ui/file-tree";
-import { useActivityData } from "@/hooks/useActivityData";
-import type { ActivityCommit } from "@/data/fallback-commits";
 import { type Project, categories } from "@/data/projects";
+import { useActivityData, type ActivityCommit } from "@/hooks/useActivityData";
+import { ProjectArchitectureExplorer } from "@/components/ProjectArchitectureExplorer";
 
 const projectMap = new Map<string, Project>(
   categories.flatMap((c) => c.projects.map((p) => [p.id, p])),
@@ -86,9 +86,11 @@ function WindowHeader({
 function ProjectDetails({
   project,
   commits,
+  isLoading,
 }: {
   project: Project;
   commits: ActivityCommit[];
+  isLoading: boolean;
 }) {
   const repoLabel = project.repo
     ? project.repo.replace("https://github.com/", "")
@@ -97,7 +99,6 @@ function ProjectDetails({
   return (
     <div className="flex h-full flex-col">
       <WindowHeader path={`~/${project.id}/${project.filename}`} />
-
       <AnimatePresence mode="wait">
         <m.div
           key={project.id}
@@ -134,22 +135,32 @@ function ProjectDetails({
             <p className="mb-3 font-mono text-xs font-semibold uppercase tracking-widest text-slate-600">
               $ git log --oneline
             </p>
-            <div className="space-y-2">
-              {(commits ?? []).map((c) => (
-                <div key={c.hash} className="flex items-center gap-2.5">
-                  <GitCommitHorizontal
-                    size={13}
-                    className="shrink-0 text-slate-600"
-                  />
-                  <span className="shrink-0 font-mono text-xs text-sky-400/80">
-                    {c.hash}
-                  </span>
-                  <span className="truncate font-mono text-xs text-slate-400">
-                    {c.message}
-                  </span>
-                </div>
-              ))}
-            </div>
+            {isLoading && commits.length === 0 ? (
+              <p className="font-mono text-xs text-slate-500">
+                Loading repository activity...
+              </p>
+            ) : commits.length === 0 ? (
+              <p className="font-mono text-xs text-slate-500">
+                Repository activity unavailable.
+              </p>
+            ) : (
+              <div className="space-y-2">
+                {commits.map((c) => (
+                  <div key={c.hash} className="flex items-center gap-2.5">
+                    <GitCommitHorizontal
+                      size={13}
+                      className="shrink-0 text-slate-600"
+                    />
+                    <span className="shrink-0 font-mono text-xs text-sky-400/80">
+                      {c.hash}
+                    </span>
+                    <span className="truncate font-mono text-xs text-slate-400">
+                      {c.message}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <div className="mt-7 flex flex-wrap gap-3">
             {project.status === "live" && project.demo && (
@@ -175,6 +186,12 @@ function ProjectDetails({
               </a>
             )}
           </div>
+          <div className="mt-8 pt-6 border-t border-white/8">
+            <p className="mb-4 font-mono text-xs font-semibold uppercase tracking-widest text-slate-600">
+              Architecture
+            </p>
+            <ProjectArchitectureExplorer projectId={project.id} />
+          </div>
         </m.div>
       </AnimatePresence>
     </div>
@@ -183,7 +200,7 @@ function ProjectDetails({
 
 function DesktopExplorer() {
   const [selectedId, setSelectedId] = useState<string>(DEFAULT_PROJECT_ID);
-  const { data: activityData } = useActivityData();
+  const { data: activityData, isLoading } = useActivityData();
   const selectedProject =
     projectMap.get(selectedId) ?? projectMap.get(DEFAULT_PROJECT_ID)!;
 
@@ -217,10 +234,8 @@ function DesktopExplorer() {
           <AnimatePresence mode="wait">
             <ProjectDetails
               project={selectedProject}
-              commits={
-                activityData[selectedProject.id as keyof typeof activityData] ??
-                []
-              }
+              commits={activityData[selectedProject.id] ?? []}
+              isLoading={isLoading}
             />
           </AnimatePresence>
         </div>
@@ -231,7 +246,7 @@ function DesktopExplorer() {
 
 function MobileAccordion() {
   const [openId, setOpenId] = useState<string | null>(DEFAULT_PROJECT_ID);
-  const { data: activityData, isFallback } = useActivityData();
+  const { data: activityData, isLoading } = useActivityData();
   const toggle = useCallback(
     (id: string) => setOpenId((prev) => (prev === id ? null : id)),
     [],
@@ -244,8 +259,7 @@ function MobileAccordion() {
           const isOpen = openId === project.id;
           const panelId = `mobile-panel-${project.id}`;
           const headingId = `mobile-heading-${project.id}`;
-          const commits =
-            activityData[project.id as keyof typeof activityData] ?? [];
+          const commits = activityData[project.id] ?? [];
 
           return (
             <div
@@ -307,30 +321,35 @@ function MobileAccordion() {
                         <p className="mb-2.5 font-mono text-xs text-slate-600">
                           $ git log --oneline
                         </p>
-                        {isFallback && (
-                          <p className="mb-2 text-xs text-amber-400">
-                            Showing cached activity data.
+                        {isLoading && commits.length === 0 ? (
+                          <p className="font-mono text-xs text-slate-500">
+                            Loading repository activity...
                           </p>
+                        ) : commits.length === 0 ? (
+                          <p className="font-mono text-xs text-slate-500">
+                            Repository activity unavailable.
+                          </p>
+                        ) : (
+                          <div className="space-y-1.5">
+                            {commits.map((c) => (
+                              <div
+                                key={c.hash}
+                                className="flex items-center gap-2"
+                              >
+                                <GitCommitHorizontal
+                                  size={12}
+                                  className="shrink-0 text-slate-600"
+                                />
+                                <span className="shrink-0 font-mono text-xs text-sky-400/80">
+                                  {c.hash}
+                                </span>
+                                <span className="truncate font-mono text-xs text-slate-400">
+                                  {c.message}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
                         )}
-                        <div className="space-y-1.5">
-                          {(commits ?? []).map((c) => (
-                            <div
-                              key={c.hash}
-                              className="flex items-center gap-2"
-                            >
-                              <GitCommitHorizontal
-                                size={12}
-                                className="shrink-0 text-slate-600"
-                              />
-                              <span className="shrink-0 font-mono text-xs text-sky-400/80">
-                                {c.hash}
-                              </span>
-                              <span className="truncate font-mono text-xs text-slate-400">
-                                {c.message}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
                       </div>
                       <div className="mt-5 flex flex-wrap gap-2.5">
                         {project.status === "live" && project.demo && (
