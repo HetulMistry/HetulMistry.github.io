@@ -5,6 +5,12 @@ export type Project = {
   tagline: string;
   description: string;
   stack: string[];
+  architecture?: Partial<Record<"frontend" | "backend" | "database" | "authentication" | "ai" | "storage" | "infrastructure", string[]>>;
+  dependencies?: Array<{
+    name: string;
+    category: "runtime" | "framework" | "ui" | "state" | "database" | "auth" | "tooling" | "graphics";
+    detail?: string;
+  }>;
   repo?: string;
   demo?: string;
   status: "live" | "working" | "soon";
@@ -39,6 +45,20 @@ export const categories: Category[] = [
           "Shadcn UI",
           "React Three Fiber",
         ],
+        architecture: {
+          frontend: ["React", "TypeScript", "Vite", "Tailwind CSS"],
+          ai: [],
+          storage: [],
+          infrastructure: ["Vercel", "GitHub Pages", "GitHub API"],
+        },
+        dependencies: [
+          { name: "react", category: "framework", detail: "UI runtime" },
+          { name: "typescript", category: "runtime", detail: "Typed source" },
+          { name: "vite", category: "tooling", detail: "Build and dev server" },
+          { name: "tailwindcss", category: "ui", detail: "Styling system" },
+          { name: "framer-motion", category: "ui", detail: "Motion system" },
+          { name: "three", category: "graphics", detail: "3D scene rendering" },
+        ],
         repo: "https://github.com/HetulMistry/HetulMistry.github.io",
         demo: "https://HetulMistry.tech/",
         status: "live",
@@ -61,6 +81,21 @@ export const categories: Category[] = [
           "Swagger",
           "QR Code",
           "Zod",
+        ],
+        architecture: {
+          frontend: ["Express server-rendered API surface"],
+          backend: ["Express", "Prisma", "JWT"],
+          database: ["PostgreSQL"],
+          authentication: ["JWT"],
+          infrastructure: ["Redis", "Swagger"],
+        },
+        dependencies: [
+          { name: "express", category: "framework", detail: "API server" },
+          { name: "prisma", category: "database", detail: "ORM and schema access" },
+          { name: "postgresql", category: "database", detail: "Primary data store" },
+          { name: "redis", category: "database", detail: "Rate-limit cache" },
+          { name: "jsonwebtoken", category: "auth", detail: "Session tokens" },
+          { name: "zod", category: "tooling", detail: "Schema validation" },
         ],
         repo: "https://github.com/HetulMistry/subscription-tracker",
         demo: "https://subscription-tracker.hetulmistry.tech/",
@@ -91,6 +126,23 @@ export const categories: Category[] = [
           "Zustand",
           "Zod",
         ],
+        architecture: {
+          frontend: ["Next.js", "Tailwind CSS", "BlockNote"],
+          backend: ["Convex"],
+          database: ["Convex"],
+          authentication: ["Clerk"],
+          storage: ["Convex documents"],
+          infrastructure: ["Vercel"],
+        },
+        dependencies: [
+          { name: "next", category: "framework", detail: "App router UI" },
+          { name: "react", category: "framework", detail: "Component runtime" },
+          { name: "convex", category: "database", detail: "Realtime backend" },
+          { name: "clerk", category: "auth", detail: "User identity" },
+          { name: "blocknote", category: "ui", detail: "Editor surface" },
+          { name: "zustand", category: "state", detail: "Client state" },
+          { name: "zod", category: "tooling", detail: "Validation" },
+        ],
         repo: "https://github.com/HetulMistry/notion-clone",
         demo: "https://notionclone.hetulmistry.tech/",
         status: "live",
@@ -111,6 +163,22 @@ export const categories: Category[] = [
           "Clerk",
           "Zustand",
           "Zod",
+        ],
+        architecture: {
+          frontend: ["Next.js", "Tailwind CSS"],
+          backend: ["Convex"],
+          database: ["Convex"],
+          authentication: ["Clerk"],
+          storage: [],
+          infrastructure: ["Vercel"],
+        },
+        dependencies: [
+          { name: "next", category: "framework", detail: "UI and routing" },
+          { name: "react", category: "framework", detail: "Component runtime" },
+          { name: "convex", category: "database", detail: "Data and mutations" },
+          { name: "clerk", category: "auth", detail: "Identity layer" },
+          { name: "zustand", category: "state", detail: "Client cache" },
+          { name: "zod", category: "tooling", detail: "Schema validation" },
         ],
         repo: "https://github.com/HetulMistry/URL-Shortener",
         status: "working",

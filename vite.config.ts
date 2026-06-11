@@ -21,4 +21,9 @@ export default defineConfig({
       filename: "stats.html",
     }),
   ],
+  // The proxy configuration was causing an infinite loop during local
+  // development because requests to `/api/*` were being proxied back to
+  // the same dev server.  Vercel dev already serves the API functions
+  // under `/api`, so the proxy is unnecessary and leads to hanging
+  // requests.  Removing the proxy restores the expected behaviour.
 });

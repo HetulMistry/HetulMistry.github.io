@@ -4,6 +4,8 @@ import {
   type ActivityData,
 } from "@/data/fallback-commits";
 
+export type { ActivityCommit, ActivityData } from "@/data/fallback-commits";
+
 export function useActivityData() {
   const [data, setData] = useState<ActivityData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -36,14 +38,12 @@ export function useActivityData() {
           setError(null);
         }
       } catch (err) {
-        console.error("Failed to fetch activity data:", err);
-
         if (mounted) {
           setData(fallbackActivityData);
           setError(
             err instanceof Error
               ? err.message
-              : "Failed to load activity data. Showing cached data.",
+              : "Failed to load activity data.",
           );
         }
       } finally {

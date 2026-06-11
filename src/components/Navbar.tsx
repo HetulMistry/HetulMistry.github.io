@@ -10,11 +10,16 @@ const navLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
-export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+interface NavbarProps {
+  mobileOpen: boolean;
+  onMobileOpenChange: (open: boolean) => void;
+}
 
-  const [pendingScroll, setPendingScroll] = useState<string | null>(null);
+export default function Navbar({
+  mobileOpen,
+  onMobileOpenChange,
+}: NavbarProps) {
+  const [scrolled, setScrolled] = useState(false);
 
   const handleMobileNavClick = (
     event: MouseEvent<HTMLAnchorElement>,
@@ -24,12 +29,12 @@ export default function Navbar() {
     const element = document.getElementById(targetId);
 
     if (!element) {
-      setMobileOpen(false);
+      onMobileOpenChange(false);
       return;
     }
 
     event.preventDefault();
-    setMobileOpen(false);
+    onMobileOpenChange(false);
 
     window.setTimeout(() => {
       element.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -56,6 +61,19 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onMobileOpenChange(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobileOpen, onMobileOpenChange]);
+
   return (
     <nav
       className={`fixed inset-x-0 top-0 z-50 transition ${
@@ -78,7 +96,7 @@ export default function Navbar() {
               key={link.label}
               href={link.href}
               onClick={() => {
-                setMobileOpen(false);
+                onMobileOpenChange(false);
               }}
               className="rounded-md px-3 py-2 text-sm font-medium text-slate-400 transition hover:bg-white/5 hover:text-white"
             >
@@ -104,7 +122,7 @@ export default function Navbar() {
         </div>
 
         <button
-          onClick={() => setMobileOpen((open) => !open)}
+          onClick={() => onMobileOpenChange(!mobileOpen)}
           className="rounded-md border border-white/10 bg-white/4 p-2 text-white lg:hidden"
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
@@ -114,56 +132,55 @@ export default function Navbar() {
         </button>
       </div>
 
-      <AnimatePresence
-        onExitComplete={() => {
-          if (pendingScroll) {
-            const target = document.querySelector(pendingScroll);
-            if (target) {
-              target.scrollIntoView({ behavior: "smooth" });
-              window.history.pushState(null, "", pendingScroll);
-            }
-            setPendingScroll(null);
-          }
-        }}
-      >
+      <AnimatePresence>
         {mobileOpen && (
-          <m.div
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -20, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="border-b border-white/10 bg-dark-950/96 backdrop-blur-xl lg:hidden"
-            id="mobile-menu"
-          >
-            <div className="flex flex-col gap-1 px-6 pb-6">
-              {navLinks.map((link) => (
+          <>
+            <m.button
+              aria-label="Close mobile menu"
+              className="fixed inset-0 z-40 bg-black/20 lg:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => onMobileOpenChange(false)}
+            />
+            <m.div
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -20, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="relative z-50 border-b border-white/10 bg-dark-950/96 backdrop-blur-xl lg:hidden"
+              id="mobile-menu"
+            >
+              <div className="flex flex-col gap-1 px-6 pb-6">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    onClick={(event) => handleMobileNavClick(event, link.href)}
+                    className="rounded-md px-3 py-3 text-left text-slate-300 transition hover:bg-white/5 hover:text-white"
+                  >
+                    {link.label}
+                  </a>
+                ))}
                 <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={(event) => handleMobileNavClick(event, link.href)}
-                  className="rounded-md px-3 py-3 text-left text-slate-300 transition hover:bg-white/5 hover:text-white"
+                  href="https://github.com/HetulMistry"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-2 rounded-md border border-white/10 bg-white/4 px-3 py-3 text-center font-semibold text-white"
                 >
-                  {link.label}
+                  GitHub
                 </a>
-              ))}
-              <a
-                href="https://github.com/HetulMistry"
-                target="_blank"
-                rel="noreferrer"
-                className="mt-2 rounded-md border border-white/10 bg-white/4 px-3 py-3 text-center font-semibold text-white"
-              >
-                GitHub
-              </a>
-              <a
-                href="https://linkedin.com/in/HetulMistry"
-                target="_blank"
-                rel="noreferrer"
-                className="mt-2 rounded-md border border-white/10 bg-white/4 px-3 py-3 text-center font-semibold text-white"
-              >
-                LinkedIn
-              </a>
-            </div>
-          </m.div>
+                <a
+                  href="https://linkedin.com/in/HetulMistry"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-2 rounded-md border border-white/10 bg-white/4 px-3 py-3 text-center font-semibold text-white"
+                >
+                  LinkedIn
+                </a>
+              </div>
+            </m.div>
+          </>
         )}
       </AnimatePresence>
     </nav>
