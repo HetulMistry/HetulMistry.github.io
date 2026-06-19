@@ -34,7 +34,9 @@ if (import.meta.env.PROD) {
       for (const registration of registrations) {
         registration.unregister().then((success) => {
           if (success) {
-            console.log("Successfully unregistered development service worker.");
+            console.log(
+              "Successfully unregistered development service worker.",
+            );
           }
         });
       }
