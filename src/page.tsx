@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import {
@@ -38,6 +39,44 @@ export default function Portfolio() {
     "palette" | "mobile-menu" | null
   >(null);
   const paletteOpen = activeOverlay === "palette";
+  const location = useLocation();
+
+  useEffect(() => {
+    const hash = location.hash;
+    if (!hash) return;
+
+    const targetId = hash.replace("#", "");
+    if (!targetId) return;
+
+    const element = document.getElementById(targetId);
+    if (element) {
+      // Element is already present, but during initial load/hydration,
+      // a small delay ensures layout stability and accurate scroll positioning.
+      const timer = setTimeout(() => {
+        element.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+
+    // Poll for the lazy-loaded element to enter the DOM
+    let attempts = 0;
+    const maxAttempts = 50; // up to 5 seconds
+    const interval = setInterval(() => {
+      const el = document.getElementById(targetId);
+      if (el) {
+        clearInterval(interval);
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+      attempts++;
+      if (attempts >= maxAttempts) {
+        clearInterval(interval);
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [location.hash]);
 
   useEffect(() => {
     import("@/components/About");
