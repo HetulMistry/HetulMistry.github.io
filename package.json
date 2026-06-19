@@ -1,7 +1,7 @@
 {
   "name": "hetulmistry-portfolio",
   "private": true,
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "Hetul Mistry Portfolio",
   "author": "Hetul Mistry",
   "keywords": [
@@ -51,6 +51,7 @@
     "@vercel/speed-insights": "^2.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
     "dotenv": "^17.4.2",
     "framer-motion": "^12.38.0",
     "lucide-react": "^1.17.0",
@@ -59,6 +60,7 @@
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-icons": "^5.6.0",
+    "react-router-dom": "^7.18.0",
     "shadcn": "^4.10.0",
     "tailwind-merge": "^3.6.0",
     "three": "^0.184.0",
