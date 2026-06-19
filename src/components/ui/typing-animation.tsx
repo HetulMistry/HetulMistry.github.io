@@ -202,6 +202,7 @@ export function TypingAnimation({
         return "_";
 
       case "line":
+        return "|";
 
       default:
         return "|";

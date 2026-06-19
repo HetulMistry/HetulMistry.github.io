@@ -5,10 +5,29 @@ export type Project = {
   tagline: string;
   description: string;
   stack: string[];
-  architecture?: Partial<Record<"frontend" | "backend" | "database" | "authentication" | "ai" | "storage" | "infrastructure", string[]>>;
+  architecture?: Partial<
+    Record<
+      | "frontend"
+      | "backend"
+      | "database"
+      | "authentication"
+      | "ai"
+      | "storage"
+      | "infrastructure",
+      string[]
+    >
+  >;
   dependencies?: Array<{
     name: string;
-    category: "runtime" | "framework" | "ui" | "state" | "database" | "auth" | "tooling" | "graphics";
+    category:
+      | "runtime"
+      | "framework"
+      | "ui"
+      | "state"
+      | "database"
+      | "auth"
+      | "tooling"
+      | "graphics";
     detail?: string;
   }>;
   repo?: string;
@@ -91,8 +110,16 @@ export const categories: Category[] = [
         },
         dependencies: [
           { name: "express", category: "framework", detail: "API server" },
-          { name: "prisma", category: "database", detail: "ORM and schema access" },
-          { name: "postgresql", category: "database", detail: "Primary data store" },
+          {
+            name: "prisma",
+            category: "database",
+            detail: "ORM and schema access",
+          },
+          {
+            name: "postgresql",
+            category: "database",
+            detail: "Primary data store",
+          },
           { name: "redis", category: "database", detail: "Rate-limit cache" },
           { name: "jsonwebtoken", category: "auth", detail: "Session tokens" },
           { name: "zod", category: "tooling", detail: "Schema validation" },
@@ -151,37 +178,103 @@ export const categories: Category[] = [
         id: "url-shortener",
         title: "URL Shortener",
         filename: "url-shortener.tsx",
-        tagline: "Next.js · Convex · Clerk · analytics",
+        tagline: "React · Express · PostgreSQL · Analytics",
         description:
-          "A full-stack URL shortener with user authentication, link management dashboard, click analytics, and custom slug support. Currently in active development.",
+          "A full-stack URL shortening platform featuring secure JWT authentication, custom short links, click analytics dashboards, QR code generation, rate limiting, API documentation, and real-time usage insights. Built with a React frontend and an Express + PostgreSQL backend using Prisma ORM.",
         stack: [
-          "Next.js",
+          "React",
           "TypeScript",
+          "Vite",
           "Tailwind CSS",
           "Shadcn UI",
-          "Convex",
-          "Clerk",
-          "Zustand",
+          "TanStack Query",
+          "Express",
+          "PostgreSQL",
+          "Prisma",
+          "JWT",
+          "Redis",
+          "QR Code",
+          "Swagger",
           "Zod",
+          "Recharts",
         ],
         architecture: {
-          frontend: ["Next.js", "Tailwind CSS"],
-          backend: ["Convex"],
-          database: ["Convex"],
-          authentication: ["Clerk"],
-          storage: [],
-          infrastructure: ["Vercel"],
+          frontend: [
+            "React",
+            "TypeScript",
+            "Vite",
+            "Tailwind CSS",
+            "Shadcn UI",
+            "TanStack Query",
+            "React Router",
+          ],
+          backend: [
+            "Express",
+            "Prisma",
+            "JWT",
+            "Express Rate Limit",
+            "Winston",
+          ],
+          database: ["PostgreSQL", "Prisma ORM"],
+          authentication: ["JWT", "bcrypt"],
+          storage: ["PostgreSQL"],
+          infrastructure: ["Upstash Redis", "Swagger/OpenAPI", "Vercel"],
         },
         dependencies: [
-          { name: "next", category: "framework", detail: "UI and routing" },
-          { name: "react", category: "framework", detail: "Component runtime" },
-          { name: "convex", category: "database", detail: "Data and mutations" },
-          { name: "clerk", category: "auth", detail: "Identity layer" },
-          { name: "zustand", category: "state", detail: "Client cache" },
-          { name: "zod", category: "tooling", detail: "Schema validation" },
+          {
+            name: "react",
+            category: "framework",
+            detail: "Frontend UI runtime",
+          },
+          {
+            name: "tanstack-query",
+            category: "state",
+            detail: "Server state management and caching",
+          },
+          {
+            name: "express",
+            category: "framework",
+            detail: "REST API backend",
+          },
+          {
+            name: "prisma",
+            category: "database",
+            detail: "Database ORM and schema management",
+          },
+          {
+            name: "postgresql",
+            category: "database",
+            detail: "Primary relational database",
+          },
+          {
+            name: "redis",
+            category: "database",
+            detail: "Rate limiting and caching",
+          },
+          {
+            name: "jsonwebtoken",
+            category: "auth",
+            detail: "Authentication and authorization",
+          },
+          {
+            name: "zod",
+            category: "tooling",
+            detail: "Schema validation",
+          },
+          {
+            name: "recharts",
+            category: "ui",
+            detail: "Analytics visualizations",
+          },
+          {
+            name: "qrcode",
+            category: "tooling",
+            detail: "QR code generation",
+          },
         ],
         repo: "https://github.com/HetulMistry/URL-Shortener",
-        status: "working",
+        demo: "https://url-shortener.hetulmistry.tech",
+        status: "live",
       },
     ],
   },

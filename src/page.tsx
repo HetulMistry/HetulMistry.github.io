@@ -1,8 +1,22 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import { CommandPalette } from "@/components/ui/command-palette";
-import type { CommandItem } from "@/components/ui/command-palette";
+import {
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from "@/components/ui/command";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
 
 const About = lazy(() => import("@/components/About"));
 const Skills = lazy(() => import("@/components/Skills"));
@@ -15,86 +29,20 @@ const SectionDivider = () => (
   </div>
 );
 
+function scrollTo(id: string) {
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+}
+
 export default function Portfolio() {
-  const [activeOverlay, setActiveOverlay] = useState<"palette" | "mobile-menu" | null>(null);
+  const [activeOverlay, setActiveOverlay] = useState<
+    "palette" | "mobile-menu" | null
+  >(null);
+  const paletteOpen = activeOverlay === "palette";
 
   useEffect(() => {
     import("@/components/About");
   }, []);
 
-  // Command palette items
-  const commandItems: CommandItem[] = [
-    {
-      id: "about",
-      label: "About",
-      description: "View developer profile",
-      section: "navigation",
-      action: () => {
-        setActiveOverlay(null);
-        document
-          .getElementById("about")
-          ?.scrollIntoView({ behavior: "smooth" });
-      },
-    },
-    {
-      id: "skills",
-      label: "Skills",
-      description: "Technical expertise",
-      section: "navigation",
-      action: () => {
-        setActiveOverlay(null);
-        document
-          .getElementById("skills")
-          ?.scrollIntoView({ behavior: "smooth" });
-      },
-    },
-    {
-      id: "projects",
-      label: "Projects",
-      description: "Portfolio of work",
-      section: "navigation",
-      action: () => {
-        setActiveOverlay(null);
-        document
-          .getElementById("projects")
-          ?.scrollIntoView({ behavior: "smooth" });
-      },
-    },
-    {
-      id: "contact",
-      label: "Contact",
-      description: "Get in touch",
-      section: "navigation",
-      action: () => {
-        setActiveOverlay(null);
-        document
-          .getElementById("contact")
-          ?.scrollIntoView({ behavior: "smooth" });
-      },
-    },
-    {
-      id: "github",
-      label: "Open GitHub",
-      description: "Visit GitHub profile",
-      section: "links",
-      action: () => {
-        setActiveOverlay(null);
-        window.open("https://github.com/HetulMistry", "_blank");
-      },
-    },
-    {
-      id: "linkedin",
-      label: "Open LinkedIn",
-      description: "Visit LinkedIn profile",
-      section: "links",
-      action: () => {
-        setActiveOverlay(null);
-        window.open("https://www.linkedin.com/in/hetulmistry/", "_blank");
-      },
-    },
-  ];
-
-  // Listen for command palette keyboard shortcut
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "k") {
@@ -102,46 +50,139 @@ export default function Portfolio() {
         setActiveOverlay((prev) => (prev === "palette" ? null : "palette"));
       }
     };
-
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  const close = () => setActiveOverlay(null);
+
+  const run = (fn: () => void) => {
+    close();
+    fn();
+  };
+
   return (
-    <main className="relative min-h-screen overflow-x-hidden noise-overlay">
-      <CommandPalette
-        isOpen={activeOverlay === "palette"}
-        onClose={() => setActiveOverlay(null)}
-        items={commandItems}
-      />
+    <ContextMenu>
+      <ContextMenuTrigger asChild>
+        <main className="relative min-h-screen overflow-x-hidden noise-overlay">
+          <CommandDialog
+            open={paletteOpen}
+            onOpenChange={(open) => setActiveOverlay(open ? "palette" : null)}
+            title="Command Palette"
+            description="Navigate the portfolio or open external links."
+            className="border-white/8 bg-dark-900/95 shadow-2xl backdrop-blur"
+          >
+            <CommandInput placeholder="Search commands, pages, or links…" />
+            <CommandList>
+              <CommandEmpty>No results found.</CommandEmpty>
 
-      <Navbar
-        mobileOpen={activeOverlay === "mobile-menu"}
-        onMobileOpenChange={(open) =>
-          setActiveOverlay(open ? "mobile-menu" : null)
-        }
-      />
-      <Hero />
-
-      <SectionDivider />
-
-      <Suspense fallback={null}>
-        <About />
-      </Suspense>
-
-      <Suspense fallback={null}>
-        <Skills />
-      </Suspense>
-
-      <SectionDivider />
-
-      <Suspense fallback={null}>
-        <Projects />
-      </Suspense>
-
-      <Suspense fallback={null}>
-        <Contact />
-      </Suspense>
-    </main>
+              <CommandGroup heading="Navigate">
+                <CommandItem onSelect={() => run(() => scrollTo("about"))}>
+                  About — View developer profile
+                </CommandItem>
+                <CommandItem onSelect={() => run(() => scrollTo("skills"))}>
+                  Skills — Technical expertise
+                </CommandItem>
+                <CommandItem onSelect={() => run(() => scrollTo("projects"))}>
+                  Projects — Portfolio of work
+                </CommandItem>
+                <CommandItem onSelect={() => run(() => scrollTo("contact"))}>
+                  Contact — Get in touch
+                </CommandItem>
+              </CommandGroup>
+              <CommandSeparator />
+              <CommandGroup heading="Links">
+                <CommandItem
+                  onSelect={() =>
+                    run(() =>
+                      window.open("https://github.com/HetulMistry", "_blank"),
+                    )
+                  }
+                >
+                  Open GitHub
+                </CommandItem>
+                <CommandItem
+                  onSelect={() =>
+                    run(() =>
+                      window.open(
+                        "https://www.linkedin.com/in/hetulmistry/",
+                        "_blank",
+                      ),
+                    )
+                  }
+                >
+                  Open LinkedIn
+                </CommandItem>
+              </CommandGroup>
+            </CommandList>
+          </CommandDialog>
+          <Navbar
+            mobileOpen={activeOverlay === "mobile-menu"}
+            onMobileOpenChange={(open) =>
+              setActiveOverlay(open ? "mobile-menu" : null)
+            }
+            onSearchClick={() => setActiveOverlay("palette")}
+          />
+          <Hero />
+          <SectionDivider />
+          <Suspense fallback={null}>
+            <About />
+          </Suspense>
+          <Suspense fallback={null}>
+            <Skills />
+          </Suspense>
+          <SectionDivider />
+          <Suspense fallback={null}>
+            <Projects />
+          </Suspense>
+          <Suspense fallback={null}>
+            <Contact />
+          </Suspense>
+        </main>
+      </ContextMenuTrigger>
+      <ContextMenuContent className="w-56 border-white/8 bg-[#0b1120]/95 shadow-2xl backdrop-blur-xl">
+        <ContextMenuItem
+          onSelect={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="text-slate-200 focus:bg-white/8 focus:text-white"
+        >
+          Back to Top
+        </ContextMenuItem>
+        <ContextMenuSeparator className="bg-white/8" />
+        <ContextMenuItem
+          onSelect={() => setActiveOverlay("palette")}
+          className="text-slate-200 focus:bg-white/8 focus:text-white"
+        >
+          Open Command Palette
+          <kbd className="ml-auto text-[10px] text-slate-500 font-mono select-none">
+            ⌘K
+          </kbd>
+        </ContextMenuItem>
+        <ContextMenuSeparator className="bg-white/8" />
+        <ContextMenuItem
+          onSelect={() => scrollTo("about")}
+          className="text-slate-200 focus:bg-white/8 focus:text-white"
+        >
+          About Me
+        </ContextMenuItem>
+        <ContextMenuItem
+          onSelect={() => scrollTo("skills")}
+          className="text-slate-200 focus:bg-white/8 focus:text-white"
+        >
+          Skills & Tech
+        </ContextMenuItem>
+        <ContextMenuItem
+          onSelect={() => scrollTo("projects")}
+          className="text-slate-200 focus:bg-white/8 focus:text-white"
+        >
+          Projects & Work
+        </ContextMenuItem>
+        <ContextMenuItem
+          onSelect={() => scrollTo("contact")}
+          className="text-slate-200 focus:bg-white/8 focus:text-white"
+        >
+          Contact Me
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
   );
 }

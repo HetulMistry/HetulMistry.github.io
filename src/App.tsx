@@ -1,12 +1,5 @@
-import { MotionProvider } from "@/lib/motion";
-import Portfolio from "@/page";
+import AppRouter from "@/router";
 
-function App() {
-  return (
-    <MotionProvider>
-      <Portfolio />
-    </MotionProvider>
-  );
+export default function App() {
+  return <AppRouter />;
 }
-
-export default App;

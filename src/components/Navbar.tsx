@@ -1,7 +1,13 @@
 import { AnimatePresence, m } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { MouseEvent } from "react";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -13,11 +19,13 @@ const navLinks = [
 interface NavbarProps {
   mobileOpen: boolean;
   onMobileOpenChange: (open: boolean) => void;
+  onSearchClick: () => void;
 }
 
 export default function Navbar({
   mobileOpen,
   onMobileOpenChange,
+  onSearchClick,
 }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
 
@@ -65,12 +73,11 @@ export default function Navbar({
     if (!mobileOpen) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onMobileOpenChange(false);
-      }
+      if (event.key === "Escape") onMobileOpenChange(false);
     };
 
     window.addEventListener("keydown", handleKeyDown);
+
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [mobileOpen, onMobileOpenChange]);
 
@@ -89,19 +96,33 @@ export default function Navbar({
         >
           Hetul Mistry
         </a>
-
         <div className="hidden items-center gap-1 lg:flex">
           {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              onClick={() => {
-                onMobileOpenChange(false);
-              }}
-              className="rounded-md px-3 py-2 text-sm font-medium text-slate-400 transition hover:bg-white/5 hover:text-white"
-            >
-              {link.label}
-            </a>
+            <ContextMenu key={link.label}>
+              <ContextMenuTrigger asChild>
+                <a
+                  href={link.href}
+                  onClick={() => {
+                    onMobileOpenChange(false);
+                  }}
+                  className="rounded-md px-3 py-2 text-sm font-medium text-slate-400 transition hover:bg-white/5 hover:text-white"
+                >
+                  {link.label}
+                </a>
+              </ContextMenuTrigger>
+              <ContextMenuContent className="border-white/8 bg-dark-900/95 backdrop-blur">
+                <ContextMenuItem
+                  onSelect={() => {
+                    document
+                      .getElementById(link.href.replace("#", ""))
+                      ?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="text-slate-200 focus:bg-white/8 focus:text-white"
+                >
+                  Scroll to {link.label}
+                </ContextMenuItem>
+              </ContextMenuContent>
+            </ContextMenu>
           ))}
           <a
             href="https://github.com/HetulMistry"
@@ -119,8 +140,20 @@ export default function Navbar({
           >
             LinkedIn
           </a>
+          <button
+            onClick={onSearchClick}
+            className="ml-3 flex items-center gap-2 rounded-md border border-white/10 bg-white/4 px-3 py-2 text-sm font-semibold text-slate-300 transition hover:border-white/20 hover:bg-white/8 hover:text-white"
+            title="Open Command Palette (⌘K)"
+          >
+            <Search size={14} className="opacity-75" />
+            <span className="hidden xl:inline text-xs text-slate-400 font-medium">
+              Search
+            </span>
+            <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-0.5 rounded border border-white/10 bg-white/5 px-1.5 font-mono text-[9px] font-medium text-slate-500">
+              <span>⌘</span>K
+            </kbd>
+          </button>
         </div>
-
         <button
           onClick={() => onMobileOpenChange(!mobileOpen)}
           className="rounded-md border border-white/10 bg-white/4 p-2 text-white lg:hidden"
@@ -131,7 +164,6 @@ export default function Navbar({
           {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
-
       <AnimatePresence>
         {mobileOpen && (
           <>
@@ -178,6 +210,16 @@ export default function Navbar({
                 >
                   LinkedIn
                 </a>
+                <button
+                  onClick={() => {
+                    onMobileOpenChange(false);
+                    onSearchClick();
+                  }}
+                  className="mt-2 flex items-center justify-center gap-2 rounded-md border border-sky-400/20 bg-sky-400/10 px-3 py-3 text-center font-semibold text-sky-300"
+                >
+                  <Search size={14} />
+                  Open Command Palette
+                </button>
               </div>
             </m.div>
           </>

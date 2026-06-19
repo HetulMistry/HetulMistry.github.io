@@ -1,14 +1,21 @@
 import { AnimatePresence, m } from "framer-motion";
 import {
-  ChevronRight,
   ExternalLink,
   GitBranch,
   GitCommitHorizontal,
+  ChevronRight,
+  RotateCcw,
 } from "lucide-react";
 import { useCallback, useState } from "react";
-
-import { Tree } from "@/components/ui/file-tree";
-import type { TreeViewElement } from "@/components/ui/file-tree";
+import { Tree, Folder, File } from "@/components/ui/file-tree";
+import { Safari } from "@/components/ui/safari";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
 import { type Project, categories } from "@/data/projects";
 import { useActivityData, type ActivityCommit } from "@/hooks/useActivityData";
 import { ProjectArchitectureExplorer } from "@/components/ProjectArchitectureExplorer";
@@ -16,21 +23,17 @@ import { ProjectArchitectureExplorer } from "@/components/ProjectArchitectureExp
 const projectMap = new Map<string, Project>(
   categories.flatMap((c) => c.projects.map((p) => [p.id, p])),
 );
-
 const DEFAULT_PROJECT_ID = categories[0].projects[0].id;
 const ALL_FOLDER_IDS = categories.map((c) => c.id);
 
-const treeElements: TreeViewElement[] = categories.map((cat) => ({
-  id: cat.id,
-  name: cat.label,
-  type: "folder" as const,
-  isSelectable: false,
-  children: cat.projects.map((p) => ({
-    id: p.id,
-    name: p.filename,
-    isSelectable: true,
-  })),
-}));
+const SCREEN = {
+  left: `${(1 / 1203) * 100}%`,
+  top: `${(52 / 753) * 100}%`,
+  width: `${(1200 / 1203) * 100}%`,
+  height: `${(700 / 753) * 100}%`,
+};
+const TRANSPARENT =
+  "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
 function StatusBadge({ status }: { status: Project["status"] }) {
   if (status === "live")
@@ -40,7 +43,6 @@ function StatusBadge({ status }: { status: Project["status"] }) {
         Live
       </span>
     );
-
   if (status === "working")
     return (
       <span className="inline-flex items-center gap-1.5 rounded-md border border-sky-400/20 bg-sky-400/10 px-2.5 py-1 text-xs font-semibold text-sky-300">
@@ -48,7 +50,6 @@ function StatusBadge({ status }: { status: Project["status"] }) {
         In progress
       </span>
     );
-
   return (
     <span className="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/4 px-2.5 py-1 text-xs font-semibold text-slate-400">
       Soon
@@ -56,29 +57,157 @@ function StatusBadge({ status }: { status: Project["status"] }) {
   );
 }
 
-function TerminalBar({ path }: { path: string }) {
-  return <WindowHeader path={path} showDots />;
-}
+function SafariBrowser({ project }: { project: Project }) {
+  const [iframeKey, setIframeKey] = useState(0);
+  const hasDemoUrl = project.status === "live" && !!project.demo;
+  const displayUrl = hasDemoUrl
+    ? project.demo!.replace(/^https?:\/\//, "")
+    : `hetulmistry.tech/${project.id}`;
 
-function WindowHeader({
-  path,
-  showDots = false,
-}: {
-  path: string;
-  showDots?: boolean;
-}) {
   return (
-    <div className="flex h-12.25 items-center gap-3 border-b border-white/8 bg-white/2 px-4">
-      {showDots && (
-        <div className="flex gap-1.5" aria-hidden="true">
-          <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-          <span className="h-2.5 w-2.5 rounded-full bg-[#ffbd2e]" />
-          <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+    <div className="relative w-full" style={{ aspectRatio: "1203/753" }}>
+      <div
+        className="absolute overflow-hidden"
+        style={{
+          zIndex: 5,
+          left: SCREEN.left,
+          top: SCREEN.top,
+          width: SCREEN.width,
+          height: SCREEN.height,
+          borderRadius: "0 0 11px 11px",
+        }}
+      >
+        {hasDemoUrl ? (
+          <iframe
+            key={iframeKey}
+            src={project.demo}
+            className="h-full w-full border-0 bg-slate-900"
+            title={`${project.title} live preview`}
+            loading="lazy"
+          />
+        ) : (
+          <div className="flex h-full w-full flex-col items-center justify-center gap-5 bg-[#0b1120] p-10 text-center">
+            <StatusBadge status={project.status} />
+            <p className="font-[Space_Grotesk] text-lg font-semibold text-white">
+              {project.title}
+            </p>
+            <p className="max-w-sm text-sm leading-6 text-slate-400">
+              {project.description}
+            </p>
+            {project.repo && (
+              <a
+                href={project.repo}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/4 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/8"
+              >
+                <GitBranch size={13} />
+                View on GitHub
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{ zIndex: 10 }}
+      >
+        <Safari
+          url={displayUrl}
+          imageSrc={TRANSPARENT}
+          style={{ aspectRatio: "unset", width: "100%", height: "100%" }}
+        />
+      </div>
+      {hasDemoUrl && (
+        <div className="absolute bottom-3 right-3 z-20 flex gap-1.5">
+          <button
+            onClick={() => setIframeKey((k) => k + 1)}
+            title="Reload preview"
+            className="flex items-center gap-1 rounded border border-white/10 bg-black/60 px-2 py-1 text-xs text-slate-300 backdrop-blur transition hover:bg-black/80 hover:text-white"
+          >
+            <RotateCcw size={10} />
+            Reload
+          </button>
+          <a
+            href={project.demo}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-1 rounded border border-white/10 bg-black/60 px-2 py-1 text-xs text-slate-300 backdrop-blur transition hover:bg-black/80 hover:text-white"
+          >
+            <ExternalLink size={10} />
+            Open
+          </a>
         </div>
       )}
-      <span className="font-mono text-xs text-slate-500 select-none truncate">
-        {path}
-      </span>
+    </div>
+  );
+}
+
+function CommitLog({
+  commits,
+  isLoading,
+}: {
+  commits: ActivityCommit[];
+  isLoading: boolean;
+}) {
+  if (isLoading && commits.length === 0)
+    return (
+      <p className="font-mono text-xs text-slate-500">
+        Loading repository activity…
+      </p>
+    );
+  if (commits.length === 0)
+    return (
+      <p className="font-mono text-xs text-slate-500">
+        Repository activity unavailable.
+      </p>
+    );
+  return (
+    <div className="space-y-2">
+      {commits.map((c) => (
+        <div key={c.hash} className="flex items-center gap-2.5">
+          <GitCommitHorizontal size={13} className="shrink-0 text-slate-600" />
+          <span className="shrink-0 font-mono text-xs text-sky-400/80">
+            {c.hash}
+          </span>
+          <span className="truncate font-mono text-xs text-slate-400">
+            {c.message}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function CollapsibleArchitecture({ projectId }: { projectId: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="mt-6 border-t border-white/8 pt-5">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex w-full items-center justify-between font-mono text-xs font-semibold uppercase tracking-widest text-slate-600 transition hover:text-slate-400"
+      >
+        <span>Architecture</span>
+        <ChevronRight
+          size={14}
+          className="transition-transform duration-200"
+          style={{ transform: isOpen ? "rotate(90deg)" : "none" }}
+        />
+      </button>
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <m.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="mt-4 overflow-hidden"
+          >
+            <ProjectArchitectureExplorer projectId={projectId} />
+          </m.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -97,17 +226,16 @@ function ProjectDetails({
     : "GitHub";
 
   return (
-    <div className="flex h-full flex-col">
-      <WindowHeader path={`~/${project.id}/${project.filename}`} />
-      <AnimatePresence mode="wait">
-        <m.div
-          key={project.id}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.15 }}
-          className="flex-1 overflow-y-auto p-6"
-        >
+    <AnimatePresence mode="wait">
+      <m.div
+        key={project.id}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.15 }}
+        className="flex h-full flex-col overflow-hidden"
+      >
+        <div className="flex-1 overflow-y-auto p-5">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
               {project.featured && (
@@ -115,54 +243,32 @@ function ProjectDetails({
                   Featured
                 </span>
               )}
-              <h3 className="font-[Space_Grotesk] text-2xl font-semibold leading-tight text-white">
+              <h3 className="font-[Space_Grotesk] text-xl font-semibold leading-tight text-white">
                 {project.title}
               </h3>
             </div>
             <StatusBadge status={project.status} />
           </div>
-          <p className="mt-4 text-sm leading-7 text-slate-400">
+          <p className="mt-3 text-sm leading-6 text-slate-400 line-clamp-3">
             {project.description}
           </p>
-          <div className="mt-5 flex flex-wrap gap-2">
+          <div className="my-5 overflow-hidden rounded-lg border border-white/8 bg-white/2">
+            <SafariBrowser project={project} />
+          </div>
+          <div className="mt-4 flex flex-wrap gap-2">
             {project.stack.map((tech) => (
               <span key={tech} className="skill-chip">
                 {tech}
               </span>
             ))}
           </div>
-          <div className="mt-6">
+          <div className="mt-5">
             <p className="mb-3 font-mono text-xs font-semibold uppercase tracking-widest text-slate-600">
               $ git log --oneline
             </p>
-            {isLoading && commits.length === 0 ? (
-              <p className="font-mono text-xs text-slate-500">
-                Loading repository activity...
-              </p>
-            ) : commits.length === 0 ? (
-              <p className="font-mono text-xs text-slate-500">
-                Repository activity unavailable.
-              </p>
-            ) : (
-              <div className="space-y-2">
-                {commits.map((c) => (
-                  <div key={c.hash} className="flex items-center gap-2.5">
-                    <GitCommitHorizontal
-                      size={13}
-                      className="shrink-0 text-slate-600"
-                    />
-                    <span className="shrink-0 font-mono text-xs text-sky-400/80">
-                      {c.hash}
-                    </span>
-                    <span className="truncate font-mono text-xs text-slate-400">
-                      {c.message}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )}
+            <CommitLog commits={commits} isLoading={isLoading} />
           </div>
-          <div className="mt-7 flex flex-wrap gap-3">
+          <div className="mt-5 flex flex-wrap gap-3">
             {project.status === "live" && project.demo && (
               <a
                 href={project.demo}
@@ -170,8 +276,7 @@ function ProjectDetails({
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
               >
-                Live Demo
-                <ExternalLink size={14} />
+                Live Demo <ExternalLink size={14} />
               </a>
             )}
             {project.repo && (
@@ -181,20 +286,14 @@ function ProjectDetails({
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/4 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/8"
               >
-                <GitBranch size={14} />
-                {repoLabel}
+                <GitBranch size={14} /> {repoLabel}
               </a>
             )}
           </div>
-          <div className="mt-8 pt-6 border-t border-white/8">
-            <p className="mb-4 font-mono text-xs font-semibold uppercase tracking-widest text-slate-600">
-              Architecture
-            </p>
-            <ProjectArchitectureExplorer projectId={project.id} />
-          </div>
-        </m.div>
-      </AnimatePresence>
-    </div>
+          <CollapsibleArchitecture projectId={project.id} />
+        </div>
+      </m.div>
+    </AnimatePresence>
   );
 }
 
@@ -204,40 +303,115 @@ function DesktopExplorer() {
   const selectedProject =
     projectMap.get(selectedId) ?? projectMap.get(DEFAULT_PROJECT_ID)!;
 
-  const handleSelectChange = useCallback((id: string | undefined) => {
-    if (id && projectMap.has(id)) setSelectedId(id);
+  const handleSelect = useCallback((id: string) => {
+    if (projectMap.has(id)) setSelectedId(id);
   }, []);
 
   return (
     <div
       className="surface-card overflow-hidden rounded-lg"
-      style={{ minHeight: 520 }}
+      style={{ minHeight: 580 }}
     >
-      <div className="flex" style={{ minHeight: 520 }}>
+      <div className="flex" style={{ minHeight: 580 }}>
         <div
           className="flex flex-col border-r border-white/8"
           style={{ width: 256, flexShrink: 0 }}
         >
-          <TerminalBar path="~/HetulMistry/projects" />
-          <div className="flex-1 overflow-y-auto px-2 pt-8 pb-4">
+          <div className="flex h-12 items-center gap-3 border-b border-white/8 bg-white/2 px-4">
+            <div className="flex gap-1.5" aria-hidden>
+              <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#ffbd2e]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+            </div>
+            <span className="font-mono text-xs text-slate-500 select-none truncate">
+              ~/HetulMistry/projects
+            </span>
+          </div>
+          <div className="flex-1 overflow-hidden py-3">
             <Tree
-              elements={treeElements}
-              sort="none"
               initialSelectedId={DEFAULT_PROJECT_ID}
               initialExpandedItems={ALL_FOLDER_IDS}
-              onSelectChange={handleSelectChange}
-              className="w-full"
-            />
+              sort="none"
+              className="text-sm"
+            >
+              {categories.map((cat) => (
+                <Folder key={cat.id} value={cat.id} element={cat.label}>
+                  {cat.projects.map((p) => (
+                    <ContextMenu key={p.id}>
+                      <ContextMenuTrigger asChild>
+                        <File
+                          value={p.id}
+                          handleSelect={handleSelect}
+                          className={
+                            selectedId === p.id
+                              ? "bg-sky-400/10 text-white"
+                              : "text-slate-400 hover:text-slate-200"
+                          }
+                        >
+                          <span className="truncate font-mono text-xs">
+                            {p.filename}
+                          </span>
+                        </File>
+                      </ContextMenuTrigger>
+                      <ContextMenuContent className="border-white/8 bg-dark-900/95 backdrop-blur">
+                        <ContextMenuItem
+                          onSelect={() => handleSelect(p.id)}
+                          className="text-slate-200 focus:bg-white/8 focus:text-white"
+                        >
+                          Select project
+                        </ContextMenuItem>
+                        {p.status === "live" && p.demo && (
+                          <>
+                            <ContextMenuSeparator className="bg-white/8" />
+                            <ContextMenuItem
+                              onSelect={() => window.open(p.demo, "_blank")}
+                              className="text-slate-200 focus:bg-white/8 focus:text-white"
+                            >
+                              Open demo{" "}
+                              <ExternalLink
+                                size={12}
+                                className="ml-auto opacity-50"
+                              />
+                            </ContextMenuItem>
+                            <ContextMenuItem
+                              onSelect={() =>
+                                navigator.clipboard.writeText(p.demo!)
+                              }
+                              className="text-slate-200 focus:bg-white/8 focus:text-white"
+                            >
+                              Copy demo URL
+                            </ContextMenuItem>
+                          </>
+                        )}
+                        {p.repo && (
+                          <>
+                            <ContextMenuSeparator className="bg-white/8" />
+                            <ContextMenuItem
+                              onSelect={() => window.open(p.repo, "_blank")}
+                              className="text-slate-200 focus:bg-white/8 focus:text-white"
+                            >
+                              View on GitHub{" "}
+                              <ExternalLink
+                                size={12}
+                                className="ml-auto opacity-50"
+                              />
+                            </ContextMenuItem>
+                          </>
+                        )}
+                      </ContextMenuContent>
+                    </ContextMenu>
+                  ))}
+                </Folder>
+              ))}
+            </Tree>
           </div>
         </div>
         <div className="relative flex flex-1 flex-col overflow-hidden">
-          <AnimatePresence mode="wait">
-            <ProjectDetails
-              project={selectedProject}
-              commits={activityData[selectedProject.id] ?? []}
-              isLoading={isLoading}
-            />
-          </AnimatePresence>
+          <ProjectDetails
+            project={selectedProject}
+            commits={activityData[selectedProject.id] ?? []}
+            isLoading={isLoading}
+          />
         </div>
       </div>
     </div>
@@ -257,8 +431,6 @@ function MobileAccordion() {
       {categories.flatMap((cat) =>
         cat.projects.map((project) => {
           const isOpen = openId === project.id;
-          const panelId = `mobile-panel-${project.id}`;
-          const headingId = `mobile-heading-${project.id}`;
           const commits = activityData[project.id] ?? [];
 
           return (
@@ -267,10 +439,8 @@ function MobileAccordion() {
               className="surface-card overflow-hidden rounded-lg"
             >
               <button
-                id={headingId}
-                aria-expanded={isOpen}
-                aria-controls={panelId}
                 type="button"
+                aria-expanded={isOpen}
                 onClick={() => toggle(project.id)}
                 className="flex w-full items-center gap-3 px-4 py-4 text-left"
               >
@@ -297,9 +467,6 @@ function MobileAccordion() {
               <AnimatePresence initial={false}>
                 {isOpen && (
                   <m.div
-                    id={panelId}
-                    role="region"
-                    aria-labelledby={headingId}
                     initial={{ height: 0 }}
                     animate={{ height: "auto" }}
                     exit={{ height: 0 }}
@@ -317,40 +484,13 @@ function MobileAccordion() {
                           </span>
                         ))}
                       </div>
-                      <div className="mt-5">
-                        <p className="mb-2.5 font-mono text-xs text-slate-600">
+                      <div className="mt-4">
+                        <p className="mb-2 font-mono text-xs text-slate-600">
                           $ git log --oneline
                         </p>
-                        {isLoading && commits.length === 0 ? (
-                          <p className="font-mono text-xs text-slate-500">
-                            Loading repository activity...
-                          </p>
-                        ) : commits.length === 0 ? (
-                          <p className="font-mono text-xs text-slate-500">
-                            Repository activity unavailable.
-                          </p>
-                        ) : (
-                          <div className="space-y-1.5">
-                            {commits.map((c) => (
-                              <div
-                                key={c.hash}
-                                className="flex items-center gap-2"
-                              >
-                                <GitCommitHorizontal
-                                  size={12}
-                                  className="shrink-0 text-slate-600"
-                                />
-                                <span className="shrink-0 font-mono text-xs text-sky-400/80">
-                                  {c.hash}
-                                </span>
-                                <span className="truncate font-mono text-xs text-slate-400">
-                                  {c.message}
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-                        )}
+                        <CommitLog commits={commits} isLoading={isLoading} />
                       </div>
+                      <CollapsibleArchitecture projectId={project.id} />
                       <div className="mt-5 flex flex-wrap gap-2.5">
                         {project.status === "live" && project.demo && (
                           <a
@@ -359,8 +499,7 @@ function MobileAccordion() {
                             rel="noreferrer"
                             className="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
                           >
-                            Live Demo
-                            <ExternalLink size={13} />
+                            Live Demo <ExternalLink size={13} />
                           </a>
                         )}
                         {project.repo && (
@@ -401,9 +540,8 @@ export default function Projects() {
           <span className="section-kicker">Projects</span>
           <h2>Selected work with a clear engineering signal.</h2>
           <p>
-            A small set of projects showing backend design, frontend execution,
-            and open-source exploration. Browse the explorer or tap a file to
-            read more.
+            Browse the file tree and explore each project in a live Safari
+            preview. Right-click any file for quick actions.
           </p>
         </m.div>
         <m.div

@@ -1,6 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import { Suspense, useEffect, useState } from "react";
 import Scene from "./Scene";
+import { Particles } from "@/components/ui/particles";
 
 export default function HeroScene() {
   const [visible, setVisible] = useState(false);
@@ -19,8 +20,16 @@ export default function HeroScene() {
         opacity: visible ? undefined : 0,
       }}
     >
+      <Particles
+        className="absolute inset-0 z-0"
+        quantity={120}
+        staticity={30}
+        ease={50}
+        color="#38bdf8"
+      />
       <Suspense fallback={null}>
         <Canvas
+          className="relative z-10"
           dpr={[1, 1.1]}
           camera={{ position: [0, 0.15, 6.6], fov: 38 }}
           gl={{
