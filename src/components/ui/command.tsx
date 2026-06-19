@@ -20,7 +20,7 @@ function Command({
     <CommandPrimitive
       data-slot="command"
       className={cn(
-        "flex size-full flex-col overflow-hidden rounded-xl! bg-dark-900/95 border border-white/10 shadow-2xl backdrop-blur p-1 text-slate-200",
+        "flex size-full flex-col overflow-hidden rounded-xl! bg-dark-900/95 border border-white/10 shadow-2xl backdrop-blur-xl p-1 text-slate-200",
         className,
       )}
       {...props}
@@ -54,7 +54,7 @@ function CommandDialog({
         )}
         showCloseButton={showCloseButton}
       >
-        <Command className="**:[[cmdk-group-heading]]:px-2 **:[[cmdk-group-heading]]:font-medium **:[[cmdk-group-heading]]:text-muted-foreground **:[[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 **:[[cmdk-input]]:h-12 **:[[cmdk-item]]:px-3 **:[[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
+        <Command className="**:[[cmdk-group-heading]]:px-2 **:[[cmdk-group-heading]]:font-medium **:[[cmdk-group-heading]]:text-muted-foreground **:[[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 **:[[cmdk-input]]:h-10 **:[[cmdk-item]]:px-3 **:[[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
           {children}
         </Command>
       </DialogContent>
@@ -67,8 +67,8 @@ function CommandInput({
   ...props
 }: React.ComponentProps<typeof CommandPrimitive.Input>) {
   return (
-    <div data-slot="command-input-wrapper" className="p-1 pb-0">
-      <InputGroup className="h-8! rounded-lg! border-white/10 bg-white/4 shadow-none! *:data-[slot=input-group-addon]:pl-2! focus-within:border-white/15 focus-within:bg-white/6">
+    <div data-slot="command-input-wrapper" className="p-2 pb-1">
+      <InputGroup className="h-10! rounded-lg! border-white/10 bg-white/4 shadow-none! *:data-[slot=input-group-addon]:pl-3! focus-within:border-white/20 focus-within:bg-white/6">
         <CommandPrimitive.Input
           data-slot="command-input"
           className={cn(
@@ -78,7 +78,7 @@ function CommandInput({
           {...props}
         />
         <InputGroupAddon>
-          <SearchIcon className="size-4 shrink-0 text-slate-500" />
+          <SearchIcon className="size-4 shrink-0 text-slate-400" />
         </InputGroupAddon>
       </InputGroup>
     </div>
@@ -137,7 +137,7 @@ function CommandSeparator({
   return (
     <CommandPrimitive.Separator
       data-slot="command-separator"
-      className={cn("-mx-1 h-px bg-border", className)}
+      className={cn("-mx-1 h-px bg-white/10", className)}
       {...props}
     />
   );
