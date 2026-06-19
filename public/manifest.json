@@ -1,73 +1,67 @@
 {
-  "name": "Hetul Mistry",
-  "short_name": "Hetul",
-  "description": "Full-Stack Developer, AI Engineer & System Architect",
+  "name": "Hetul Mistry Portfolio",
+  "short_name": "Hetul Mistry",
+  "description": "Full-Stack Developer, AI Engineer & System Architect Portfolio",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#08090c",
   "background_color": "#08090c",
   "orientation": "any",
   "display_override": ["window-controls-overlay"],
-  "protocol_handlers": [{ "protocol": "mailto", "url": "/newEmail?to=%s" }],
+  "protocol_handlers": [
+    {
+      "protocol": "mailto",
+      "url": "/#contact?to=%s"
+    }
+  ],
   "icons": [
     {
-      "src": "/favicon-192.png",
-      "sizes": "any",
-      "type": "image/svg+xml"
+      "src": "/favicon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
     }
   ],
   "shortcuts": [
     {
-      "name": "Start Live Session",
-      "short_name": "Start Live",
-      "description": "Jump direction into starting or joining a live session",
-      "url": "/?startLive",
-      "icons": [
-        {
-          "src": "https://pwabuilder.com/assets/icons/icon_192.png",
-          "sizes": "192x192"
-        }
-      ]
+      "name": "Projects",
+      "short_name": "Projects",
+      "description": "View my latest development projects",
+      "url": "/#projects"
+    },
+    {
+      "name": "Skills",
+      "short_name": "Skills",
+      "description": "Explore my skills and tech stack",
+      "url": "/#skills"
+    },
+    {
+      "name": "About",
+      "short_name": "About",
+      "description": "Read about my background and experience",
+      "url": "/#about"
+    },
+    {
+      "name": "Contact",
+      "short_name": "Contact",
+      "description": "Get in touch with me",
+      "url": "/#contact"
     }
   ],
   "screenshots": [
     {
-      "src": "https://www.pwabuilder.com/assets/screenshots/screen1.png",
-      "sizes": "2880x1800",
+      "src": "/screenshot.png",
+      "sizes": "1280x720",
       "type": "image/png",
-      "description": "PWABuilder Home Screen"
-    },
-    {
-      "src": "https://www.pwabuilder.com/assets/screenshots/screen2.png",
-      "sizes": "2880x1800",
-      "type": "image/png",
-      "description": "PWABuilder Report Card"
-    },
-    {
-      "src": "https://www.pwabuilder.com/assets/screenshots/screen3.png",
-      "sizes": "2880x1800",
-      "type": "image/png",
-      "description": "Manifest information on the Report Card"
+      "form_factor": "wide",
+      "label": "Desktop view of Hetul Mistry Portfolio"
     }
   ],
-  "file_handlers": [
-    {
-      "action": "The url you would like to open when the user chooses to share content to your app. This URL must have code to do something with the returned file.",
-      "accept": {
-        "text/*": [".txt"]
-      }
-    }
-  ],
-  "prefer_related_applications": true,
-  "related_applications": [
-    {
-      "platform": "windows",
-      "url": "https://www.example-app.com",
-      "id": "example.ExampleApp"
-    },
-    {
-      "platform": "play",
-      "url": "https://www.example-app-2.com"
-    }
-  ]
+  "prefer_related_applications": false
 }
