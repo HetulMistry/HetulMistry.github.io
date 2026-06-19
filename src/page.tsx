@@ -78,16 +78,16 @@ export default function Portfolio() {
 
               <CommandGroup heading="Navigate">
                 <CommandItem onSelect={() => run(() => scrollTo("about"))}>
-                  About — View developer profile
+                  About - View developer profile
                 </CommandItem>
                 <CommandItem onSelect={() => run(() => scrollTo("skills"))}>
-                  Skills — Technical expertise
+                  Skills - Technical expertise
                 </CommandItem>
                 <CommandItem onSelect={() => run(() => scrollTo("projects"))}>
-                  Projects — Portfolio of work
+                  Projects - Portfolio of work
                 </CommandItem>
                 <CommandItem onSelect={() => run(() => scrollTo("contact"))}>
-                  Contact — Get in touch
+                  Contact - Get in touch
                 </CommandItem>
               </CommandGroup>
               <CommandSeparator />
@@ -140,46 +140,30 @@ export default function Portfolio() {
           </Suspense>
         </main>
       </ContextMenuTrigger>
-      <ContextMenuContent className="w-56 border-white/8 bg-[#0b1120]/95 shadow-2xl backdrop-blur-xl">
+      <ContextMenuContent className="w-56">
         <ContextMenuItem
           onSelect={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="text-slate-200 focus:bg-white/8 focus:text-white"
         >
           Back to Top
         </ContextMenuItem>
-        <ContextMenuSeparator className="bg-white/8" />
-        <ContextMenuItem
-          onSelect={() => setActiveOverlay("palette")}
-          className="text-slate-200 focus:bg-white/8 focus:text-white"
-        >
+        <ContextMenuSeparator />
+        <ContextMenuItem onSelect={() => setActiveOverlay("palette")}>
           Open Command Palette
           <kbd className="ml-auto text-[10px] text-slate-500 font-mono select-none">
             ⌘K
           </kbd>
         </ContextMenuItem>
-        <ContextMenuSeparator className="bg-white/8" />
-        <ContextMenuItem
-          onSelect={() => scrollTo("about")}
-          className="text-slate-200 focus:bg-white/8 focus:text-white"
-        >
+        <ContextMenuSeparator />
+        <ContextMenuItem onSelect={() => scrollTo("about")}>
           About Me
         </ContextMenuItem>
-        <ContextMenuItem
-          onSelect={() => scrollTo("skills")}
-          className="text-slate-200 focus:bg-white/8 focus:text-white"
-        >
+        <ContextMenuItem onSelect={() => scrollTo("skills")}>
           Skills & Tech
         </ContextMenuItem>
-        <ContextMenuItem
-          onSelect={() => scrollTo("projects")}
-          className="text-slate-200 focus:bg-white/8 focus:text-white"
-        >
+        <ContextMenuItem onSelect={() => scrollTo("projects")}>
           Projects & Work
         </ContextMenuItem>
-        <ContextMenuItem
-          onSelect={() => scrollTo("contact")}
-          className="text-slate-200 focus:bg-white/8 focus:text-white"
-        >
+        <ContextMenuItem onSelect={() => scrollTo("contact")}>
           Contact Me
         </ContextMenuItem>
       </ContextMenuContent>

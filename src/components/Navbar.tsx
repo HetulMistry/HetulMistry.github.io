@@ -83,7 +83,7 @@ export default function Navbar({
 
   return (
     <nav
-      className={`fixed inset-x-0 top-0 z-50 transition ${
+      className={`fixed left-0 right-(--removed-body-scroll-bar-size,0px) top-0 z-50 transition ${
         scrolled
           ? "border-b border-white/10 bg-dark-950/88 shadow-lg shadow-black/20 backdrop-blur-xl"
           : "bg-transparent"
@@ -110,14 +110,13 @@ export default function Navbar({
                   {link.label}
                 </a>
               </ContextMenuTrigger>
-              <ContextMenuContent className="border-white/8 bg-dark-900/95 backdrop-blur">
+              <ContextMenuContent>
                 <ContextMenuItem
                   onSelect={() => {
                     document
                       .getElementById(link.href.replace("#", ""))
                       ?.scrollIntoView({ behavior: "smooth" });
                   }}
-                  className="text-slate-200 focus:bg-white/8 focus:text-white"
                 >
                   Scroll to {link.label}
                 </ContextMenuItem>
