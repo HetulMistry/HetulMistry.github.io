@@ -1,73 +1,92 @@
-# React + TypeScript + Vite
+<p align="center">
+  <a href="https://hetulmistry.tech">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/HetulMistry/HetulMistry.github.io/refs/heads/main/public/favicon.svg">
+      <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/HetulMistry/HetulMistry.github.io/refs/heads/main/public/favicon.svg">
+      <img alt="Hetul Mistry logo" src="https://raw.githubusercontent.com/HetulMistry/HetulMistry.github.io/refs/heads/main/public/favicon.svg" width="100" />
+    </picture>
+  </a>
+</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<h1 align="center">Hetul Mistry Portfolio</h1>
 
-Currently, two official plugins are available:
+<p align="center"><strong>Premium dark‑mode, glass‑morphic developer portfolio built with React, TypeScript, Vite & Tailwind CSS.</strong></p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+<p align="center">
+  <a href="https://github.com/HetulMistry/HetulMistry.github.io"><img src="https://img.shields.io/badge/source‑code-blue.svg" alt="Source Code" /></a>
+  <a href="https://github.com/HetulMistry/HetulMistry.github.io/blob/main/LICENSE"><img src="https://img.shields.io/badge/license‑Proprietary-blue.svg" alt="License" /></a>
+  <a href="https://github.com/HetulMistry/HetulMistry.github.io/graphs/contributors"><img src="https://img.shields.io/badge/PRs‑welcome-brightgreen.svg?style=flat" alt="PRs welcome" /></a>
+</p>
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+<p align="center">
+  <img src="https://raw.githubusercontent.com/HetulMistry/HetulMistry.github.io/refs/heads/main/public/screenshot.png" alt="Portfolio preview" width="80%" />
+</p>
 
-## Expanding the ESLint configuration
+## 🏗️ Architecture
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React + TypeScript** - component‑driven UI with strict typing.
+- **Vite** - fast development server and optimized production build.
+- **Tailwind CSS** - utility‑first styling, enabling the glass‑morphic theme.
+- **Radix UI** - accessible primitives for Context Menu, Dialog, and Accordion.
+- **cmdk** - lightweight command‑palette implementation.
+- **Three.js / react‑three‑fiber** - renders the interactive 3‑D hero scene.
+- **React‑Remove‑Scroll** - handles body scroll locking when modals or palettes are open, preventing layout shifts.
+- **Vercel** - zero‑config deployment; the app builds and deploys automatically.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🎯 About
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+This portfolio showcases my work as a full‑stack developer, emphasizing modern UI/UX, glass‑morphic design, and interactive 3‑D visuals. It demonstrates best practices in component architecture, accessibility, and performance optimization.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🌐 Live Demo
+
+Explore the live site at **[HetulMistry.tech](https://hetulmistry.tech)** - the same experience you get from the source code.
+
+**Key shortcuts**:
+
+- `⌘ K` : open the global command palette.
+- Right‑click on files/folders : open the context menu.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please fork the repo, create a feature branch, and submit a pull request. Follow the existing code style (Prettier, ESLint) and ensure all components retain the glass‑morphic theme.
+
+### 📦 Installation & Usage
+
+**Prerequisites**: Node.js ≥ 18, npm ≥ 9.
+
+```bash
+# Clone the repository
+git clone https://github.com/HetulMistry/HetulMistry.github.io.git
+cd hetulmistry.github.io
+
+cp .env.example .env
+
+# Install dependencies
+npm install
+
+# Development server (hot‑reload)
+npm run dev   # http://localhost:5173
+
+# Build for production
+npm run build
+
+# Preview the production build
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📞 Contact
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Website**: [HetulMistry.tech](https://hetulmistry.tech)
+- **GitHub**: [GitHub.com/HetulMistry](https://github.com/HetulMistry)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## 📄 License
+
+Proprietary © 2026 Hetul Mistry. All rights reserved.
+
+---
+
+_Created by Hetul Mistry - © 2026_
