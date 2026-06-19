@@ -36,6 +36,7 @@ type MotionElementType = Extract<
   keyof DOMMotionComponents,
   keyof typeof motionElements
 >;
+
 type TypingAnimationMotionComponent = ComponentType<
   Omit<HTMLMotionProps<"span">, "ref"> & RefAttributes<HTMLElement>
 >;
@@ -89,10 +90,10 @@ export function TypingAnimation({
     once: true,
   });
 
-  const wordsToAnimate = useMemo(
-    () => words ?? (children ? [children] : []),
-    [words, children],
-  );
+  const wordsToAnimate = useMemo(() => {
+    const normalize = (value: string) => value.replace(/\s+/g, " ").trim();
+    return words?.map(normalize) ?? (children ? [normalize(children)] : []);
+  }, [words, children]);
   const hasMultipleWords = wordsToAnimate.length > 1;
 
   const typingSpeed = typeSpeed ?? duration;
@@ -128,9 +129,7 @@ export function TypingAnimation({
               if (hasMultipleWords || loop) {
                 const isLastWord =
                   currentWordIndex === wordsToAnimate.length - 1;
-                if (!isLastWord || loop) {
-                  setPhase("pause");
-                }
+                if (!isLastWord || loop) setPhase("pause");
               }
             }
             break;
@@ -156,9 +155,7 @@ export function TypingAnimation({
     }
 
     return () => {
-      if (timeout !== null) {
-        clearTimeout(timeout);
-      }
+      if (timeout !== null) clearTimeout(timeout);
     };
   }, [
     shouldStart,
@@ -178,6 +175,11 @@ export function TypingAnimation({
   const currentWordGraphemes = Array.from(
     wordsToAnimate[currentWordIndex] || "",
   );
+  const reserveWord = wordsToAnimate.reduce((longest, word) => {
+    return Array.from(word).length > Array.from(longest).length
+      ? word
+      : longest;
+  }, "");
   const isComplete =
     !loop &&
     currentWordIndex === wordsToAnimate.length - 1 &&
@@ -195,9 +197,13 @@ export function TypingAnimation({
     switch (cursorStyle) {
       case "block":
         return "▌";
+
       case "underscore":
         return "_";
+
       case "line":
+        return "|";
+
       default:
         return "|";
     }
@@ -207,20 +213,29 @@ export function TypingAnimation({
     <MotionComponent
       ref={elementRef}
       className={cn(
-        "leading-20 tracking-[-0.02em]",
+        "relative leading-20 tracking-normal",
         Component === "span" && "inline-block",
         className,
       )}
       {...props}
     >
-      {displayedText}
-      {shouldShowCursor && (
-        <span
-          className={cn("inline-block", blinkCursor && "animate-blink-cursor")}
-        >
-          {getCursorChar()}
-        </span>
-      )}
+      <span aria-hidden="true" className="invisible">
+        {reserveWord}
+        {showCursor ? getCursorChar() : ""}
+      </span>
+      <span className="absolute inset-0 whitespace-normal">
+        {displayedText}
+        {shouldShowCursor && (
+          <span
+            className={cn(
+              "inline-block align-baseline",
+              blinkCursor && "animate-blink-cursor",
+            )}
+          >
+            {getCursorChar()}
+          </span>
+        )}
+      </span>
     </MotionComponent>
   );
 }

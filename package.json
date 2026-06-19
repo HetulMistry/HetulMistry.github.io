@@ -1,8 +1,8 @@
 {
   "name": "hetulmistry-portfolio",
   "private": true,
-  "version": "0.8.0",
-  "description": "URL Shortener Backend Project",
+  "version": "1.0.0",
+  "description": "Hetul Mistry Portfolio",
   "author": "Hetul Mistry",
   "keywords": [
     "portfolio",
@@ -35,6 +35,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:vercel": "vercel dev",
+    "dev:mock": "concurrently \"node scripts/mock-api-server.js\" \"vite\"",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -49,6 +51,7 @@
     "@vercel/speed-insights": "^2.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
     "dotenv": "^17.4.2",
     "framer-motion": "^12.38.0",
     "lucide-react": "^1.17.0",
@@ -57,10 +60,12 @@
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-icons": "^5.6.0",
+    "react-router-dom": "^7.18.0",
     "shadcn": "^4.10.0",
     "tailwind-merge": "^3.6.0",
     "three": "^0.184.0",
-    "tw-animate-css": "^1.4.0"
+    "tw-animate-css": "^1.4.0",
+    "workbox-precaching": "^7.4.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -70,6 +75,7 @@
     "@vercel/node": "^5.8.14",
     "@vitejs/plugin-react": "^6.0.1",
     "autoprefixer": "^10.5.0",
+    "concurrently": "^10.0.3",
     "eslint": "^10.2.1",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",

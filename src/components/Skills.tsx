@@ -1,12 +1,14 @@
 import { m } from "framer-motion";
 import { Braces, Database, GitBranch, LayoutTemplate } from "lucide-react";
 import type { ReactNode } from "react";
+import { Pointer } from "@/components/ui/pointer";
 
 interface SkillCategory {
   title: string;
   icon: ReactNode;
   description: string;
   skills: string[];
+  pointerColor: string;
 }
 
 const categories: SkillCategory[] = [
@@ -24,6 +26,7 @@ const categories: SkillCategory[] = [
       "HTML",
       "CSS",
     ],
+    pointerColor: "#38bdf8",
   },
   {
     title: "Backend",
@@ -39,6 +42,7 @@ const categories: SkillCategory[] = [
       "MongoDB",
       "Auth",
     ],
+    pointerColor: "#34d399",
   },
   {
     title: "Programming",
@@ -53,6 +57,7 @@ const categories: SkillCategory[] = [
       "Data Structures",
       "OOP",
     ],
+    pointerColor: "#a78bfa",
   },
   {
     title: "Workflow",
@@ -67,6 +72,7 @@ const categories: SkillCategory[] = [
       "CI/CD",
       "Docker",
     ],
+    pointerColor: "#f59e0b",
   },
 ];
 
@@ -88,7 +94,6 @@ export default function Skills() {
             how I apply them in projects.
           </p>
         </m.div>
-
         <div className="grid gap-4 md:grid-cols-2">
           {categories.map((category, index) => (
             <m.div
@@ -97,10 +102,21 @@ export default function Skills() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.45, delay: index * 0.06 }}
-              className="surface-card rounded-lg p-6"
+              className="surface-card relative rounded-lg p-6 overflow-hidden"
             >
+              <Pointer>
+                <div
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-dark-900/95 text-white shadow-2xl backdrop-blur-md"
+                  style={{ color: category.pointerColor }}
+                >
+                  {category.icon}
+                </div>
+              </Pointer>
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-white/10 bg-white/4 text-sky-300">
+                <div
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-white/10 bg-white/4"
+                  style={{ color: category.pointerColor }}
+                >
                   {category.icon}
                 </div>
                 <div>
@@ -112,7 +128,6 @@ export default function Skills() {
                   </p>
                 </div>
               </div>
-
               <div className="mt-6 flex flex-wrap gap-2">
                 {category.skills.map((skill) => (
                   <span key={skill} className="skill-chip">

@@ -86,28 +86,27 @@ export default function Hero() {
           <HeroScene />
         </Suspense>
       )}
-
       <div className="absolute inset-0 z-1 bg-[linear-gradient(90deg,#08090c_0%,rgba(8,9,12,0.96)_34%,rgba(8,9,12,0.6)_62%,rgba(8,9,12,0.18)_100%)]" />
       <div className="absolute inset-x-0 bottom-0 z-1 h-32 bg-[linear-gradient(180deg,rgba(8,9,12,0),#08090c)]" />
-
       <div className="relative z-10 mx-auto flex min-h-[calc(100vh-6rem)] max-w-7xl items-center px-6 pb-20">
         <div className="w-full min-w-0 max-w-3xl">
-          <div className="mb-8 inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/4 px-3 py-2 text-sm text-slate-300 backdrop-blur">
-            <span className="h-2 w-2 rounded-full bg-emerald-400" />
-            <ShineBorder
-              shineColor={[
-                "#38BDF8",
-                "#F59E0B",
-                "#E5E7EB",
-                "#34D399",
-                "#A78BFA",
-              ]}
-              className="pointer-events-none rounded-md z-20"
-              borderWidth={1}
-            />
-            Open to full-stack and AI-focused opportunities
+          <div className="mb-8 flex flex-wrap items-center gap-3">
+            <div className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/4 px-3 py-2 text-sm text-slate-300 backdrop-blur">
+              <span className="h-2 w-2 rounded-full bg-emerald-400" />
+              <ShineBorder
+                shineColor={[
+                  "#38BDF8",
+                  "#F59E0B",
+                  "#E5E7EB",
+                  "#34D399",
+                  "#A78BFA",
+                ]}
+                className="pointer-events-none rounded-md z-20"
+                borderWidth={1}
+              />
+              Open to full-stack and AI-focused opportunities
+            </div>
           </div>
-
           <h1 className="font-[Space_Grotesk] text-5xl font-semibold leading-[1.02] tracking-normal text-white sm:text-6xl lg:text-7xl">
             <DiaTextReveal
               text="Hetul Mistry"
@@ -117,7 +116,6 @@ export default function Hero() {
               colors={["#38BDF8", "#F59E0B", "#E5E7EB", "#34D399", "#A78BFA"]}
             />
           </h1>
-
           <TypingAnimation
             className="mt-6 max-w-2xl text-base leading-7 text-slate-300 sm:text-xl sm:leading-8"
             typeSpeed={10}
@@ -128,12 +126,10 @@ export default function Hero() {
             products, backend systems, and AI-enabled workflows with React,
             TypeScript, Node.js, Python, and Firebase.
           </TypingAnimation>
-
           <div className="mt-5 flex items-center gap-2 text-sm text-slate-400">
             <MapPin size={16} />
             Gandhinagar, Gujarat, India
           </div>
-
           <div className="mt-9 flex flex-wrap gap-3">
             <div className="relative inline-block">
               <a
@@ -170,7 +166,6 @@ export default function Hero() {
               LinkedIn
             </a>
           </div>
-
           <div className="mt-12 grid max-w-2xl gap-3 sm:grid-cols-3">
             {focusAreas.map((item) => (
               <div
