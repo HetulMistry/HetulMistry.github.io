@@ -83,13 +83,26 @@ export default function Navbar({
 
   return (
     <nav
+      style={{
+        paddingTop: "env(titlebar-area-height, 0px)",
+        // @ts-ignore
+        WebkitAppRegion: "drag",
+        appRegion: "drag",
+      }}
       className={`fixed left-0 right-(--removed-body-scroll-bar-size,0px) top-0 z-50 transition ${
         scrolled
           ? "border-b border-white/10 bg-dark-950/88 shadow-lg shadow-black/20 backdrop-blur-xl"
           : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
+      <div
+        style={{
+          // @ts-ignore
+          WebkitAppRegion: "no-drag",
+          appRegion: "no-drag",
+        }}
+        className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6"
+      >
         <a
           href="#"
           className="font-[Space_Grotesk] text-lg font-semibold text-white"
