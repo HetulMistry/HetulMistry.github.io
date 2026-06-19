@@ -3,9 +3,17 @@ const ASSETS_TO_CACHE = [
   "/",
   "/index.html",
   "/favicon.svg",
+  "/192x192-logo.webp",
+  "/512x512-logo.webp",
   "/manifest.json",
   "/icons.svg",
   "/robots.txt",
+  "/430x932-screenshot.webp",
+  "/1920x1080-screenshot.webp",
+  "/og-image.webp",
+  "/fonts/Inter-VariableFont_opsz,wght.woff2",
+  "/fonts/Inter-Italic-VariableFont_opsz,wght.woff2",
+  "/fonts/SpaceGrotesk-VariableFont_wght.woff2",
 ];
 
 // Install event - cache core assets

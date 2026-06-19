@@ -2,12 +2,17 @@
   "name": "Hetul Mistry Portfolio",
   "short_name": "Hetul Mistry",
   "description": "Full-Stack Developer, AI Engineer & System Architect Portfolio",
-  "start_url": "/",
+  "start_url": "https://hetulmistry.tech/",
+  "scope": "/",
+  "id": "https://hetulmistry.tech/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "theme_color": "#08090c",
   "background_color": "#08090c",
   "orientation": "any",
-  "display_override": ["window-controls-overlay"],
+  "dir": "ltr",
+  "lang": "en",
+  "categories": ["developer tools", "personalization", "utilities"],
   "protocol_handlers": [
     {
       "protocol": "mailto",
@@ -17,14 +22,32 @@
   "icons": [
     {
       "src": "/favicon.svg",
-      "sizes": "192x192 512x512",
+      "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "/favicon.svg",
-      "sizes": "192x192 512x512",
-      "type": "image/svg+xml",
+      "src": "/192x192-logo.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "/512x512-logo.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "/192x192-logo.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/512x512-logo.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
       "purpose": "maskable"
     }
   ],
@@ -56,12 +79,91 @@
   ],
   "screenshots": [
     {
-      "src": "/screenshot.png",
-      "sizes": "1280x720",
-      "type": "image/png",
+      "src": "/1920x1080-screenshot.webp",
+      "sizes": "1920x1080",
+      "type": "image/webp",
       "form_factor": "wide",
       "label": "Desktop view of Hetul Mistry Portfolio"
+    },
+    {
+      "src": "/430x932-screenshot.webp",
+      "sizes": "430x932",
+      "type": "image/webp",
+      "form_factor": "narrow",
+      "label": "Mobile view of Hetul Mistry Portfolio"
     }
   ],
-  "prefer_related_applications": false
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "prefer_related_applications": false,
+  "share_target": {
+    "action": "/#contact",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "file_handlers": [
+    {
+      "action": "/",
+      "accept": {
+        "text/plain": [".txt", ".md"]
+      },
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ],
+      "launch_type": "single-client"
+    }
+  ],
+  "widgets": [
+    {
+      "name": "Latest Projects",
+      "short_name": "Projects",
+      "description": "View latest portfolio projects",
+      "tag": "portfolio-projects",
+      "ms_ac_template": "widgets-template.json",
+      "icons": [
+        {
+          "src": "/192x192-logo.webp",
+          "sizes": "192x192",
+          "type": "image/webp"
+        }
+      ],
+      "screenshots": [
+        {
+          "src": "/screenshot.webp",
+          "sizes": "1280x720",
+          "type": "image/webp",
+          "label": "Latest Projects Widget Preview"
+        }
+      ]
+    }
+  ],
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "note_taking": {
+    "new_note_url": "/#contact"
+  },
+  "scope_extensions": [
+    {
+      "origin": "https://hetulmistry.tech"
+    },
+    {
+      "origin": "https://subscription-tracker.hetulmistry.tech"
+    },
+    {
+      "origin": "https://notionclone.hetulmistry.tech"
+    },
+    {
+      "origin": "https://url-shortener.hetulmistry.tech"
+    }
+  ]
 }
