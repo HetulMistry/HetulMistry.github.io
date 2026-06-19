@@ -21,7 +21,7 @@
 ---
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/HetulMistry/HetulMistry.github.io/refs/heads/main/public/screenshot.png" alt="Portfolio preview" width="80%" />
+  <img src="https://raw.githubusercontent.com/HetulMistry/HetulMistry.github.io/refs/heads/main/public/screenshot.webp" alt="Portfolio preview" width="80%" />
 </p>
 
 ## 🏗️ Architecture
