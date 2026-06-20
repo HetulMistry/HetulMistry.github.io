@@ -27,27 +27,27 @@
       "purpose": "any"
     },
     {
-      "src": "https://hetulmistry.tech/192x192-logo.webp",
+      "src": "https://hetulmistry.tech/192x192-logo.png",
       "sizes": "192x192",
-      "type": "image/webp",
+      "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "https://hetulmistry.tech/512x512-logo.webp",
+      "src": "https://hetulmistry.tech/512x512-logo.png",
       "sizes": "512x512",
-      "type": "image/webp",
+      "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "https://hetulmistry.tech/192x192-logo.webp",
+      "src": "https://hetulmistry.tech/192x192-logo.png",
       "sizes": "192x192",
-      "type": "image/webp",
+      "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "https://hetulmistry.tech/512x512-logo.webp",
+      "src": "https://hetulmistry.tech/512x512-logo.png",
       "sizes": "512x512",
-      "type": "image/webp",
+      "type": "image/png",
       "purpose": "maskable"
     }
   ],
@@ -63,6 +63,24 @@
           "sizes": "any",
           "type": "image/svg+xml",
           "purpose": "any"
+        },
+        {
+          "src": "https://hetulmistry.tech/icons/projects-mono.svg",
+          "sizes": "any",
+          "type": "image/svg+xml",
+          "purpose": "monochrome"
+        },
+        {
+          "src": "https://hetulmistry.tech/icons/projects.png",
+          "sizes": "48x48",
+          "type": "image/png",
+          "purpose": "any"
+        },
+        {
+          "src": "https://hetulmistry.tech/icons/projects-mono.png",
+          "sizes": "48x48",
+          "type": "image/png",
+          "purpose": "monochrome"
         }
       ]
     },
@@ -77,6 +95,24 @@
           "sizes": "any",
           "type": "image/svg+xml",
           "purpose": "any"
+        },
+        {
+          "src": "https://hetulmistry.tech/icons/skills-mono.svg",
+          "sizes": "any",
+          "type": "image/svg+xml",
+          "purpose": "monochrome"
+        },
+        {
+          "src": "https://hetulmistry.tech/icons/skills.png",
+          "sizes": "48x48",
+          "type": "image/png",
+          "purpose": "any"
+        },
+        {
+          "src": "https://hetulmistry.tech/icons/skills-mono.png",
+          "sizes": "48x48",
+          "type": "image/png",
+          "purpose": "monochrome"
         }
       ]
     },
@@ -91,6 +127,24 @@
           "sizes": "any",
           "type": "image/svg+xml",
           "purpose": "any"
+        },
+        {
+          "src": "https://hetulmistry.tech/icons/about-mono.svg",
+          "sizes": "any",
+          "type": "image/svg+xml",
+          "purpose": "monochrome"
+        },
+        {
+          "src": "https://hetulmistry.tech/icons/about.png",
+          "sizes": "48x48",
+          "type": "image/png",
+          "purpose": "any"
+        },
+        {
+          "src": "https://hetulmistry.tech/icons/about-mono.png",
+          "sizes": "48x48",
+          "type": "image/png",
+          "purpose": "monochrome"
         }
       ]
     },
@@ -105,22 +159,40 @@
           "sizes": "any",
           "type": "image/svg+xml",
           "purpose": "any"
+        },
+        {
+          "src": "https://hetulmistry.tech/icons/contact-mono.svg",
+          "sizes": "any",
+          "type": "image/svg+xml",
+          "purpose": "monochrome"
+        },
+        {
+          "src": "https://hetulmistry.tech/icons/contact.png",
+          "sizes": "48x48",
+          "type": "image/png",
+          "purpose": "any"
+        },
+        {
+          "src": "https://hetulmistry.tech/icons/contact-mono.png",
+          "sizes": "48x48",
+          "type": "image/png",
+          "purpose": "monochrome"
         }
       ]
     }
   ],
   "screenshots": [
     {
-      "src": "https://hetulmistry.tech/1920x1080-screenshot.webp",
+      "src": "https://hetulmistry.tech/1920x1080-screenshot.png",
       "sizes": "1920x1080",
-      "type": "image/webp",
+      "type": "image/png",
       "form_factor": "wide",
       "label": "Desktop view of Hetul Mistry Portfolio"
     },
     {
-      "src": "https://hetulmistry.tech/430x932-screenshot.webp",
+      "src": "https://hetulmistry.tech/430x932-screenshot.png",
       "sizes": "430x932",
-      "type": "image/webp",
+      "type": "image/png",
       "form_factor": "narrow",
       "label": "Mobile view of Hetul Mistry Portfolio"
     }
@@ -163,16 +235,16 @@
       "ms_ac_template": "widgets-template.json",
       "icons": [
         {
-          "src": "https://hetulmistry.tech/192x192-logo.webp",
+          "src": "https://hetulmistry.tech/192x192-logo.png",
           "sizes": "192x192",
-          "type": "image/webp"
+          "type": "image/png"
         }
       ],
       "screenshots": [
         {
-          "src": "https://hetulmistry.tech/screenshot.webp",
+          "src": "https://hetulmistry.tech/screenshot.png",
           "sizes": "1280x720",
-          "type": "image/webp",
+          "type": "image/png",
           "label": "Latest Projects Widget Preview"
         }
       ]
