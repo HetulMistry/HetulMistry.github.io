@@ -13,9 +13,8 @@ dist-ssr
 stats.html
 *.local
 .env
-pwa_out
-twa_out
-
+pwa_out/
+twa_out/
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
