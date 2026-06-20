@@ -39,7 +39,9 @@
     "dev:mock": "concurrently \"node scripts/mock-api-server.js\" \"vite\"",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "twa:init": "node scripts/build-twa.js init",
+    "twa:build": "node scripts/build-twa.js build"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.9",

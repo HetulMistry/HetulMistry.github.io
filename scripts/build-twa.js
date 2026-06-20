@@ -1,4 +1,18 @@
-import { spawn, execSync } from "child_process";
+#!/usr/bin/env node
+
+/**
+ * TWA Build Script
+ *
+ * Usage:
+ *   npm run twa:init   — Interactive one-time setup (bubblewrap init)
+ *   npm run twa:build  — Build the signed APK/AAB  (bubblewrap build)
+ *
+ * Environment variables (optional, for CI / non-interactive builds):
+ *   BUBBLEWRAP_KEYSTORE_PASSWORD  — keystore password
+ *   BUBBLEWRAP_KEY_PASSWORD       — key password
+ */
+
+import { execSync, spawn } from "child_process";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
@@ -7,100 +21,116 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, "..");
 const pwaOutDir = path.join(rootDir, "pwa_out");
+const manifestUrl = "https://hetulmistry.tech/manifest.json";
 
-// Get 8.3 short path to avoid space-in-path issues on Windows with Gradle
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+/** Get Windows 8.3 short path to dodge spaces-in-path issues with Gradle. */
 function getShortPath(longPath) {
   try {
     const cmd = `powershell -NoProfile -Command "(New-Object -ComObject Scripting.FileSystemObject).GetFolder('${longPath}').ShortPath"`;
-    return execSync(cmd).toString().trim();
-  } catch (e) {
-    console.warn(
-      "Warning: Could not resolve short path, using long path.",
-      e.message,
-    );
+    return execSync(cmd, { encoding: "utf8" }).trim();
+  } catch {
     return longPath;
   }
 }
 
-const pwaOutDirShort = getShortPath(pwaOutDir);
-console.log(`Resolved short path for pwa_out: ${pwaOutDirShort}`);
+/** Cap Gradle JVM heap at 512 MB to prevent OOM on low-memory machines. */
+function patchGradleProperties() {
+  const gradlePropsPath = path.join(pwaOutDir, "gradle.properties");
+  if (!fs.existsSync(gradlePropsPath)) return;
 
-// Modify gradle.properties to reduce JVM heap limit to prevent out-of-memory errors
-const gradlePropsPath = path.join(pwaOutDir, "gradle.properties");
-
-if (fs.existsSync(gradlePropsPath)) {
   let content = fs.readFileSync(gradlePropsPath, "utf8");
-  content = content.replace(
-    /org\.gradle\.jvmargs=-Xmx\d+m/g,
+  const patched = content.replace(
+    /org\.gradle\.jvmargs=-Xmx\d+[mg]/gi,
     "org.gradle.jvmargs=-Xmx512m",
   );
 
-  fs.writeFileSync(gradlePropsPath, content, "utf8");
-
-  console.log("Modified gradle.properties to limit JVM heap to 512m.");
+  if (patched !== content) {
+    fs.writeFileSync(gradlePropsPath, patched, "utf8");
+    console.log("✔ Patched gradle.properties → JVM heap capped at 512m");
+  }
 }
 
-console.log("Spawning bubblewrap build inside pwa_out (short path)...");
+/** Spawn a command with full stdio inheritance (interactive). */
+function runInteractive(command, args, cwd) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(command, args, {
+      cwd,
+      shell: true,
+      stdio: "inherit",
+    });
 
-const child = spawn("npx", ["@bubblewrap/cli", "build"], {
-  cwd: pwaOutDirShort,
-  shell: true,
-});
+    child.on("close", (code) => {
+      if (code === 0) resolve();
+      else reject(new Error(`Process exited with code ${code}`));
+    });
 
-// Pipe process.stdin to child.stdin so send_command_input works manually if needed
-process.stdin.pipe(child.stdin);
+    child.on("error", reject);
+  });
+}
 
-child.stdout.on("data", (data) => {
-  const output = data.toString();
-  process.stdout.write(output);
+// ── Main ─────────────────────────────────────────────────────────────────────
 
-  // Auto-respond to key generation and signing prompts
-  if (output.includes("Key store not found") || output.includes("generate one"))
-    child.stdin.write("y\n");
-  else if (output.includes("twa-manifest.json. Would you like to apply them")) {
-    // Say YES to apply icon/manifest changes, then re-patch gradle.properties after
-    child.stdin.write("y\n");
-    // Re-apply gradle.properties JVM limit after bubblewrap regenerates it
-    setTimeout(() => {
-      if (fs.existsSync(gradlePropsPath)) {
-        let gContent = fs.readFileSync(gradlePropsPath, "utf8");
-        gContent = gContent.replace(
-          /org\.gradle\.jvmargs=-Xmx\d+m/g,
-          "org.gradle.jvmargs=-Xmx512m",
-        );
+const mode = process.argv[2]; // "init" or "build"
 
-        fs.writeFileSync(gradlePropsPath, gContent, "utf8");
-        console.log("Re-patched gradle.properties after manifest update.");
+if (!mode || !["init", "build"].includes(mode)) {
+  console.error("Usage: node scripts/build-twa.js <init|build>");
+  console.error("  init  — One-time interactive project setup");
+  console.error("  build — Build the signed APK/AAB");
+  process.exit(1);
+}
+
+(async () => {
+  try {
+    if (mode === "init") {
+      // ── INIT ───────────────────────────────────────────────────────────
+      // Create pwa_out if it doesn't exist
+      if (!fs.existsSync(pwaOutDir)) {
+        fs.mkdirSync(pwaOutDir, { recursive: true });
+        console.log(`✔ Created ${pwaOutDir}`);
       }
-    }, 3000);
-  } else if (output.toLowerCase().includes("accept? (y/n)"))
-    child.stdin.write("y\n");
-  else if (output.includes("Password for the Key Store:"))
-    child.stdin.write("password\n");
-  else if (output.includes("Key alias:")) child.stdin.write("mykeyalias\n");
-  else if (output.includes("Password for the Key:"))
-    child.stdin.write("password\n");
-  else if (output.includes("First and last name:"))
-    child.stdin.write("Hetul Mistry\n");
-  else if (output.includes("organizational unit:"))
-    child.stdin.write("Development\n");
-  else if (output.includes("organization:"))
-    child.stdin.write("Hetul Mistry\n");
-  else if (output.includes("City or Locality:"))
-    child.stdin.write("Gandhinagar\n");
-  else if (output.includes("State or Province:"))
-    child.stdin.write("Gujarat\n");
-  else if (output.includes("two-letter country code:"))
-    child.stdin.write("IN\n");
-  else if (output.includes("Is the information correct?"))
-    child.stdin.write("yes\n");
-});
 
-child.stderr.on("data", (data) => {
-  process.stderr.write(data.toString());
-});
+      console.log("\n🚀 Running bubblewrap init (interactive)...\n");
+      console.log(`   Manifest: ${manifestUrl}`);
+      console.log(`   Output:   ${pwaOutDir}\n`);
 
-child.on("close", (code) => {
-  console.log(`bubblewrap build exited with code ${code}`);
-  process.exit(code);
-});
+      await runInteractive(
+        "npx",
+        ["@bubblewrap/cli", "init", "--manifest", manifestUrl],
+        pwaOutDir,
+      );
+
+      // After init, patch gradle.properties
+      patchGradleProperties();
+
+      console.log("\n✅ Init complete! Run `npm run twa:build` to build.\n");
+    } else {
+      // ── BUILD ──────────────────────────────────────────────────────────
+      if (!fs.existsSync(path.join(pwaOutDir, "twa-manifest.json"))) {
+        console.error("❌ No twa-manifest.json found. Run `npm run twa:init` first.");
+        process.exit(1);
+      }
+
+      const cwd = getShortPath(pwaOutDir);
+      console.log(`\n🔨 Building TWA from: ${cwd}\n`);
+
+      // Patch gradle before build
+      patchGradleProperties();
+
+      // Run bubblewrap build — interactive for password prompts
+      // For CI, set BUBBLEWRAP_KEYSTORE_PASSWORD and BUBBLEWRAP_KEY_PASSWORD env vars
+      await runInteractive("npx", ["@bubblewrap/cli", "build"], cwd);
+
+      // Re-patch gradle in case bubblewrap overwrote it
+      patchGradleProperties();
+
+      console.log("\n✅ TWA build complete!\n");
+      console.log("   Output APK: pwa_out/app-release-signed.apk");
+      console.log("   Output AAB: pwa_out/app-release-bundle.aab\n");
+    }
+  } catch (err) {
+    console.error(`\n❌ ${mode} failed:`, err.message);
+    process.exit(1);
+  }
+})();
