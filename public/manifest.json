@@ -21,25 +21,25 @@
   ],
   "icons": [
     {
-      "src": "https://hetulmistry.tech/192x192-logo.png",
+      "src": "/192x192-logo.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "https://hetulmistry.tech/512x512-logo.png",
+      "src": "/512x512-logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "https://hetulmistry.tech/192x192-logo.png",
+      "src": "/192x192-logo.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "https://hetulmistry.tech/512x512-logo.png",
+      "src": "/512x512-logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
@@ -53,14 +53,14 @@
       "url": "/#projects",
       "icons": [
         {
-          "src": "https://hetulmistry.tech/icons/projects.png",
-          "sizes": "48x48",
+          "src": "/icons/projects.png",
+          "sizes": "96x96",
           "type": "image/png",
           "purpose": "any"
         },
         {
-          "src": "https://hetulmistry.tech/icons/projects-mono.png",
-          "sizes": "48x48",
+          "src": "/icons/projects-mono.png",
+          "sizes": "96x96",
           "type": "image/png",
           "purpose": "monochrome"
         }
@@ -73,14 +73,14 @@
       "url": "/#skills",
       "icons": [
         {
-          "src": "https://hetulmistry.tech/icons/skills.png",
-          "sizes": "48x48",
+          "src": "/icons/skills.png",
+          "sizes": "96x96",
           "type": "image/png",
           "purpose": "any"
         },
         {
-          "src": "https://hetulmistry.tech/icons/skills-mono.png",
-          "sizes": "48x48",
+          "src": "/icons/skills-mono.png",
+          "sizes": "96x96",
           "type": "image/png",
           "purpose": "monochrome"
         }
@@ -93,14 +93,14 @@
       "url": "/#about",
       "icons": [
         {
-          "src": "https://hetulmistry.tech/icons/about.png",
-          "sizes": "48x48",
+          "src": "/icons/about.png",
+          "sizes": "96x96",
           "type": "image/png",
           "purpose": "any"
         },
         {
-          "src": "https://hetulmistry.tech/icons/about-mono.png",
-          "sizes": "48x48",
+          "src": "/icons/about-mono.png",
+          "sizes": "96x96",
           "type": "image/png",
           "purpose": "monochrome"
         }
@@ -113,14 +113,14 @@
       "url": "/#contact",
       "icons": [
         {
-          "src": "https://hetulmistry.tech/icons/contact.png",
-          "sizes": "48x48",
+          "src": "/icons/contact.png",
+          "sizes": "96x96",
           "type": "image/png",
           "purpose": "any"
         },
         {
-          "src": "https://hetulmistry.tech/icons/contact-mono.png",
-          "sizes": "48x48",
+          "src": "/icons/contact-mono.png",
+          "sizes": "96x96",
           "type": "image/png",
           "purpose": "monochrome"
         }
@@ -129,14 +129,14 @@
   ],
   "screenshots": [
     {
-      "src": "https://hetulmistry.tech/1920x1080-screenshot.png",
+      "src": "/1920x1080-screenshot.png",
       "sizes": "1920x1080",
       "type": "image/png",
       "form_factor": "wide",
       "label": "Desktop view of Hetul Mistry Portfolio"
     },
     {
-      "src": "https://hetulmistry.tech/430x932-screenshot.png",
+      "src": "/430x932-screenshot.png",
       "sizes": "1290x2796",
       "type": "image/png",
       "form_factor": "narrow",
@@ -144,7 +144,7 @@
     }
   ],
   "launch_handler": {
-    "client_mode": "focus-existing"
+    "client_mode": "auto"
   },
   "prefer_related_applications": false,
   "share_target": {
@@ -164,7 +164,7 @@
       },
       "icons": [
         {
-          "src": "https://hetulmistry.tech/512x512-logo.png",
+          "src": "/512x512-logo.png",
           "sizes": "512x512",
           "type": "image/png"
         }
@@ -181,14 +181,14 @@
       "ms_ac_template": "widgets-template.json",
       "icons": [
         {
-          "src": "https://hetulmistry.tech/192x192-logo.png",
+          "src": "/192x192-logo.png",
           "sizes": "192x192",
           "type": "image/png"
         }
       ],
       "screenshots": [
         {
-          "src": "https://hetulmistry.tech/screenshot.png",
+          "src": "/screenshot.png",
           "sizes": "1600x900",
           "type": "image/png",
           "label": "Latest Projects Widget Preview"
