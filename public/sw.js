@@ -3,17 +3,32 @@ const ASSETS_TO_CACHE = [
   "/",
   "/index.html",
   "/favicon.svg",
-  "/192x192-logo.webp",
-  "/512x512-logo.webp",
+  "/192x192-logo.png",
+  "/512x512-logo.png",
   "/manifest.json",
-  "/icons.svg",
   "/robots.txt",
-  "/430x932-screenshot.webp",
-  "/1920x1080-screenshot.webp",
-  "/og-image.webp",
+  "/430x932-screenshot.png",
+  "/1920x1080-screenshot.png",
+  "/og-image.png",
   "/fonts/Inter-VariableFont_opsz,wght.woff2",
   "/fonts/Inter-Italic-VariableFont_opsz,wght.woff2",
   "/fonts/SpaceGrotesk-VariableFont_wght.woff2",
+  "/icons/projects.svg",
+  "/icons/projects.png",
+  "/icons/projects-mono.svg",
+  "/icons/projects-mono.png",
+  "/icons/skills.svg",
+  "/icons/skills.png",
+  "/icons/skills-mono.svg",
+  "/icons/skills-mono.png",
+  "/icons/about.svg",
+  "/icons/about.png",
+  "/icons/about-mono.svg",
+  "/icons/about-mono.png",
+  "/icons/contact.svg",
+  "/icons/contact.png",
+  "/icons/contact-mono.svg",
+  "/icons/contact-mono.png",
 ];
 
 // Install event - cache core assets
@@ -32,9 +47,7 @@ self.addEventListener("activate", (event) => {
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cache) => {
-          if (cache !== CACHE_NAME) {
-            return caches.delete(cache);
-          }
+          if (cache !== CACHE_NAME) return caches.delete(cache);
         }),
       );
     }),
@@ -48,9 +61,8 @@ self.addEventListener("fetch", (event) => {
   if (
     event.request.method !== "GET" ||
     !event.request.url.startsWith(self.location.origin)
-  ) {
+  )
     return;
-  }
 
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
@@ -67,6 +79,7 @@ self.addEventListener("fetch", (event) => {
           .catch(() => {
             // Ignore network errors in background
           });
+
         return cachedResponse;
       }
 
@@ -76,9 +89,8 @@ self.addEventListener("fetch", (event) => {
             !networkResponse ||
             networkResponse.status !== 200 ||
             networkResponse.type !== "basic"
-          ) {
+          )
             return networkResponse;
-          }
 
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
@@ -89,9 +101,8 @@ self.addEventListener("fetch", (event) => {
         })
         .catch(() => {
           // If offline and requesting document, return the home shell
-          if (event.request.headers.get("accept")?.includes("text/html")) {
+          if (event.request.headers.get("accept")?.includes("text/html"))
             return caches.match("/");
-          }
         });
     }),
   );
