@@ -16,10 +16,15 @@ import { execSync, spawn } from "child_process";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import dotenv from "dotenv";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, "..");
+
+// Load environment variables
+dotenv.config({ path: path.join(rootDir, ".env.local") });
+dotenv.config({ path: path.join(rootDir, ".env") });
 const pwaOutDir = path.join(rootDir, "pwa_out");
 const manifestUrl = "https://hetulmistry.tech/manifest.json";
 

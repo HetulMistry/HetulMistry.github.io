@@ -76,6 +76,28 @@ npm run build
 npm run preview
 ```
 
+## 📱 TWA
+
+The project includes a Trusted Web Activity configuration to package the portfolio as a native Android app using Google's `@bubblewrap/cli`.
+
+- **Initialize TWA Project**:
+  ```bash
+  npm run twa:init
+  ```
+  *(One-time interactive setup, generates files under `pwa_out/`)*
+
+- **Build and Sign App (APK/AAB)**:
+  ```powershell
+  # Set passwords (defaults to 'password123') and compile
+  $env:BUBBLEWRAP_KEYSTORE_PASSWORD="password123"
+  $env:BUBBLEWRAP_KEY_PASSWORD="password123"
+  npm run twa:build
+  ```
+  Produces `pwa_out/app-release-signed.apk` and `pwa_out/app-release-bundle.aab`.
+
+- **Digital Asset Links (No Address Bar)**:
+  To launch the app in standalone fullscreen (hiding the Chrome address bar), ensure `public/.well-known/assetlinks.json` is deployed to the live domain so that Android can verify the app's signing signature.
+
 ## 📞 Contact
 
 - **Website**: [HetulMistry.tech](https://hetulmistry.tech)
