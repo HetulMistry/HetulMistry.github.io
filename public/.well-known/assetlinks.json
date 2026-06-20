@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "tech.hetulmistry.twa",
+      "sha256_cert_fingerprints": [
+        "BD:FE:F3:52:25:E1:9D:31:41:85:2D:D1:B4:E5:EE:24:13:B2:D8:A9:A3:75:5E:14:BC:54:DC:82:21:0B:5D:29"
+      ]
+    }
+  }
+]
