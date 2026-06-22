@@ -16,9 +16,11 @@ import {
   ContextMenuSeparator,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import { type Project, categories } from "@/data/projects";
+import { portfolioData, type Project } from "@/data/portfolioData";
 import { useActivityData, type ActivityCommit } from "@/hooks/useActivityData";
 import { ProjectArchitectureExplorer } from "@/components/ProjectArchitectureExplorer";
+
+const { categories } = portfolioData.projectsSection;
 
 const projectMap = new Map<string, Project>(
   categories.flatMap((c) => c.projects.map((p) => [p.id, p])),
@@ -324,7 +326,7 @@ function DesktopExplorer() {
               <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
             </div>
             <span className="font-mono text-xs text-slate-500 select-none truncate">
-              ~/HetulMistry/projects
+              ~/{portfolioData.personal.githubUsername}/projects
             </span>
           </div>
           <div className="flex-1 overflow-hidden py-3">
@@ -537,11 +539,10 @@ export default function Projects() {
           transition={{ duration: 0.5 }}
           className="section-heading"
         >
-          <span className="section-kicker">Projects</span>
-          <h2>Selected work with a clear engineering signal.</h2>
+          <span className="section-kicker">{portfolioData.projectsSection.title}</span>
+          <h2>{portfolioData.projectsSection.subtitle}</h2>
           <p>
-            Browse the file tree and explore each project in a live Safari
-            preview. Right-click any file for quick actions.
+            {portfolioData.projectsSection.description}
           </p>
         </m.div>
         <m.div
@@ -570,13 +571,13 @@ export default function Projects() {
           className="mt-8"
         >
           <a
-            href="https://github.com/HetulMistry?tab=repositories"
+            href={`${portfolioData.personal.githubProfileUrl}?tab=repositories`}
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/4 px-5 py-3 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/8"
           >
             <GitBranch size={17} />
-            View all repositories
+            {portfolioData.projectsSection.viewAllReposText}
             <ExternalLink size={15} />
           </a>
         </m.div>

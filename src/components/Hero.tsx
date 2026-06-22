@@ -1,9 +1,12 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
-import { ArrowRight, Mail, MapPin } from "lucide-react";
-import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { Mail, MapPin } from "lucide-react";
 import { DiaTextReveal } from "@/components/ui/dia-text-reveal";
 import { ShineBorder } from "@/components/ui/shine-border";
 import { TypingAnimation } from "@/components/ui/typing-animation";
+import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
+import { animate, stagger, createTimeline, spring } from "animejs";
+import { scrambleText } from "animejs/text";
+import { portfolioData } from "@/data/portfolioData";
 
 type NetworkInformation = {
   saveData?: boolean;
@@ -11,12 +14,6 @@ type NetworkInformation = {
   addEventListener?: (type: "change", listener: () => void) => void;
   removeEventListener?: (type: "change", listener: () => void) => void;
 };
-
-const focusAreas = [
-  "Full-stack apps",
-  "AI-assisted tools",
-  "Data-driven systems",
-];
 
 const HeroScene = lazy(() => import("./3d/HeroScene"));
 
@@ -79,6 +76,39 @@ export default function Hero() {
 
   const shouldLoadScene = canRenderScene && sceneReady;
 
+  // Anime.js: Timeline for CTA buttons entrance + scrambleText on focus areas
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const focusRef = useRef<HTMLDivElement>(null);
+  const hasAnimated = useRef(false);
+
+  useEffect(() => {
+    if (hasAnimated.current) return;
+    hasAnimated.current = true;
+
+    // Staggered CTA buttons with spring easing
+    const ctaButtons = ctaRef.current?.querySelectorAll<HTMLElement>("a, button");
+    if (ctaButtons && ctaButtons.length > 0) {
+      const tl = createTimeline({ defaults: { ease: spring({ stiffness: 200, damping: 18 }) } });
+      tl.add(ctaButtons, {
+        opacity: [0, 1],
+        translateY: [20, 0],
+        delay: stagger(80),
+        duration: 600,
+      }, 1200);
+    }
+
+    // ScrambleText decode effect on focus area cards
+    const focusCards = focusRef.current?.querySelectorAll<HTMLElement>(".focus-area-text");
+    if (focusCards && focusCards.length > 0) {
+      animate(focusCards, {
+        textContent: scrambleText({ chars: "lowercase", revealRate: 40, settleDuration: 400 }),
+        duration: 1800,
+        delay: stagger(200, { start: 1600 }),
+        ease: "linear",
+      });
+    }
+  }, []);
+
   return (
     <section id="hero" className="relative min-h-screen overflow-hidden pt-24">
       {shouldLoadScene && (
@@ -104,12 +134,12 @@ export default function Hero() {
                 className="pointer-events-none rounded-md z-20"
                 borderWidth={1}
               />
-              Open to full-stack and AI-focused opportunities
+              {portfolioData.hero.statusBadge}
             </div>
           </div>
           <h1 className="font-[Space_Grotesk] text-5xl font-semibold leading-[1.02] tracking-normal text-white sm:text-6xl lg:text-7xl">
             <DiaTextReveal
-              text="Hetul Mistry"
+              text={portfolioData.personal.name}
               textColor="white"
               duration={1.5}
               delay={0.5}
@@ -122,57 +152,45 @@ export default function Hero() {
             startOnView={false}
             delay={100}
           >
-            Full-stack developer and B.Tech CSE student building practical web
-            products, backend systems, and AI-enabled workflows with React,
-            TypeScript, Node.js, Python, and Firebase.
+            {portfolioData.hero.tagline}
           </TypingAnimation>
           <div className="mt-5 flex items-center gap-2 text-sm text-slate-400">
             <MapPin size={16} />
-            Gandhinagar, Gujarat, India
+            {portfolioData.personal.location}
           </div>
-          <div className="mt-9 flex flex-wrap gap-3">
-            <div className="relative inline-block">
-              <a
-                href="#projects"
-                className="inline-flex shrink-0 items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200 relative z-10"
-              >
-                View Projects
-                <ArrowRight size={16} />
-              </a>
-            </div>
+          <div ref={ctaRef} className="mt-9 flex flex-wrap items-center gap-3">
             <a
-              href="#contact"
-              className="inline-flex shrink-0 items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
+              href={portfolioData.hero.cta.primary.link}
+              style={{ opacity: 0 }}
             >
-              Contact
+              <InteractiveHoverButton className="text-sm">
+                {portfolioData.hero.cta.primary.text}
+              </InteractiveHoverButton>
+            </a>
+            <a
+              href={portfolioData.hero.cta.secondary.link}
+              style={{ opacity: 0 }}
+              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-slate-800 border border-white/10 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-700"
+            >
+              {portfolioData.hero.cta.secondary.text}
               <Mail size={16} />
             </a>
-            <a
-              href="https://github.com/HetulMistry"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex shrink-0 items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
-            >
-              <FaGithub size={17} />
-              GitHub
-            </a>
-            <a
-              href="https://www.linkedin.com/in/hetulmistry/"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex shrink-0 items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
-            >
-              <FaLinkedin size={17} />
-              LinkedIn
-            </a>
           </div>
-          <div className="mt-12 grid max-w-2xl gap-3 sm:grid-cols-3">
-            {focusAreas.map((item) => (
+          <div ref={focusRef} className="mt-12 grid max-w-3xl gap-4 sm:grid-cols-3">
+            {portfolioData.hero.focusAreas.map((item) => (
               <div
-                key={item}
-                className="surface-card rounded-lg px-4 py-3 text-sm text-slate-300"
+                key={item.title}
+                className="surface-card border border-white/5 rounded-lg p-4 text-left transition hover:border-white/10"
               >
-                {item}
+                <span className="block text-[10px] uppercase tracking-wider text-sky-400 font-mono mb-1">
+                  {item.kicker}
+                </span>
+                <h4 className="focus-area-text font-semibold text-white text-sm mb-1">
+                  {item.title}
+                </h4>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  {item.desc}
+                </p>
               </div>
             ))}
           </div>
