@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import { portfolioData } from "@/data/portfolioData";
 import {
   CommandDialog,
   CommandEmpty,
@@ -134,7 +135,10 @@ export default function Portfolio() {
                 <CommandItem
                   onSelect={() =>
                     run(() =>
-                      window.open("https://github.com/HetulMistry", "_blank"),
+                      window.open(
+                        portfolioData.personal.githubProfileUrl,
+                        "_blank",
+                      ),
                     )
                   }
                 >
@@ -143,10 +147,7 @@ export default function Portfolio() {
                 <CommandItem
                   onSelect={() =>
                     run(() =>
-                      window.open(
-                        "https://www.linkedin.com/in/hetulmistry/",
-                        "_blank",
-                      ),
+                      window.open(portfolioData.personal.linkedinUrl, "_blank"),
                     )
                   }
                 >

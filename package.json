@@ -1,7 +1,7 @@
 {
   "name": "hetulmistry-portfolio",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Hetul Mistry Portfolio",
   "author": "Hetul Mistry",
   "keywords": [
@@ -45,15 +45,18 @@
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.9",
+    "@radix-ui/react-tooltip": "^1.2.10",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
     "@tailwindcss/vite": "^4.2.4",
     "@types/three": "^0.184.1",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
+    "animejs": "^4.4.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
+    "date-fns": "^4.4.0",
     "dotenv": "^17.4.2",
     "framer-motion": "^12.38.0",
     "lucide-react": "^1.17.0",
@@ -71,6 +74,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/animejs": "^3.1.13",
     "@types/node": "^24.12.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

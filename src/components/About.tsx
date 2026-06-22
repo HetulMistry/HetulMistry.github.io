@@ -1,7 +1,7 @@
 import { m } from "framer-motion";
 import { Code2, Brain, Rocket } from "lucide-react";
-import { useState } from "react";
-import { categories } from "@/data/projects";
+import { useState, useRef, useCallback } from "react";
+import { createTimeline, onScroll } from "animejs";
 import { useTotalCommits } from "@/hooks/useTotalCommits";
 
 type AboutSection =
@@ -11,53 +11,68 @@ type AboutSection =
   | "education"
   | "workStyle";
 
+import { portfolioData } from "@/data/portfolioData";
+import { GitHubContributions } from "@/components/ui/github-contributions";
+
 const developerProfile = {
-  name: "Hetul Mistry",
-  title: "Full Stack Engineer",
-  focus: "Product-oriented development",
-  experience: {
-    projects: categories.flatMap((category) => category.projects).length,
-    repositories: categories
-      .flatMap((category) => category.projects)
-      .filter((project) => Boolean(project.repo)).length,
-  },
-  expertise: [
-    "React & TypeScript",
-    "Backend Systems",
-    "Database Design",
-    "DevOps & Deployment",
-    "AI Integration",
-  ],
-  currentInterests: [
-    "ML deployment pipelines",
-    "Data-driven applications",
-    "System architecture",
-    "Developer experience",
-  ],
-  learning: [
-    "Advanced ML techniques",
-    "Distributed systems",
-    "Rust fundamentals",
-  ],
-  education: {
-    degree: "B.Tech Computer Science",
-    institution: "Silver Oak University",
-    focus: "Systems & Algorithms",
-  },
-  workStyle: {
-    approach: "Clean, maintainable code",
-    philosophy: "Ship useful products",
-    values: ["Code clarity", "User experience", "Engineering excellence"],
-  },
+  name: portfolioData.personal.name,
+  title: portfolioData.personal.title,
+  focus: portfolioData.personal.focus,
+  experience: portfolioData.personal.experience,
+  expertise: portfolioData.about.expertise,
+  currentInterests: portfolioData.about.currentInterests,
+  learning: portfolioData.about.learning,
+  education: portfolioData.about.education,
+  workStyle: portfolioData.about.workStyle,
 };
 
 export default function About() {
   const { totalCommits, isLoading } = useTotalCommits();
   const [expanded, setExpanded] = useState<AboutSection>("expertise");
+  const statsHasAnimated = useRef(false);
 
   const toggleSection = (section: AboutSection) => {
-    setExpanded(section);
+    setExpanded((prev) => (prev === section ? "expertise" : section));
   };
+
+  // Anime.js: onScroll-triggered counter animation for stats
+  const statsRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (!node || statsHasAnimated.current || isLoading) return;
+      statsHasAnimated.current = true;
+
+      const counters = node.querySelectorAll<HTMLElement>(".stat-counter");
+      if (counters.length === 0) return;
+
+      const tl = createTimeline();
+
+      counters.forEach((el, i) => {
+        const targetVal = parseInt(el.getAttribute("data-target") || "0", 10);
+        const counter = { value: 0 };
+
+        tl.add(
+          counter,
+          {
+            value: targetVal,
+            duration: 1000,
+            ease: "outExpo",
+            onUpdate: () => {
+              el.textContent = Math.round(counter.value).toLocaleString();
+            },
+          },
+          i === 0 ? 0 : "<<+=100",
+        );
+      });
+
+      onScroll({
+        target: node,
+        enter: "end start",
+        leave: "start end",
+        sync: "play pause",
+      }).link(tl);
+    },
+    [isLoading, totalCommits],
+  );
 
   return (
     <section id="about" className="section-shell">
@@ -96,23 +111,42 @@ export default function About() {
               <p className="text-slate-400 text-sm leading-relaxed">
                 {developerProfile.focus}
               </p>
-              <div className="mt-4 pt-4 border-t border-white/5 grid grid-cols-2 gap-3">
+              <div
+                ref={statsRef}
+                className="mt-4 pt-4 border-t border-white/5 grid grid-cols-2 gap-3"
+              >
                 <div>
                   <div className="text-xs text-slate-500">Projects</div>
                   <div className="font-mono font-semibold text-white">
-                    {developerProfile.experience.projects}
+                    <span
+                      className="stat-counter"
+                      data-target={developerProfile.experience.projects}
+                    >
+                      0
+                    </span>
                   </div>
                 </div>
                 <div>
                   <div className="text-xs text-slate-500">Repositories</div>
                   <div className="font-mono font-semibold text-white">
-                    {developerProfile.experience.repositories}
+                    <span
+                      className="stat-counter"
+                      data-target={developerProfile.experience.repositories}
+                    >
+                      0
+                    </span>
                   </div>
                 </div>
                 <div>
                   <div className="text-xs text-slate-500">Commit count</div>
                   <div className="font-mono font-semibold text-white">
-                    {isLoading ? "Loading..." : totalCommits.toLocaleString()}
+                    {isLoading ? (
+                      "Loading..."
+                    ) : (
+                      <span className="stat-counter" data-target={totalCommits}>
+                        0
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div>
@@ -288,6 +322,26 @@ export default function About() {
             />
           </m.div>
         </div>
+
+        {/* GitHub Contributions Graph */}
+        <m.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-12 pt-12 border-t border-white/5"
+        >
+          <div className="surface-card rounded-lg border border-white/5 p-6 md:p-8">
+            <h3 className="font-[Space_Grotesk] text-xl font-semibold text-white mb-6 flex items-center gap-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse" />
+              Activity Heatmap
+            </h3>
+            <GitHubContributions
+              username={portfolioData.personal.githubUsername}
+              githubProfileUrl={portfolioData.personal.githubProfileUrl}
+            />
+          </div>
+        </m.div>
       </div>
     </section>
   );

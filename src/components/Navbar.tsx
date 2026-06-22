@@ -1,5 +1,6 @@
 import { AnimatePresence, m } from "framer-motion";
 import { Menu, X, Search } from "lucide-react";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import type { MouseEvent } from "react";
 import {
@@ -8,6 +9,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import { portfolioData } from "@/data/portfolioData";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -107,7 +109,7 @@ export default function Navbar({
           href="#"
           className="font-[Space_Grotesk] text-lg font-semibold text-white"
         >
-          Hetul Mistry
+          {portfolioData.personal.name}
         </a>
         <div className="hidden items-center gap-1 lg:flex">
           {navLinks.map((link) => (
@@ -136,25 +138,31 @@ export default function Navbar({
               </ContextMenuContent>
             </ContextMenu>
           ))}
-          <a
-            href="https://github.com/HetulMistry"
-            target="_blank"
-            rel="noreferrer"
-            className="ml-3 rounded-md border border-white/10 bg-white/4 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/8"
-          >
-            GitHub
-          </a>
-          <a
-            href="https://linkedin.com/in/HetulMistry"
-            target="_blank"
-            rel="noreferrer"
-            className="ml-3 rounded-md border border-white/10 bg-white/4 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/8"
-          >
-            LinkedIn
-          </a>
+          <div className="ml-3 flex items-center gap-1.5">
+            <a
+              href={portfolioData.personal.githubProfileUrl}
+              target="_blank"
+              rel="noreferrer"
+              title="GitHub"
+              className="flex items-center gap-2 rounded-md border border-white/10 bg-white/4 px-3 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/8"
+            >
+              <FaGithub size={16} />
+              <span className="hidden xl:inline">GitHub</span>
+            </a>
+            <a
+              href={portfolioData.personal.linkedinUrl}
+              target="_blank"
+              rel="noreferrer"
+              title="LinkedIn"
+              className="flex items-center gap-2 rounded-md border border-white/10 bg-white/4 px-3 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/8"
+            >
+              <FaLinkedin size={16} />
+              <span className="hidden xl:inline">LinkedIn</span>
+            </a>
+          </div>
           <button
             onClick={onSearchClick}
-            className="ml-3 flex items-center gap-2 rounded-md border border-white/10 bg-white/4 px-3 py-2 text-sm font-semibold text-slate-300 transition hover:border-white/20 hover:bg-white/8 hover:text-white"
+            className="ml-1.5 flex items-center gap-2 rounded-md border border-white/10 bg-white/4 px-3 py-2 text-sm font-semibold text-slate-300 transition hover:border-white/20 hover:bg-white/8 hover:text-white"
             title="Open Command Palette (⌘K)"
           >
             <Search size={14} className="opacity-75" />
@@ -207,19 +215,21 @@ export default function Navbar({
                   </a>
                 ))}
                 <a
-                  href="https://github.com/HetulMistry"
+                  href={portfolioData.personal.githubProfileUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-2 rounded-md border border-white/10 bg-white/4 px-3 py-3 text-center font-semibold text-white"
+                  className="mt-2 flex items-center justify-center gap-2 rounded-md border border-white/10 bg-white/4 px-3 py-3 font-semibold text-white"
                 >
+                  <FaGithub size={18} />
                   GitHub
                 </a>
                 <a
-                  href="https://linkedin.com/in/HetulMistry"
+                  href={portfolioData.personal.linkedinUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-2 rounded-md border border-white/10 bg-white/4 px-3 py-3 text-center font-semibold text-white"
+                  className="mt-2 flex items-center justify-center gap-2 rounded-md border border-white/10 bg-white/4 px-3 py-3 font-semibold text-white"
                 >
+                  <FaLinkedin size={18} />
                   LinkedIn
                 </a>
                 <button

@@ -345,10 +345,10 @@ const Folder = forwardRef<
       >
         <AccordionPrimitive.Trigger
           className={cn(
-            `flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-sm transition-colors duration-150 text-slate-300 hover:text-white hover:bg-white/4`,
+            `flex items-center gap-1 rounded-md text-sm`,
             className,
             {
-              "bg-white/8 text-white font-medium": isSelected && isSelectable,
+              "bg-muted rounded-md": isSelected && isSelectable,
               "cursor-pointer": isSelectable,
               "cursor-not-allowed opacity-50": !isSelectable,
             },
@@ -360,8 +360,8 @@ const Folder = forwardRef<
           }}
         >
           {expandedItems?.includes(value)
-            ? (openIcon ?? <FolderOpenIcon className="size-4 shrink-0" />)
-            : (closeIcon ?? <FolderIcon className="size-4 shrink-0" />)}
+            ? (openIcon ?? <FolderOpenIcon className="size-4" />)
+            : (closeIcon ?? <FolderIcon className="size-4" />)}
           <span>{element}</span>
         </AccordionPrimitive.Trigger>
         <AccordionPrimitive.Content className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down relative h-full overflow-hidden text-sm">
@@ -414,9 +414,9 @@ const File = forwardRef<
         type="button"
         disabled={!isSelectable}
         className={cn(
-          "flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-sm transition-colors duration-150 rtl:pr-0 rtl:pl-1 text-slate-400 hover:text-slate-200 hover:bg-white/4",
+          "flex w-fit items-center gap-1 rounded-md pr-1 text-sm duration-200 ease-in-out rtl:pr-0 rtl:pl-1",
           {
-            "bg-white/8 text-white font-medium": isSelected && isSelectable,
+            "bg-muted": isSelected && isSelectable,
           },
           isSelectable ? "cursor-pointer" : "cursor-not-allowed opacity-50",
           direction === "rtl" ? "rtl" : "ltr",
@@ -429,7 +429,7 @@ const File = forwardRef<
         }}
         {...props}
       >
-        {fileIcon ?? <FileIcon className="size-4 shrink-0" />}
+        {fileIcon ?? <FileIcon className="size-4" />}
         {children}
       </button>
     );

@@ -16,9 +16,11 @@ import {
   ContextMenuSeparator,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import { type Project, categories } from "@/data/projects";
+import { portfolioData, type Project } from "@/data/portfolioData";
 import { useActivityData, type ActivityCommit } from "@/hooks/useActivityData";
 import { ProjectArchitectureExplorer } from "@/components/ProjectArchitectureExplorer";
+
+const { categories } = portfolioData.projectsSection;
 
 const projectMap = new Map<string, Project>(
   categories.flatMap((c) => c.projects.map((p) => [p.id, p])),
@@ -324,7 +326,7 @@ function DesktopExplorer() {
               <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
             </div>
             <span className="font-mono text-xs text-slate-500 select-none truncate">
-              ~/HetulMistry/projects
+              ~/{portfolioData.personal.githubUsername}/projects
             </span>
           </div>
           <div className="flex-1 overflow-hidden py-3">
@@ -344,7 +346,7 @@ function DesktopExplorer() {
                           handleSelect={handleSelect}
                           className={
                             selectedId === p.id
-                              ? "bg-sky-400/10 text-white font-medium"
+                              ? "bg-sky-400/10 text-white"
                               : "text-slate-400 hover:text-slate-200"
                           }
                         >
@@ -353,10 +355,20 @@ function DesktopExplorer() {
                           </span>
                         </File>
                       </ContextMenuTrigger>
-                      <ContextMenuContent>
+                      <ContextMenuContent className="border-white/8 bg-dark-900/95 backdrop-blur">
+                        <ContextMenuItem
+                          onSelect={() => handleSelect(p.id)}
+                          className="text-slate-200 focus:bg-white/8 focus:text-white"
+                        >
+                          Select project
+                        </ContextMenuItem>
                         {p.status === "live" && p.demo && (
                           <>
-                            <ContextMenuItem onSelect={() => window.open(p.demo, "_blank")}>
+                            <ContextMenuSeparator className="bg-white/8" />
+                            <ContextMenuItem
+                              onSelect={() => window.open(p.demo, "_blank")}
+                              className="text-slate-200 focus:bg-white/8 focus:text-white"
+                            >
                               Open demo{" "}
                               <ExternalLink
                                 size={12}
@@ -367,6 +379,7 @@ function DesktopExplorer() {
                               onSelect={() =>
                                 navigator.clipboard.writeText(p.demo!)
                               }
+                              className="text-slate-200 focus:bg-white/8 focus:text-white"
                             >
                               Copy demo URL
                             </ContextMenuItem>
@@ -374,8 +387,11 @@ function DesktopExplorer() {
                         )}
                         {p.repo && (
                           <>
-                            {p.status === "live" && p.demo && <ContextMenuSeparator />}
-                            <ContextMenuItem onSelect={() => window.open(p.repo, "_blank")}>
+                            <ContextMenuSeparator className="bg-white/8" />
+                            <ContextMenuItem
+                              onSelect={() => window.open(p.repo, "_blank")}
+                              className="text-slate-200 focus:bg-white/8 focus:text-white"
+                            >
                               View on GitHub{" "}
                               <ExternalLink
                                 size={12}
@@ -523,12 +539,11 @@ export default function Projects() {
           transition={{ duration: 0.5 }}
           className="section-heading"
         >
-          <span className="section-kicker">Projects</span>
-          <h2>Selected work with a clear engineering signal.</h2>
-          <p>
-            Browse the file tree and explore each project in a live Safari
-            preview. Right-click any file for quick actions.
-          </p>
+          <span className="section-kicker">
+            {portfolioData.projectsSection.title}
+          </span>
+          <h2>{portfolioData.projectsSection.subtitle}</h2>
+          <p>{portfolioData.projectsSection.description}</p>
         </m.div>
         <m.div
           initial={{ opacity: 0, y: 20 }}
@@ -556,13 +571,13 @@ export default function Projects() {
           className="mt-8"
         >
           <a
-            href="https://github.com/HetulMistry?tab=repositories"
+            href={`${portfolioData.personal.githubProfileUrl}?tab=repositories`}
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/4 px-5 py-3 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/8"
           >
             <GitBranch size={17} />
-            View all repositories
+            {portfolioData.projectsSection.viewAllReposText}
             <ExternalLink size={15} />
           </a>
         </m.div>
