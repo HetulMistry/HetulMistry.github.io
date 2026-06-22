@@ -201,19 +201,5 @@
   },
   "note_taking": {
     "new_note_url": "/#contact"
-  },
-  "scope_extensions": [
-    {
-      "origin": "https://hetulmistry.tech"
-    },
-    {
-      "origin": "https://subscription-tracker.hetulmistry.tech"
-    },
-    {
-      "origin": "https://notionclone.hetulmistry.tech"
-    },
-    {
-      "origin": "https://url-shortener.hetulmistry.tech"
-    }
-  ]
+  }
 }
